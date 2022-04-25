@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>课程设计-计算机组成原理实验</title>
+      <link href="/2022/04/12/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/"/>
+      <url>/2022/04/12/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/</url>
+      
+        <content type="html"><![CDATA[<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><h2 id="verilog"><a href="#verilog" class="headerlink" title="verilog"></a>verilog</h2><h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><ul><li><a href="https://www.runoob.com/w3cnote/verilog-install.html">基本环境</a></li></ul><p>modelsim安装后可能没有license，<a href="https://blog.csdn.net/qin_feiyu/article/details/90199580">破解教程</a>,破解文件备份<a href="https://pan.baidu.com/s/1v7I7cJ1U3e6YJk5e8pI2gQ">链接</a></p><p>提取码：yydz</p><p>中途遇到modelsim已破解但是quartus调用仍然不行的情况，我是重启quartus成功的。</p><ul><li><a href="https://zhuanlan.zhihu.com/p/37028619">testbench</a></li></ul><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h2 id="实验进行"><a href="#实验进行" class="headerlink" title="实验进行"></a>实验进行</h2><h1 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h1><h2 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h2><ol><li>利用74LS181设计八位ALU完成运算要求</li><li>进行时钟周期的模拟和安排</li><li>寄存器的设计与应用</li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 课程设计 </tag>
+            
+            <tag> 计算机组成原理 </tag>
+            
+            <tag> quartus </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>文献阅读-Accelerating Fluid Simulation</title>
+      <link href="/2022/04/11/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB-Accelerating-Fluid-Simulation/"/>
+      <url>/2022/04/11/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB-Accelerating-Fluid-Simulation/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> paper </tag>
+            
+            <tag> 文献阅读 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
