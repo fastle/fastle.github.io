@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+  <title>Go 语言圣经笔记  第五章：函数 | Hexo</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://cdn.jsdelivr.net/gh/inkss/fontawesome@5.15.3/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+    <script>
+        var themeModelId = '';
+        if (themeModelId) {
+            localStorage.setItem('modelId', themeModelId);
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/yuang01/live2d-widget@latest/autoload.js"></script>
+    <script>
+        var live2dOpen = eval('true') || false;
+        if (!live2dOpen) {
+            localStorage.setItem('waifu-display', 1609323474481);
+        }
+    </script>
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/js/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  
+  <!-- 依赖于jquery和vue -->
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+  
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+
+  
+  
+  <body>
+    <!-- 预加载动画 -->
+    <!-- 页面预加载动画 -->
+
+<div id='loader'>
+  <link rel="stylesheet" href="/js/loaded/index.css" >
+  <div class="loading-left-bg"></div>
+  <div class="loading-right-bg"></div>
+  <div class="spinner-box">
+    <div class="configure-border-1">
+      <div class="configure-core"></div>
+    </div>
+    <div class="configure-border-2">
+      <div class="configure-core"></div>
+    </div>
+    <div class="loading-word">loading...</div>
+  </div>
+</div>
+
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+  
+</script>
+
+    
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (href, before, media, attributes) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header   " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="logo">
+      <h3 class="drawer-box-head_title">Hexo</h3>
+      <h5 class="drawer-box-head_desc"></h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">Home</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">Archives</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/tags" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">Tags</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">Categories</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/about" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  
+                  <span class="name">About</span>
+                </a>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/fastle">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Hexo</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/" class="menu-item-link" title="Home">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">Home</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="Archives">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">Archives</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/tags" class="menu-item-link" title="Tags">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">Tags</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="Categories">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">Categories</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/about" class="menu-item-link" title="About">
+                  
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  
+                  <span class="name">About</span>
+                </a>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">Search</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="Please enter keywords"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/fastle" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+    <div id="he-plugin-simple"></div>
+    <script>
+      WIDGET = {
+        CONFIG: {
+          "modules": "012",
+          "background": 5,
+          "tmpColor": "4A4A4A",
+          "tmpSize": 16,
+          "cityColor": "4A4A4A",
+          "citySize": 16,
+          "aqiSize": 16,
+          "weatherIconSize": 24,
+          "alertIconSize": 18,
+          "padding": "10px 10px 10px 10px",
+          "shadow": "1",
+          "language": "auto",
+          "borderRadius": 5,
+          "fixed": "false",
+          "vertical": "middle",
+          "horizontal": "center",
+          "key": "2784dd3fcb1e4f0f9a9b579bf69641f2"
+        }
+      }
+    </script>
+    <script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script> 
+    
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('/medias/12.jpg')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        Go 语言圣经笔记  第五章：函数
+      </span>
+    </div>
+    
+    
+      
+        <span class="post-detail-header_date">
+          <i class="fas fa-calendar"></i> Published in：2024-08-09 |
+        </span>
+      
+
+      
+
+      
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="row justify-position" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h1 id="第五章"><a href="#第五章" class="headerlink" title="第五章"></a>第五章</h1><ul>
+<li><p>函数的四种写法——你懂么?</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(x <span class="type">int</span>, y <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;<span class="keyword">return</span> x + y&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sub</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;<span class="keyword">return</span> x - y&#125;)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">first</span><span class="params">(x <span class="type">int</span>, _ <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;<span class="keyword">return</span> x&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">zero</span><span class="params">(<span class="type">int</span>, <span class="type">int</span> )</span></span> <span class="type">int</span> &#123;<span class="keyword">return</span> <span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数的类型被称为函数的签名， 由两个部分，参数列表和返回值列表决定。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sin</span><span class="params">(x <span class="type">float64</span>)</span></span> float <span class="comment">// 该函数没有函数体， 为函数声明，表示功能不是由GO实现的， 定义了函数签名（可能是汇编语言）</span></span><br></pre></td></tr></table></figure></li>
+<li><p>遍历dom树的递归函数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历dom树查找herf</span></span><br><span class="line"><span class="comment">// 遍历dom树查找herf</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//fmt.Println(fetch())</span></span><br><span class="line">	doc, err := html.Parse(os.Stdin)  <span class="comment">// html.Parse 输入是io.Reader 常见来源有 os.Open, strings.NewReader, http.Request.body, bytes.Buffer</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, link := <span class="keyword">range</span> visit(<span class="literal">nil</span>, doc) &#123; <span class="comment">// </span></span><br><span class="line">		fmt.Println(link)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">visit</span><span class="params">(links []<span class="type">string</span>, n *html.Node)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &amp;&amp; n.Data == <span class="string">&quot;a&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">			<span class="keyword">if</span> a.Key == <span class="string">&quot;href&quot;</span> &#123;</span><br><span class="line">				links = <span class="built_in">append</span>(links, a.Val)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123; </span><br><span class="line">		links = visit(links, c) <span class="comment">// 递归调用， </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> links</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>输出整个dom树结构，</p>
+</li>
+</ul>
+<h3 id="练习5-1"><a href="#练习5-1" class="headerlink" title="练习5.1"></a>练习5.1</h3><ul>
+<li>修改findlinks代码中遍历n.FirstChild链表的部分，将循环调用visit，改成递归调用。<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 递归子节点和兄弟节点</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	doc, err := html.Parse(os.Stdin)  </span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, link := <span class="keyword">range</span> visit(<span class="literal">nil</span>, doc) &#123; <span class="comment">// </span></span><br><span class="line">		fmt.Println(link)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">visit</span><span class="params">(links []<span class="type">string</span>, n *html.Node)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &amp;&amp; n.Data == <span class="string">&quot;a&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">			<span class="keyword">if</span> a.Key == <span class="string">&quot;href&quot;</span> &#123;</span><br><span class="line">				links = <span class="built_in">append</span>(links, a.Val)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> n.FirstChild != <span class="literal">nil</span> &#123;</span><br><span class="line">		links = visit(links, n.FirstChild)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> n.NextSibling != <span class="literal">nil</span> &#123;</span><br><span class="line">		links = visit(links, n.NextSibling)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> links</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习5-2"><a href="#练习5-2" class="headerlink" title="练习5.2"></a>练习5.2</h3><ul>
+<li>编写函数，记录在HTML树中出现的同名元素的次数。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 编写函数，记录在HTML树中出现的同名元素的次数。</span></span><br><span class="line"><span class="comment">// 同名元素是指 Node.Data 相同的， 使用map统计即可</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//fmt.Println(fetch())</span></span><br><span class="line">	doc, err := html.Parse(os.Stdin)  <span class="comment">// html.Parse 输入是io.Reader 常见来源有 os.Open, strings.NewReader, http.Request.body, bytes.Buffer</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> name, total := <span class="keyword">range</span> count(<span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>), doc) &#123; <span class="comment">// </span></span><br><span class="line">		fmt.Printf(<span class="string">&quot;%s, %d\n&quot;</span>, name, total)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">count</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>, n *html.Node)</span></span> <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode&#123;</span><br><span class="line">		m[n.Data]++</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123; </span><br><span class="line">		count(m, c)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> m</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-3"><a href="#练习5-3" class="headerlink" title="练习5.3"></a>练习5.3</h3><ul>
+<li>编写函数输出所有text结点的内容。注意不要访问<code>&lt;script&gt;</code>和<code>&lt;style&gt;</code>元素，因为这些元素对浏览者是不可见的。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// text节点判断方法—— 为html.text Node, 输出非英文有的是乱码</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//fmt.Println(fetch())</span></span><br><span class="line">	doc, err := html.Parse(os.Stdin)  <span class="comment">// html.Parse 输入是io.Reader 常见来源有 os.Open, strings.NewReader, http.Request.body, bytes.Buffer</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, link := <span class="keyword">range</span> visit(<span class="literal">nil</span>, doc) &#123; <span class="comment">// </span></span><br><span class="line">		fmt.Println(link)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">visit</span><span class="params">(links []<span class="type">string</span>, n *html.Node)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.TextNode  &#123;</span><br><span class="line">		fmt.Println(n.Data)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123; </span><br><span class="line">		<span class="keyword">if</span> c.Data == <span class="string">&quot;style&quot;</span> || c.Data == <span class="string">&quot;script&quot;</span> &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		links = visit(links, c) </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> links</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-4"><a href="#练习5-4" class="headerlink" title="练习5.4"></a>练习5.4</h3><ul>
+<li>扩展visit函数，使其能够处理其他类型的结点，如images、scripts和style sheets。</li>
+<li><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 扩展visit函数，使其能够处理其他类型的结点，如images、scripts和style sheets。</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	doc, err := html.Parse(os.Stdin)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, link := <span class="keyword">range</span> visit(<span class="literal">nil</span>, doc) &#123; <span class="comment">// </span></span><br><span class="line">		fmt.Println(link)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">visit</span><span class="params">(links []<span class="type">string</span>, n *html.Node)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &amp;&amp; n.Data == <span class="string">&quot;a&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">			<span class="keyword">if</span> a.Key == <span class="string">&quot;href&quot;</span> &#123;</span><br><span class="line">				links = <span class="built_in">append</span>(links, a.Val)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &amp;&amp; (n.Data == <span class="string">&quot;img&quot;</span> || n.Data == <span class="string">&quot;script&quot;</span>) &#123;</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">			<span class="keyword">if</span> a.Key == <span class="string">&quot;src&quot;</span> &#123;</span><br><span class="line">				links = <span class="built_in">append</span>(links, a.Val)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123; </span><br><span class="line">		links = visit(links, c) <span class="comment">// 递归调用， </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> links</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="多返回值"><a href="#多返回值" class="headerlink" title="多返回值"></a>多返回值</h2><ul>
+<li>多返回值可以做返回值</li>
+<li>多返回值函数可以做参数， 下面两种写法等同</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log.Println(findLinks(url))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">links, err := findLinks(url)</span><br><span class="line">log.Println(links, err)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>新版本findlinks</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历dom树查找herf</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> _, url := <span class="keyword">range</span> os.Args[<span class="number">1</span>:] &#123;</span><br><span class="line">		links, err := findLinks(url)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Fprintf(os.Stderr, <span class="string">&quot;findlinks2: %v\n&quot;</span>, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> _, link := <span class="keyword">range</span> links &#123;</span><br><span class="line">			fmt.Println(link)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findLinks</span><span class="params">(url <span class="type">string</span>)</span></span> ([]<span class="type">string</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	resp, err := http.Get(url)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> resp.StatusCode != http.StatusOK &#123;</span><br><span class="line">		resp.Body.Close()</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, fmt.Errorf(<span class="string">&quot;getting %s: %s&quot;</span>, url, resp.Status)</span><br><span class="line">	&#125;</span><br><span class="line">	doc, err := html.Parse(resp.Body)</span><br><span class="line">	resp.Body.Close() <span class="comment">// Go的垃圾回收不包括</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> visit(<span class="literal">nil</span>, doc), <span class="literal">nil</span> <span class="comment">// 返回值有好几种， </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">visit</span><span class="params">(links []<span class="type">string</span>, n *html.Node)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &amp;&amp; n.Data == <span class="string">&quot;a&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">			<span class="keyword">if</span> a.Key == <span class="string">&quot;href&quot;</span> &#123;</span><br><span class="line">				links = <span class="built_in">append</span>(links, a.Val)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123; </span><br><span class="line">		links = visit(links, c) <span class="comment">// 递归调用， </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> links</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果一个函数的所有返回值都有显示的变量名， 那么该函数的return语句可以省略变量名。 bare return</li>
+</ul>
+<h2 id="练习5-6"><a href="#练习5-6" class="headerlink" title="练习5.6"></a>练习5.6</h2><ul>
+<li>修改gopl.io&#x2F;ch3&#x2F;surface（§3.2）中的corner函数，将返回值命名，并使用bare return。</li>
+<li></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">corner</span><span class="params">(i, j <span class="type">int</span>)</span></span> (sx <span class="type">float64</span>,sy <span class="type">float64</span>) &#123;</span><br><span class="line">	x := xyrange * (<span class="type">float64</span>(i) / cells - <span class="number">0.5</span>)</span><br><span class="line">	y := xyrange * (<span class="type">float64</span>(j) / cells - <span class="number">0.5</span>)</span><br><span class="line">	z := f(x, y)</span><br><span class="line">	sx = width / <span class="number">2</span> + (x - y) * cos30 * xyscale</span><br><span class="line">	sy = height / <span class="number">2</span> + (x + y) * sin30 * xyscale - z * zscale</span><br><span class="line">	<span class="keyword">return</span> </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><ul>
+<li>所有错误在本层分层时， 都需要添加本层的前缀， 错误信息</li>
+<li>错误一般分为五种</li>
+<li>传播错误， 错误会使得整个功能失败。 整个错误返回给调用者</li>
+<li>错误时偶然性，不可预知的问题产生。 重试时， 我们需要限制重试的时间间隔或者重试的次数， 避免无限制的重试 （例子：下面的wait函数）</li>
+<li>错误时整个程序无法运行、需要输出错误并且结束程序， 只应该在main中执行。 </li>
+<li>错误时， 只需要输出错误， 不需要结束程序。  log.printf(“message”, error)</li>
+<li>直接忽略掉错误。</li>
+<li>文件结尾错误一般不需要报错<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WaitForServer</span><span class="params">(url <span class="type">string</span>)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">const</span> timeout = <span class="number">1</span> * time.Minute</span><br><span class="line">	deadline := time.Now().Add(timeout)</span><br><span class="line">	<span class="keyword">for</span> tries := <span class="number">0</span>; time.Now().Before(deadline); tries++ &#123;</span><br><span class="line">		_, err := http.Head(url)</span><br><span class="line">		<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line">		log.Printf(<span class="string">&quot;server not responding (%s); retrying...&quot;</span>, err)</span><br><span class="line">		time.Sleep(time.Second &lt;&lt; <span class="type">uint</span>(tries)) </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;server %s failed to respond after %s&quot;</span>, url, timeout)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="函数变量"><a href="#函数变量" class="headerlink" title="函数变量"></a>函数变量</h2><ul>
+<li>Go语言中，函数也是值， 可以赋值给变量， 函数变量可以作为参数传递给其他函数</li>
+<li>例子</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">square</span><span class="params">(n <span class="type">int</span>)</span></span> <span class="type">int</span> &#123; <span class="keyword">return</span> n * n &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">negative</span><span class="params">(n <span class="type">int</span>)</span></span> <span class="type">int</span> &#123; <span class="keyword">return</span> -n &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">product</span><span class="params">(m, n <span class="type">int</span>)</span></span> <span class="type">int</span> &#123; <span class="keyword">return</span> m * n &#125;</span><br><span class="line">f := square</span><br><span class="line">fmt.Println(f(<span class="number">3</span>))</span><br><span class="line">f = negative</span><br><span class="line">fmt.Println(f(<span class="number">3</span>))</span><br><span class="line">fmt.Printf(<span class="string">&quot;%T\n&quot;</span>, f))</span><br><span class="line">f = product <span class="comment">// 这里会报错， 因为两种函数不是同一类型（类型由参数列表和返回值列表决定）</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>%*s 会在字符串之前填充一些空格，后面写数目</p>
+</li>
+<li><p>利用函数变量重写outline如下</p>
+</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">var</span> depth <span class="type">int</span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//fmt.Println(fetch())</span></span><br><span class="line">	doc, err := html.Parse(os.Stdin) </span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	forEachNode(doc, startElement, ElementNode)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">forEachNode</span><span class="params">(n *html.Node, pre, post <span class="keyword">func</span>(n *html.Node)</span></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> pre != <span class="literal">nil</span> &#123;</span><br><span class="line">		pre(n)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123;</span><br><span class="line">		forEachNode(c, pre, post)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> post != <span class="literal">nil</span> &#123;</span><br><span class="line">		post(n)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startElement</span><span class="params">(n *html.Node)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%*s&lt;%s&gt;\n&quot;</span>, depth * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">		depth++</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ElementNode</span><span class="params">(n *html.Node)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">		depth--</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%*s&lt;%s&gt;\n&quot;</span>, depth * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="练习5-7"><a href="#练习5-7" class="headerlink" title="练习5.7"></a>练习5.7</h3><ul>
+<li>完善startElement和endElement函数，使其成为通用的HTML输出器。要求：输出注释结点，文本结点以及每个元素的属性（&lt; a href&#x3D;’…’&gt;）。使用简略格式输出没有孩子结点的元素（即用<img/>代替<img></img>）。编写测试，验证程序输出的格式正确。（详见11章）</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在前括号信息内增加所需信息， 并且通过有无子节点判断是否增添后括号</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">var</span> depth <span class="type">int</span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//fmt.Println(fetch())</span></span><br><span class="line">	doc, err := html.Parse(os.Stdin) </span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	forEachNode(doc, startElement, ElementNode, leaveNode)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">forEachNode</span><span class="params">(n *html.Node, pre, post, now <span class="keyword">func</span>(n *html.Node)</span></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> n.FirstChild == <span class="literal">nil</span> &#123;</span><br><span class="line">		now(n)</span><br><span class="line">		<span class="keyword">return</span> </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> pre != <span class="literal">nil</span> &#123;</span><br><span class="line">		pre(n)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123;</span><br><span class="line">		forEachNode(c, pre, post, now)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> post != <span class="literal">nil</span> &amp;&amp; n.FirstChild != <span class="literal">nil</span>&#123;</span><br><span class="line">		post(n)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startElement</span><span class="params">(n *html.Node)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%*s&lt;%s &quot;</span>, depth * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">			fmt.Printf(<span class="string">&quot;%s=%s &quot;</span>, a.Key, a.Val)</span><br><span class="line">		&#125;</span><br><span class="line">		depth++</span><br><span class="line">		fmt.Printf(<span class="string">&quot;&gt;\n&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ElementNode</span><span class="params">(n *html.Node)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">		depth--</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%*s&lt;/%s&gt;\n&quot;</span>, depth * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">leaveNode</span><span class="params">(n *html.Node)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%*s&lt;%s/ &quot;</span>, (depth + <span class="number">1</span>) * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">			fmt.Printf(<span class="string">&quot;%s=%s &quot;</span>, a.Key, a.Val)</span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;&gt;\n&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-8"><a href="#练习5-8" class="headerlink" title="练习5.8"></a>练习5.8</h3><ul>
+<li>修改pre和post函数，使其返回布尔类型的返回值。返回false时，中止forEachNoded的遍历。使用修改后的代码编写ElementByID函数，根据用户输入的id查找第一个拥有该id元素的HTML元素，查找成功后，停止遍历。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">var</span> depth <span class="type">int</span> </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//fmt.Println(fetch())</span></span><br><span class="line">	doc, err := html.Parse(os.Stdin) </span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	_, ok := ElementByID(doc, <span class="string">&quot;lg&quot;</span>, startElement, ElementNode)</span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;not found&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ElementByID</span><span class="params">(n *html.Node, id <span class="type">string</span>,  pre, post <span class="keyword">func</span>(n *html.Node,id <span class="type">string</span>)</span></span> <span class="type">bool</span>) (*html.Node, <span class="type">bool</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> pre != <span class="literal">nil</span> &#123;</span><br><span class="line">	    ok := pre(n, id)</span><br><span class="line">		<span class="keyword">if</span> ok &#123;</span><br><span class="line">			<span class="keyword">return</span> n, ok</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123;</span><br><span class="line">		ans1, ok := ElementByID(c, id, pre, post)</span><br><span class="line">		<span class="keyword">if</span> ok &#123;</span><br><span class="line">			<span class="keyword">return</span> ans1, ok</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> post != <span class="literal">nil</span> &#123;</span><br><span class="line">		post(n, id)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startElement</span><span class="params">(n *html.Node, id <span class="type">string</span>)</span></span> <span class="type">bool</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%*s&lt;%s&gt;\n&quot;</span>, depth * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">		depth++</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">		<span class="keyword">if</span> a.Key == <span class="string">&quot;id&quot;</span> &amp;&amp; a.Val == id&#123;</span><br><span class="line">			fmt.Printf(<span class="string">&quot;%*s found here\n&quot;</span>, (depth + <span class="number">1</span>) *<span class="number">2</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ElementNode</span><span class="params">(n *html.Node, id <span class="type">string</span>)</span></span> <span class="type">bool</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">		depth--</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%*s&lt;/%s&gt;\n&quot;</span>, depth * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-9"><a href="#练习5-9" class="headerlink" title="练习5.9"></a>练习5.9</h3><ul>
+<li>编写函数expand，将s中的”foo”替换为f(“foo”)的返回值。<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 编写函数expand，将s中的&quot;foo&quot;替换为f(&quot;foo&quot;)的返回值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	s := <span class="string">&quot;fooofffofofooffooofofofofofo&quot;</span></span><br><span class="line">	fmt.Printf(<span class="string">&quot;%s\n%s\n&quot;</span>, s, expand(s, f))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">expand</span><span class="params">(s <span class="type">string</span>, f <span class="keyword">func</span>(<span class="type">string</span>)</span></span> <span class="type">string</span>) <span class="type">string</span> &#123;</span><br><span class="line">	newS := f(<span class="string">&quot;foo&quot;</span>)</span><br><span class="line">	<span class="keyword">return</span> strings.Replace(s, <span class="string">&quot;foo&quot;</span>, newS, <span class="number">-1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;?&quot;</span> + s + <span class="string">&quot;?&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h2><ul>
+<li>命名函数只能在包级别进行声明， 匿名函数函数后面没有名称， 能够获取到整个词法环境</li>
+<li>示例</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	f := squares()</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="built_in">println</span>(f())</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">squares</span><span class="params">()</span></span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> x <span class="type">int</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> <span class="type">int</span> &#123;</span><br><span class="line">		x++</span><br><span class="line">		<span class="keyword">return</span> x * x</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>拓扑排序</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sort&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> prereqs = <span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>&#123;</span><br><span class="line">	<span class="string">&quot;algorithms&quot;</span>: &#123;<span class="string">&quot;data structures&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;calculus&quot;</span>:   &#123;<span class="string">&quot;linear algebra&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;compilers&quot;</span>: &#123;</span><br><span class="line">		<span class="string">&quot;data structures&quot;</span>,</span><br><span class="line">		<span class="string">&quot;formal languages&quot;</span>,</span><br><span class="line">		<span class="string">&quot;computer organization&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">&quot;data structures&quot;</span>:       &#123;<span class="string">&quot;discrete math&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;databases&quot;</span>:             &#123;<span class="string">&quot;data structures&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;discrete math&quot;</span>:         &#123;<span class="string">&quot;intro to programming&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;formal languages&quot;</span>:      &#123;<span class="string">&quot;discrete math&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;networks&quot;</span>:              &#123;<span class="string">&quot;operating systems&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;operating systems&quot;</span>:     &#123;<span class="string">&quot;data structures&quot;</span>, <span class="string">&quot;computer organization&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;programming languages&quot;</span>: &#123;<span class="string">&quot;data structures&quot;</span>, <span class="string">&quot;computer organization&quot;</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i, course := <span class="keyword">range</span> topoSort(prereqs) &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%d:\t%s\n&quot;</span>, i+<span class="number">1</span>, course)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// topoSort 实现了对有向无环图（DAG）的节点进行拓扑排序。</span></span><br><span class="line"><span class="comment">// m 是一个映射，其中每个键代表图中的一个节点，对应的值是该节点指向的其他节点的列表。</span></span><br><span class="line"><span class="comment">// 返回值是节点的拓扑排序列表。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">topoSort</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">    <span class="comment">// order 用于存储拓扑排序的结果。</span></span><br><span class="line">    <span class="keyword">var</span> order []<span class="type">string</span></span><br><span class="line">    <span class="comment">// seen 用于记录已经访问过的节点，以避免重复访问。</span></span><br><span class="line">    seen := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">bool</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// visitAll 是一个递归函数，用于遍历节点并将其按拓扑顺序添加到 order 中。</span></span><br><span class="line">    <span class="keyword">var</span> visitAll <span class="function"><span class="keyword">func</span><span class="params">(items []<span class="type">string</span>)</span></span></span><br><span class="line">    visitAll = <span class="function"><span class="keyword">func</span><span class="params">(items []<span class="type">string</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">for</span> _, item := <span class="keyword">range</span> items &#123;</span><br><span class="line">            <span class="comment">// 如果节点尚未被访问，则递归访问其依赖项，并将该节点添加到排序顺序中。</span></span><br><span class="line">            <span class="keyword">if</span> !seen[item] &#123;</span><br><span class="line">                seen[item] = <span class="literal">true</span></span><br><span class="line">                visitAll(m[item])</span><br><span class="line">                order = <span class="built_in">append</span>(order, item)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// keys 用于存储 m 中所有键（节点）的列表，以便进行排序。</span></span><br><span class="line">    <span class="keyword">var</span> keys []<span class="type">string</span></span><br><span class="line">    <span class="keyword">for</span> key := <span class="keyword">range</span> m &#123;</span><br><span class="line">        keys = <span class="built_in">append</span>(keys, key)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对节点进行排序，以便按照一定的顺序访问它们。</span></span><br><span class="line">    sort.Strings(keys)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用排序后的节点列表调用 visitAll，以确保节点的处理顺序符合排序结果。</span></span><br><span class="line">    visitAll(keys)  <span class="comment">// 这里是访问入口， 从这里开始拓扑排序</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回拓扑排序结果。</span></span><br><span class="line">    <span class="keyword">return</span> order</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-10"><a href="#练习5-10" class="headerlink" title="练习5.10"></a>练习5.10</h3><ul>
+<li>重写topoSort函数，用map代替切片并移除对key的排序代码。验证结果的正确性（结果不唯一）。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 重写topoSort函数，用map代替切片并移除对key的排序代码。验证结果的正确性（结果不唯一）。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> prereqs = <span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>&#123;</span><br><span class="line">	<span class="string">&quot;algorithms&quot;</span>: &#123;<span class="string">&quot;data structures&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;calculus&quot;</span>:   &#123;<span class="string">&quot;linear algebra&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;compilers&quot;</span>: &#123;</span><br><span class="line">		<span class="string">&quot;data structures&quot;</span>,</span><br><span class="line">		<span class="string">&quot;formal languages&quot;</span>,</span><br><span class="line">		<span class="string">&quot;computer organization&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">&quot;data structures&quot;</span>:       &#123;<span class="string">&quot;discrete math&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;databases&quot;</span>:             &#123;<span class="string">&quot;data structures&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;discrete math&quot;</span>:         &#123;<span class="string">&quot;intro to programming&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;formal languages&quot;</span>:      &#123;<span class="string">&quot;discrete math&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;networks&quot;</span>:              &#123;<span class="string">&quot;operating systems&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;operating systems&quot;</span>:     &#123;<span class="string">&quot;data structures&quot;</span>, <span class="string">&quot;computer organization&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;programming languages&quot;</span>: &#123;<span class="string">&quot;data structures&quot;</span>, <span class="string">&quot;computer organization&quot;</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i, course := <span class="keyword">range</span> topoSort(prereqs) &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%d:\t%s\n&quot;</span>, i+<span class="number">1</span>, course)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">topoSort</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> order []<span class="type">string</span></span><br><span class="line">    seen := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">bool</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> visitAll <span class="function"><span class="keyword">func</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>, s <span class="type">string</span>)</span></span></span><br><span class="line">    visitAll = <span class="function"><span class="keyword">func</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>, s <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> seen[s] &#123;  <span class="comment">// 多入口， 把判断改到循环开始</span></span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		seen[s] = <span class="literal">true</span></span><br><span class="line">		order = <span class="built_in">append</span>(order, s)</span><br><span class="line">		items := m[s]</span><br><span class="line">        <span class="keyword">for</span> _, item := <span class="keyword">range</span> items &#123;</span><br><span class="line">			<span class="comment">//fmt.Println(s + &quot;!&quot; + item + &quot;!&quot;)</span></span><br><span class="line">            visitAll(m , item)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> key := <span class="keyword">range</span> m &#123;</span><br><span class="line">		visitAll(m, key)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> order</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="练习5-11"><a href="#练习5-11" class="headerlink" title="练习5.11"></a>练习5.11</h3><ul>
+<li>现在线性代数的老师把微积分设为了前置课程。完善topSort，使其能检测有向图中的环。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用带度数的拓扑排序，最后要是有度数不为零的，就是环上的。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sort&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> prereqs = <span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>&#123;</span><br><span class="line">	<span class="string">&quot;algorithms&quot;</span>: &#123;<span class="string">&quot;data structures&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;calculus&quot;</span>:   &#123;<span class="string">&quot;linear algebra&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;compilers&quot;</span>: &#123;</span><br><span class="line">		<span class="string">&quot;data structures&quot;</span>,</span><br><span class="line">		<span class="string">&quot;formal languages&quot;</span>,</span><br><span class="line">		<span class="string">&quot;computer organization&quot;</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="string">&quot;data structures&quot;</span>:       &#123;<span class="string">&quot;discrete math&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;databases&quot;</span>:             &#123;<span class="string">&quot;data structures&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;discrete math&quot;</span>:         &#123;<span class="string">&quot;intro to programming&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;formal languages&quot;</span>:      &#123;<span class="string">&quot;discrete math&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;networks&quot;</span>:              &#123;<span class="string">&quot;operating systems&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;operating systems&quot;</span>:     &#123;<span class="string">&quot;data structures&quot;</span>, <span class="string">&quot;computer organization&quot;</span>&#125;,</span><br><span class="line">	<span class="string">&quot;programming languages&quot;</span>: &#123;<span class="string">&quot;data structures&quot;</span>, <span class="string">&quot;computer organization&quot;</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i, course := <span class="keyword">range</span> topoSort(prereqs) &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%d:\t%s\n&quot;</span>, i+<span class="number">1</span>, course)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">topoSort</span><span class="params">(m <span class="keyword">map</span>[<span class="type">string</span>][]<span class="type">string</span>)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	du := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>)</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> m &#123;</span><br><span class="line">		<span class="keyword">for</span> _, tmp := <span class="keyword">range</span> v&#123;</span><br><span class="line">			du[tmp] ++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> order []<span class="type">string</span></span><br><span class="line">    <span class="keyword">var</span> visitAll <span class="function"><span class="keyword">func</span><span class="params">(now <span class="type">string</span>)</span></span></span><br><span class="line">    visitAll = <span class="function"><span class="keyword">func</span><span class="params">(now <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">		order = <span class="built_in">append</span>(order, now)</span><br><span class="line">        items := m[now]</span><br><span class="line">		<span class="keyword">for</span> _, item := <span class="keyword">range</span> items&#123;</span><br><span class="line">            du[item] --</span><br><span class="line">            <span class="keyword">if</span> du[item] == <span class="number">0</span> &#123;</span><br><span class="line">			<span class="comment">//	fmt.Println(&quot;?&quot;)</span></span><br><span class="line">				visitAll(item)</span><br><span class="line">			&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> keys []<span class="type">string</span></span><br><span class="line">    <span class="keyword">for</span> key := <span class="keyword">range</span> m &#123;</span><br><span class="line">        <span class="keyword">if</span> du[key] == <span class="number">0</span> &#123;</span><br><span class="line">			keys = <span class="built_in">append</span>(keys, key)</span><br><span class="line">		<span class="comment">//	fmt.Println(key + &quot;!&quot;)</span></span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    sort.Strings(keys)</span><br><span class="line">    <span class="keyword">for</span> _, key := <span class="keyword">range</span> keys &#123;</span><br><span class="line">        visitAll(key)</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> du &#123;</span><br><span class="line">		<span class="keyword">if</span> v != <span class="number">0</span> &#123;</span><br><span class="line">			<span class="built_in">panic</span>(<span class="string">&quot;有环&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> order</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-12"><a href="#练习5-12" class="headerlink" title="练习5.12"></a>练习5.12</h3><ul>
+<li>gopl.io&#x2F;ch5&#x2F;outline2（5.5节）的startElement和endElement共用了全局变量depth，将它们修改为匿名函数，使其共享outline中的局部变量。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 将outline2 中的startElement和endElement改成匿名函数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">//fmt.Println(fetch())</span></span><br><span class="line">	doc, err := html.Parse(os.Stdin) </span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;findlink: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> depth <span class="type">int</span></span><br><span class="line">	forEachNode(doc, <span class="function"><span class="keyword">func</span><span class="params">(n *html.Node)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">			fmt.Printf(<span class="string">&quot;%*s&lt;%s&gt;\n&quot;</span>, depth * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">			depth++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;, <span class="function"><span class="keyword">func</span><span class="params">(n *html.Node)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">			depth--</span><br><span class="line">			fmt.Printf(<span class="string">&quot;%*s&lt;/%s&gt;\n&quot;</span>, depth * <span class="number">2</span>, <span class="string">&quot;&quot;</span>, n.Data)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">forEachNode</span><span class="params">(n *html.Node, pre, post <span class="keyword">func</span>(n *html.Node)</span></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> pre != <span class="literal">nil</span> &#123;</span><br><span class="line">		pre(n)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123;</span><br><span class="line">		forEachNode(c, pre, post)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> post != <span class="literal">nil</span> &#123;</span><br><span class="line">		post(n)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-13"><a href="#练习5-13" class="headerlink" title="练习5.13"></a>练习5.13</h3><ul>
+<li>修改crawl，使其能保存发现的页面，必要时，可以创建目录来保存这些页面。只保存来自原始域名下的页面。假设初始页面在golang.org下，就不要保存vimeo.com下的页面。</li>
+<li>暂时略过</li>
+</ul>
+<h3 id="练习5-14"><a href="#练习5-14" class="headerlink" title="练习5.14"></a>练习5.14</h3><ul>
+<li><p>使用breadthFirst遍历其他数据结构。比如，topoSort例子中的课程依赖关系（有向图）、个人计算机的文件层次结构（树）；你所在城市的公交或地铁线路（无向图）。</p>
+</li>
+<li><p>暂时略过</p>
+</li>
+<li><p>作用域问题， 由于匿名函数使用的变量常常是传址</p>
+</li>
+</ul>
+<h2 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h2><ul>
+<li>在声明可变参数函数时， 需要在参数列表的最后一个参数类型前面加上省略号…</li>
+<li>例子</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(sum(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>))</span><br><span class="line">	fmt.Println(sum())</span><br><span class="line">	fmt.Println(sum(<span class="number">1</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(vals ...<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	total := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> _, val := <span class="keyword">range</span> vals &#123;</span><br><span class="line">		total += val</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-15"><a href="#练习5-15" class="headerlink" title="练习5.15"></a>练习5.15</h3><ul>
+<li>编写类似sum的可变参数函数max和min。考虑不传参时，max和min该如何处理，再编写至少接收1个参数的版本。<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 编写类似sum的可变参数函数max和min。考虑不传参时，max和min该如何处理，再编写至少接收1个参数的版本。</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	fmt.Println(max(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>))</span><br><span class="line">	fmt.Println(min())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">max</span><span class="params">(x ...<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(x) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line">	max := x[<span class="number">0</span>]</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> x &#123;</span><br><span class="line">		<span class="keyword">if</span> v &gt; max &#123;</span><br><span class="line">			max = v</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> max</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">min</span><span class="params">(x ...<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(x) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line">	min := x[<span class="number">0</span>]</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> x &#123;</span><br><span class="line">		<span class="keyword">if</span> v &lt; min &#123;</span><br><span class="line">			min = v</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> min</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习5-16"><a href="#练习5-16" class="headerlink" title="练习5.16"></a>练习5.16</h3><ul>
+<li>编写多参数版本的strings.Join。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 多个字符串数组拼接成一个字符串</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	strs := []<span class="type">string</span>&#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>&#125;</span><br><span class="line">	strs2 := []<span class="type">string</span>&#123;<span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>, <span class="string">&quot;f&quot;</span>&#125;</span><br><span class="line">	fmt.Println(myJoin(<span class="string">&quot;,&quot;</span>))</span><br><span class="line">	fmt.Println(myJoin(<span class="string">&quot;?&quot;</span>, strs))</span><br><span class="line">	fmt.Println(myJoin(<span class="string">&quot;?&quot;</span>, strs, strs))</span><br><span class="line">	fmt.Println(myJoin(<span class="string">&quot;?&quot;</span>, strs, strs2, strs))</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">myJoin</span><span class="params">(s <span class="type">string</span>, elems ...[]<span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(elems) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> str <span class="type">string</span></span><br><span class="line">	<span class="keyword">for</span> _, elem := <span class="keyword">range</span> elems &#123;</span><br><span class="line">		<span class="keyword">for</span> _, e := <span class="keyword">range</span> elem &#123;</span><br><span class="line">			str += e + s</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> str[:<span class="built_in">len</span>(str)-<span class="built_in">len</span>(s)]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="练习5-17"><a href="#练习5-17" class="headerlink" title="练习5.17"></a>练习5.17</h3><ul>
+<li>编写多参数版本的ElementsByTagName，函数接收一个HTML结点树以及任意数量的标签名，返回与这些标签名匹配的所有元素。下面给出了2个例子：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, url := <span class="keyword">range</span> os.Args[<span class="number">1</span>:] &#123;</span><br><span class="line">		resp, err := http.Get(url)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Fprintf(os.Stderr, <span class="string">&quot;fetch: %v\n&quot;</span>, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> resp.StatusCode != http.StatusOK &#123;</span><br><span class="line">			resp.Body.Close()</span><br><span class="line">			fmt.Fprintf(os.Stderr, <span class="string">&quot;fetch: %s: %v\n&quot;</span>, url, resp.Status)</span><br><span class="line">			<span class="keyword">continue</span> </span><br><span class="line">		&#125;</span><br><span class="line">		doc, err := html.Parse(resp.Body)</span><br><span class="line">		resp.Body.Close() </span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Fprintf(os.Stderr, <span class="string">&quot;fetch: parsing %s: %v\n&quot;</span>, url, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		images := ElementsByTagName(doc, <span class="string">&quot;img&quot;</span>)</span><br><span class="line">		headings := ElementsByTagName(doc, <span class="string">&quot;h1&quot;</span>, <span class="string">&quot;h2&quot;</span>, <span class="string">&quot;h3&quot;</span>, <span class="string">&quot;h4&quot;</span>)</span><br><span class="line">		fmt.Println(images)</span><br><span class="line">		fmt.Println(headings)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ElementsByTagName</span><span class="params">(doc *html.Node, name ...<span class="type">string</span>)</span></span> []*html.Node &#123;</span><br><span class="line">	<span class="keyword">return</span> visit(<span class="literal">nil</span>, doc, name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">visit</span><span class="params">(links []*html.Node, n *html.Node, v []<span class="type">string</span>)</span></span> []*html.Node&#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &#123;</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> v &#123;</span><br><span class="line">			<span class="keyword">if</span> n.Data == a &#123;</span><br><span class="line">				links = <span class="built_in">append</span>(links,  n)</span><br><span class="line">				<span class="keyword">return</span> links</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123; </span><br><span class="line">		links = visit(links, c, v) <span class="comment">// 递归调用， </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> links</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Deffered-函数"><a href="#Deffered-函数" class="headerlink" title="Deffered 函数"></a>Deffered 函数</h2><ul>
+<li><p>一般判断出错的方法如下</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">title</span><span class="params">(url <span class="type">string</span>)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">	resp, err := http.Get(url)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Check Content-Type is HTML (e.g., &quot;text/html;charset=utf-8&quot;).</span></span><br><span class="line">	ct := resp.Header.Get(<span class="string">&quot;Content-Type&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> ct != <span class="string">&quot;text/html&quot;</span> &amp;&amp; !strings.HasPrefix(ct, <span class="string">&quot;text/html;&quot;</span>) &#123; </span><br><span class="line">		resp.Body.Close() <span class="comment">// 多次调用关闭， 确保各种情况都会正常退出， 但是很麻烦</span></span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;%s has type %s, not text/html&quot;</span>, url, ct)</span><br><span class="line">	&#125;</span><br><span class="line">	doc, err := html.Parse(resp.Body)</span><br><span class="line">	resp.Body.Close()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;parsing %s as HTML: %v&quot;</span>, url, err)</span><br><span class="line">	&#125;</span><br><span class="line">	visitNode := <span class="function"><span class="keyword">func</span><span class="params">(n *html.Node)</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> n.Type == html.ElementNode &amp;&amp; n.Data == <span class="string">&quot;title&quot;</span> &amp;&amp; n.FirstChild != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Println(n.FirstChild.Data)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	forEachNode(doc, visitNode, <span class="literal">nil</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">forEachNode</span><span class="params">(n *html.Node, pre, post <span class="keyword">func</span>(n *html.Node)</span></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> pre != <span class="literal">nil</span> &#123;</span><br><span class="line">		pre(n)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123;</span><br><span class="line">		forEachNode(c, pre, post)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> post != <span class="literal">nil</span> &#123;</span><br><span class="line">		post(n)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>可以使用defer函数， 在调用普通函数或者方法的前面加上defer ， 当执行到该条语句时， 函数和参数表达式得到计算， 但函数并不执行。当函数返回时， 函数和参数表达式被执行。</p>
+</li>
+<li><p>执行顺序和声明顺序相反</p>
+</li>
+<li><p>在一些复杂的情况下， 可以使用defer函数， 确保函数在程序退出时执行。</p>
+</li>
+<li><p>示例</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">title</span><span class="params">(url <span class="type">string</span>)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">	resp, err := http.Get(url)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> resp.Body.Close() <span class="comment">// </span></span><br><span class="line">	ct := resp.Header.Get(<span class="string">&quot;Content-Type&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> ct != <span class="string">&quot;text/html&quot;</span> &amp;&amp; !strings.HasPrefix(ct, <span class="string">&quot;text/html;&quot;</span>) &#123; </span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;%s has type %s, not text/html&quot;</span>, url, ct)</span><br><span class="line">	&#125;</span><br><span class="line">	doc, err := html.Parse(resp.Body)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;parsing %s as HTML: %v&quot;</span>, url, err)</span><br><span class="line">	&#125;</span><br><span class="line">	visitNode := <span class="function"><span class="keyword">func</span><span class="params">(n *html.Node)</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> n.Type == html.ElementNode &amp;&amp; n.Data == <span class="string">&quot;title&quot;</span> &amp;&amp; n.FirstChild != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Println(n.FirstChild.Data)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	forEachNode(doc, visitNode, <span class="literal">nil</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">forEachNode</span><span class="params">(n *html.Node, pre, post <span class="keyword">func</span>(n *html.Node)</span></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> pre != <span class="literal">nil</span> &#123;</span><br><span class="line">		pre(n)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123;</span><br><span class="line">		forEachNode(c, pre, post)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> post != <span class="literal">nil</span> &#123;</span><br><span class="line">		post(n)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>defer 也可以用来记录何时进入和退出函数</p>
+</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	bigSlowOperation()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">bigSlowOperation</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">defer</span> trace(<span class="string">&quot;bigSlowOperation&quot;</span>)() <span class="comment">// 如果不加括号的的话， 则表示在退出时调用trace</span></span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">10</span> * time.Second)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">trace</span><span class="params">(msg <span class="type">string</span>)</span></span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">	start := time.Now()</span><br><span class="line">	log.Printf(<span class="string">&quot;enter %s&quot;</span>, msg)</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		log.Printf(<span class="string">&quot;exit %s (%s)&quot;</span>, msg, time.Since(start))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意defer函数是在函数结束后才执行， 而不是其他代码域</li>
+<li>使用defer 改进fetch ， 将http相应信息写入本地文件而不是标准输出流 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// fetch 改进版 将http相应信息写入本地文件而不是标准输出流</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;path&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, url := <span class="keyword">range</span> os.Args[<span class="number">1</span>:] &#123;</span><br><span class="line">		local, n, err := fetch(url)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Fprintf(os.Stderr, <span class="string">&quot;fetch: %v\n&quot;</span>, err)</span><br><span class="line">			<span class="keyword">return</span> </span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%s %s %d\n&quot;</span>, url, local, n)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fetch</span><span class="params">(url <span class="type">string</span>)</span></span> (filename <span class="type">string</span>, n <span class="type">int64</span>, err <span class="type">error</span>) &#123;</span><br><span class="line">	resp, err := http.Get(url)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>, <span class="number">0</span>, err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> resp.Body.Close() <span class="comment">// 延迟关闭</span></span><br><span class="line">    local := path.Base(resp.Request.URL.Path)</span><br><span class="line">    <span class="keyword">if</span> local == <span class="string">&quot;/&quot;</span> &#123;</span><br><span class="line">        local = <span class="string">&quot;index.html&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    f, err := os.Create(local)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>, <span class="number">0</span>, err</span><br><span class="line">    &#125;</span><br><span class="line">    n, err = io.Copy(f, resp.Body)</span><br><span class="line">    <span class="keyword">if</span> closeErr := f.Close(); err == <span class="literal">nil</span> &#123;</span><br><span class="line">        err = closeErr</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> local, n, err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习5-18"><a href="#练习5-18" class="headerlink" title="练习5.18"></a>练习5.18</h3><ul>
+<li>不修改fetch的行为，重写fetch函数，要求使用defer机制关闭文件。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  不修改fetch的行为，重写fetch函数，要求使用defer机制关闭文件。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;path&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, url := <span class="keyword">range</span> os.Args[<span class="number">1</span>:] &#123;</span><br><span class="line">		local, n, err := fetch(url)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			fmt.Fprintf(os.Stderr, <span class="string">&quot;fetch: %v\n&quot;</span>, err)</span><br><span class="line">			<span class="keyword">return</span> </span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%s %s %d\n&quot;</span>, url, local, n)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fetch</span><span class="params">(url <span class="type">string</span>)</span></span> (filename <span class="type">string</span>, n <span class="type">int64</span>, err <span class="type">error</span>) &#123;</span><br><span class="line">	resp, err := http.Get(url)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>, <span class="number">0</span>, err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> resp.Body.Close() <span class="comment">// 延迟关闭</span></span><br><span class="line">    local := path.Base(resp.Request.URL.Path)</span><br><span class="line">    <span class="keyword">if</span> local == <span class="string">&quot;/&quot;</span> &#123;</span><br><span class="line">        local = <span class="string">&quot;index.html&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    f, err := os.Create(local)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span>, <span class="number">0</span>, err</span><br><span class="line">    &#125;</span><br><span class="line">    n, err = io.Copy(f, resp.Body)</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;   <span class="comment">// defer 执行顺序在return 之后， 但是在返回值赋值给调用方之前</span></span><br><span class="line">		<span class="comment">// 为什么defer能调用返回值，因为这里返回值是有名的， defer 函数只能访问有名返回值</span></span><br><span class="line">		<span class="keyword">if</span> closeErr := f.Close(); err == <span class="literal">nil</span> &#123;</span><br><span class="line">			err = closeErr</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;()</span><br><span class="line">    <span class="keyword">return</span> local, n, err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="panic-异常-（宕机）"><a href="#panic-异常-（宕机）" class="headerlink" title="panic 异常 （宕机）"></a>panic 异常 （宕机）</h2><ul>
+<li>一般来说， panic异常是只能在运行时才能检查到的错误， 比如说数组访问越界， 空指针引用， 当panic发生时， 程序中断运行， 并立即执行在goroutine中被延迟的函数， 然后崩溃输出日志信息</li>
+<li>一般来说， 不应用 panic 检查哪些运行时会检查的信息。而且只有比较严重的错误才应用panic</li>
+<li>为了方便诊断问题，runtime包允许程序员输出堆栈信息。在下面的例子中，我们通过在main函数中延迟调用printStack输出堆栈信息。</li>
+<li></li>
+<li>regexp.MustCompile 可以用来检查输入的合法性<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;runtime&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> printStack()</span><br><span class="line">    f(<span class="number">3</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printStack</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> buf [<span class="number">4096</span>]<span class="type">byte</span></span><br><span class="line">    n := runtime.Stack(buf[:], <span class="literal">false</span>)</span><br><span class="line">    os.Stdout.Write(buf[:n])</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(x <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">	fmt.Printf(<span class="string">&quot;f(%d)\n&quot;</span>, x+<span class="number">0</span>/x) </span><br><span class="line">	<span class="keyword">defer</span> fmt.Printf(<span class="string">&quot;defer %d\n&quot;</span>, x)</span><br><span class="line">	f(x - <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出第一部分</span></span><br><span class="line"><span class="comment">f(3)</span></span><br><span class="line"><span class="comment">f(2)</span></span><br><span class="line"><span class="comment">f(1)</span></span><br><span class="line"><span class="comment">defer 1</span></span><br><span class="line"><span class="comment">defer 2</span></span><br><span class="line"><span class="comment">defer 3  // 发生异常、 之前延迟的defer先被调用， 然后再触发panic</span></span><br><span class="line"><span class="comment">panic: runtime error: integer divide by zero</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">printStack() 的输出为</span></span><br><span class="line"><span class="comment">goroutine 1 [running]:</span></span><br><span class="line"><span class="comment">main.printStack()</span></span><br><span class="line"><span class="comment">        D:/bq/Go_learning_tools/learning/defer2/defer2.go:15 +0x2e</span></span><br><span class="line"><span class="comment">panic(&#123;0xb27a80?, 0xbcb9f0?&#125;)</span></span><br><span class="line"><span class="comment">        C:/Program Files/Go/src/runtime/panic.go:770 +0x132</span></span><br><span class="line"><span class="comment">main.f(0xb5b098?)</span></span><br><span class="line"><span class="comment">        D:/bq/Go_learning_tools/learning/defer2/defer2.go:19 +0x118</span></span><br><span class="line"><span class="comment">main.f(0x1)</span></span><br><span class="line"><span class="comment">        D:/bq/Go_learning_tools/learning/defer2/defer2.go:21 +0xfe</span></span><br><span class="line"><span class="comment">main.f(0x2)</span></span><br><span class="line"><span class="comment">        D:/bq/Go_learning_tools/learning/defer2/defer2.go:21 +0xfe</span></span><br><span class="line"><span class="comment">main.f(0x3)</span></span><br><span class="line"><span class="comment">        D:/bq/Go_learning_tools/learning/defer2/defer2.go:21 +0xfe</span></span><br><span class="line"><span class="comment">main.main()</span></span><br><span class="line"><span class="comment">        D:/bq/Go_learning_tools/learning/defer2/defer2.go:11 +0x35</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Recover-捕获异常"><a href="#Recover-捕获异常" class="headerlink" title="Recover 捕获异常"></a>Recover 捕获异常</h2><ul>
+<li>recover 函数用来捕获panic异常， 如果没有panic异常， recover返回nil， 如果有panic异常， recover返回panic的值， 并且恢复panic， 恢复后程序继续运行</li>
+<li>recover函数只能在defer函数中调用， 否则会panic</li>
+</ul>
+<h3 id="练习5-19"><a href="#练习5-19" class="headerlink" title="练习5.19"></a>练习5.19</h3><ul>
+<li>使用panic和recover编写一个不包含return语句但能返回一个非零值的函数。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 练习5.19   使用panic和recover编写一个不包含return语句但能返回一个非零值的函数。</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(f())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> (res <span class="type">int</span>) &#123;</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">if</span> err := <span class="built_in">recover</span>(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			res = <span class="number">1</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="built_in">panic</span>(<span class="string">&quot;panic&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      </div>
+      <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/Go/" class="">
+              Go
+            </a>
+          
+            <a href="/tags/Go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F/" class="">
+              Go语言圣经
+            </a>
+          
+        </div>
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>author:  </strong>John Doe</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>link:  </strong>
+    <a href="/2024/08/09/Go-语言圣经笔记-第五章：函数/" target="_blank" title="Go 语言圣经笔记  第五章：函数">http://example.com/2024/08/09/Go-语言圣经笔记-第五章：函数/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>Copyright notice:   </strong>
+      All articles on this website, unless otherwise stated, adopt <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      reprint policy. If reproduced, please indicate source!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="/medias/3.jpg" class="lazyload placeholder" data-srcset="/medias/3.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+    </div>
+    <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E6%96%B9%E6%B3%95/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> Prev:
+        <div class="title-text">Go 语言圣经笔记  第六章：方法</div>
+      </div>
+      
+      <!-- <div class="content">
+        第六章 方法
+在函数声明时， 在其名字前面放上一个变量， 就是一个方法， 这个附加的参数会将该函数附加到这种类型上，相当
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="/medias/1.jpg" class="lazyload placeholder" data-srcset="/medias/1.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" src="" alt="">
+    </div>
+    <a href="/2024/08/08/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%9A%E5%A4%8D%E5%90%88%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="post-nav-link">
+      <div class="title">
+        Next: <i class="fas fa-angle-right"></i>
+        <div class="title-text">Go 语言圣经笔记  第四章：复合数据类型</div>
+      </div>
+      <!-- <div class="content">
+        第四章数组
+默认情况下，数组的每个元素都被初始化为元素类型对应的0值。
+示例
+
+1234567891011121314q
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <!-- 文章详情页右侧目录 -->
+
+  <div class="toc-aside">
+    <div class="toc-main">
+      <div class="toc-aside-title">
+        <i class="fas fa-list-ul" aria-hidden="true"></i><span>catalog</span>
+        
+          <div class="toc-open-close">catalog</div>
+        
+      </div>
+      <div class="toc-content">
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手机端目录按钮 -->
+  <div id="toc-mobile-btn">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </div>
+
+
+<script>
+  function closeToc(init) {
+    $(".toc-aside").css({'width': 0, 'padding': 0, 'transition': init ?  'noe' : 'width 0.3s' });
+    $(".toc-content").css({'width': 0});
+    $(".toc-aside-title span, .toc-aside-title i").css({'display': 'none'});
+    $(".main-content").css({'width': '75%', 'margin': '10px auto'});
+  };
+  function openToc() {
+    $(".main-content").css({'width': '65%', 'margin-right': '10px', 'margin-left': 'calc(35% - 350px)'});
+    $(".toc-aside").css({'width': '300px', 'padding': '0 10px', 'transition': 'width 0.3s'});
+    $(".toc-content").css({'width': '300px'});
+    $(".toc-aside-title span, .toc-aside-title i").css({'display': 'inline-block'});
+  }
+  function openBtnClickFn () {
+    let openOrCloseBtn = $('.toc-aside .toc-aside-title .toc-open-close');
+    let open = eval('' || 'true');
+    openOrCloseBtn.click(function() {
+      if (open) {
+        closeToc();
+        open = false;
+      } else {
+        openToc();
+        open = true;
+      }
+    });
+  };
+  openBtnClickFn();
+  initCloseTocWidth(true);
+
+  function initCloseTocWidth(init) {
+    if (window.innerWidth >= 992) {
+      let isClose = false;
+      isClose && closeToc(init)
+    }
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    $(".toc-aside").css({'transition': 'no'});
+  })
+  document.addEventListener('pjax:complete', function () {
+    openBtnClickFn();
+  })
+  
+</script>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Copyright © 2019 - 2022hexo <a target="_blank" rel="noopener" href="https://github.com/yuang01">yuang01</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+
+          </div>
+        
+      
+        
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>Total visits：<span id="busuanzi_value_site_pv"></span> times
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>Number of visitors：<span id="busuanzi_value_site_uv"></span> people
+</span>
+
+          
+        
+      
+        
+          <div class="footer-custom">
+            
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+      <link rel="stylesheet" href="/js/aplayer/APlayer@1.10.1.min.css">
+<style>
+.aplayer .aplayer-lrc p {
+  
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px !important;
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+  
+  font-size: 15px;
+  color: #42b983;
+}
+
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+  left: -66px !important;
+}
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+  left: 0px !important;
+}
+
+
+</style>
+<meting-js  
+  class=""
+  server="tencent"
+  type="playlist"
+  id="8062553743"
+  fixed='true'
+  autoplay='false'
+  theme='#42b983'
+  loop='all'
+  order='random'
+  preload='auto'
+  volume='0.7'
+  list-folded='true'
+>
+</meting-js>
+
+<!-- <style>
+  #aplayer {
+    position: fixed;
+    left: 0;
+    bottom: 300px;
+  }
+</style> -->
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="/js/fancybox/jquery.fancybox.min.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script>
+
+<script>
+  var headerEl = 'h2, h3, h4',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -80,
+    headingsOffset: -($(window).height() * 0.4 - 45),
+    positionFixedSelector: '.toc-main',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 100) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('toc-aside')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  }
+</style> 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const headerMenuTransparent = true;
+    if (!headerMenuTransparent) { return; }
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/v-plugs-ayu/lib/ayu.css">
+  <script src="https://cdn.jsdelivr.net/npm/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = 'copy';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <script type="text/javascript">
+  var utteranceCommon = {};
+
+  function check_utterance() {
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    if (isDark) {
+      utteranceCommon.Theme = 'github-dark';
+    } else {
+      utteranceCommon.Theme = 'github-light';
+    }
+
+    return document.getElementById("gitment-container");
+  }
+  comment_el = '#gitment-container';
+  load_utterance = function () {
+    if ($(comment_el).length) {
+      // 匿名函数，防止污染全局变量
+      const HEAD = check_utterance();
+
+      var utterances = document.createElement('script');
+      utterances.type = 'text/javascript';
+      utterances.async = true;
+      utterances.setAttribute('issue-term', 'pathname')
+      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('repo', '')
+      utterances.crossorigin = 'anonymous';
+      utterances.src = 'https://utteranc.es/client.js';
+      // content 是要插入评论的地方
+      document.getElementById('gitment-container').appendChild(utterances);
+
+    }
+  }
+
+  function dark_utterance() {
+    const HEAD = check_utterance();
+    if (!HEAD) return;
+    const message = {
+      type: 'set-theme',
+      theme: utteranceCommon.Theme
+    };
+    const utteranceIframe = document.querySelector('iframe');
+    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  $(document).ready(load_utterance);
+  document.addEventListener('pjax:complete', function () {
+    load_utterance();
+  });
+
+  $('.dark').click(function () {
+    setTimeout(() => {
+      dark_utterance();
+    });
+  })
+
+</script>
+
+<style>
+  .utterances {
+    max-width: inherit !important;
+  }
+</style>
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+   
+    <script src="/js/cursor/clicklove.js"></script> 
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+  <title>课程设计—数值分析实验 | Hexo</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://cdn.jsdelivr.net/gh/inkss/fontawesome@5.15.3/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+    <script>
+        var themeModelId = '';
+        if (themeModelId) {
+            localStorage.setItem('modelId', themeModelId);
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/yuang01/live2d-widget@latest/autoload.js"></script>
+    <script>
+        var live2dOpen = eval('true') || false;
+        if (!live2dOpen) {
+            localStorage.setItem('waifu-display', 1609323474481);
+        }
+    </script>
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/js/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  
+  <!-- 依赖于jquery和vue -->
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+  
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+
+  
+  
+  <body>
+    <!-- 预加载动画 -->
+    <!-- 页面预加载动画 -->
+
+<div id='loader'>
+  <link rel="stylesheet" href="/js/loaded/index.css" >
+  <div class="loading-left-bg"></div>
+  <div class="loading-right-bg"></div>
+  <div class="spinner-box">
+    <div class="configure-border-1">
+      <div class="configure-core"></div>
+    </div>
+    <div class="configure-border-2">
+      <div class="configure-core"></div>
+    </div>
+    <div class="loading-word">loading...</div>
+  </div>
+</div>
+
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+  
+</script>
+
+    
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (href, before, media, attributes) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header   " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="logo">
+      <h3 class="drawer-box-head_title">Hexo</h3>
+      <h5 class="drawer-box-head_desc"></h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">Home</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">Archives</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/tags" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">Tags</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">Categories</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/about" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  
+                  <span class="name">About</span>
+                </a>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/fastle">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Hexo</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/" class="menu-item-link" title="Home">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">Home</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="Archives">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">Archives</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/tags" class="menu-item-link" title="Tags">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">Tags</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="Categories">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">Categories</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/about" class="menu-item-link" title="About">
+                  
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  
+                  <span class="name">About</span>
+                </a>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">Search</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="Please enter keywords"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/fastle" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+    <div id="he-plugin-simple"></div>
+    <script>
+      WIDGET = {
+        CONFIG: {
+          "modules": "012",
+          "background": 5,
+          "tmpColor": "4A4A4A",
+          "tmpSize": 16,
+          "cityColor": "4A4A4A",
+          "citySize": 16,
+          "aqiSize": 16,
+          "weatherIconSize": 24,
+          "alertIconSize": 18,
+          "padding": "10px 10px 10px 10px",
+          "shadow": "1",
+          "language": "auto",
+          "borderRadius": 5,
+          "fixed": "false",
+          "vertical": "middle",
+          "horizontal": "center",
+          "key": "2784dd3fcb1e4f0f9a9b579bf69641f2"
+        }
+      }
+    </script>
+    <script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script> 
+    
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('/medias/13.jpg')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        课程设计—数值分析实验
+      </span>
+    </div>
+    
+    
+      
+        <span class="post-detail-header_date">
+          <i class="fas fa-calendar"></i> Published in：2022-05-11 |
+        </span>
+      
+
+      
+
+      
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="row justify-position" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <p>[TOC]</p>
+<h1 id="第一章-误差理论"><a href="#第一章-误差理论" class="headerlink" title="第一章 误差理论"></a>第一章 误差理论</h1><h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p>描述了误差的来源于类型、度量方法、误差的收敛阶、误差的累计以及局部与整体误差。</p>
+<h3 id="误差的来源与类型"><a href="#误差的来源与类型" class="headerlink" title="误差的来源与类型"></a>误差的来源与类型</h3><h4 id="模型误差"><a href="#模型误差" class="headerlink" title="模型误差"></a>模型误差</h4><p>我们在计算时经常将问题进行数学建模，建模往往省略了一些影响小的变量，近似地模拟了问题，我们吧数学模型与实际问题之间出现的这种误差称为模型误差。</p>
+<h4 id="截断误差"><a href="#截断误差" class="headerlink" title="截断误差"></a>截断误差</h4><p>数学模型的数值解或者准确解有时候很难求，这时我们往往用数值方法来求他的近似解，这样产生的误差被称为截断误差，或者叫方法误差。</p>
+<h4 id="舍入误差"><a href="#舍入误差" class="headerlink" title="舍入误差"></a>舍入误差</h4><p>计算机字长有限不能表示出无限的数字，这时我们参与运算的时候会取近似值，比如说 $\pi$。</p>
+<h4 id="浮点数舍入误差"><a href="#浮点数舍入误差" class="headerlink" title="浮点数舍入误差"></a>浮点数舍入误差</h4><p>这里涉及的是计算机浮点数的表示方法。我们以双浮点数64位为例。分为三部分，第一位是符号位$s$，之后十一位是指数位$c$，剩下五十二位是尾数位$f$。可以表示为<br>$$(-1)^s2^{c - 1023}(1+f)$$<br>我们可以得到它的上限为<br>$$2^{2014}(2 - 2 ^ {-52})$$<br>下限为<br>$$2^{-2013}(1 + 2 ^ {-52})$$<br>所以更大的或者更小的是不能表示的，实际上在这之间随着数据增大或者减小，表示都是逐渐变得不准确的。</p>
+<h3 id="误差的度量方法"><a href="#误差的度量方法" class="headerlink" title="误差的度量方法"></a>误差的度量方法</h3><p>假设$p*$是$p$的近似值，我们定义以下概念：</p>
+<ul>
+<li>绝对误差<br>$$|p - p^*|$$</li>
+<li>相对误差<br>$$\frac{|p - p^*|}{|p|}$$</li>
+</ul>
+<h3 id="迭代法的收敛阶"><a href="#迭代法的收敛阶" class="headerlink" title="迭代法的收敛阶"></a>迭代法的收敛阶</h3><p>设迭代过程 $x_{k+1}&#x3D;\varphi (x_k)$ 收敛于方程 $x&#x3D;\varphi(x)$ 的根$x^{<em>}$，<br>如果迭代误差 $e_k&#x3D;x_k-x^</em>$，且$\lim_{k \to \infty}\frac{|e_{k+1}|}{|e_k|^p}&#x3D;c\neq 0$成立，则称序列$\lbrace{x_k}\rbrace$收敛于$x^*$具有p阶收敛速度，简称$\lbrace{x_k}\rbrace$是p阶收敛的。常数c称为渐进收敛常数，也称为收敛因子。</p>
+<ol>
+<li>$p &#x3D; 1,0 \leq c \leq 1$时为线性收敛</li>
+<li>$p &gt; 1$称为超线性收敛</li>
+<li>$p &gt; 2$称为平方收敛</li>
+</ol>
+<h3 id="误差传播"><a href="#误差传播" class="headerlink" title="误差传播"></a>误差传播</h3><p>设$p\hat{}, q\hat{}$ 为$p, q$的近似值， 误差分别为$\epsilon_p , \epsilon_q $<br>和运算<br>$$p + q &#x3D; p\hat{} + q\hat{} +\epsilon_p + \epsilon_q $$<br>积运算<br>$$pq &#x3D; p\hat{} q\hat{} + p\hat{} \epsilon_q + q\hat{} \epsilon_p + \epsilon_p \epsilon_q$$</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
+<li>求方程$x^2 + (\alpha + \beta)x + 10^9 &#x3D; 0 $的根，其中$\alpha &#x3D; -10^9 \beta &#x3D; -1$, 讨论如何设计计算格式才能有效地减少误差，提高计算精度。</li>
+<li>以计算$x^{31}$ 为例，讨论如何设计计算格式才能有效地减少计算次数。</li>
+</ol>
+<h3 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h3><h4 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h4><ul>
+<li>手算得方程精确解为$\frac{100000001 \pm \sqrt{(1e9 + 1) ^ 2 - 4 * 1e9} }{2}$, 即$x_1 &#x3D; 100000000, x2 &#x3D; 1$</li>
+<li>分别通过牛顿迭代法求解，看获得相同精度所需要的运算次数。</li>
+</ul>
+<h4 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h4><ul>
+<li>通过快速幂进行计算，快速幂的计算方法是将指数拆解成二进制，先计算出二的整数次幂，之后用二进制拼凑出整数。</li>
+</ul>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="问题1-1"><a href="#问题1-1" class="headerlink" title="问题1"></a>问题1</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">double</span> eps, xnn;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">double</span> xn1 = <span class="number">1000000000.0</span>, xn2 = <span class="number">1.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">f</span><span class="params">(<span class="type">double</span> x0)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x0 * x0  - (<span class="number">1000000001</span>) * x0  + <span class="number">1000000000</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">f1</span><span class="params">(<span class="type">double</span> x0)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">2</span> * x0 - <span class="number">100000001</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">diedai</span><span class="params">(<span class="type">double</span> x0)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">abs</span>(x0 - xn1) &gt; eps &amp;&amp; <span class="built_in">abs</span>(x0 - xn2) &gt; eps)</span><br><span class="line">	&#123;</span><br><span class="line">		cnt++;</span><br><span class="line">		x0 = x0 - <span class="built_in">f</span>(x0) / <span class="built_in">f1</span>(x0);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//	freopen(&quot;output.out&quot;, &quot;w&quot;, &quot;stdout&quot;); 	</span></span><br><span class="line">	cin &gt;&gt; eps &gt;&gt; xnn; </span><br><span class="line">	cout &lt;&lt; <span class="built_in">diedai</span>(xnn) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="问题2-1"><a href="#问题2-1" class="headerlink" title="问题2"></a>问题2</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> cnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">poww</span><span class="params">(<span class="type">double</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">double</span> ans = <span class="number">1.0</span>, tmp = a;</span><br><span class="line">	<span class="keyword">while</span>(b)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(b &amp; <span class="number">1</span>) ans = ans * tmp;</span><br><span class="line">		tmp = tmp * tmp;</span><br><span class="line">		cnt ++;</span><br><span class="line">		b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//	freopen(&quot;output.out&quot;, &quot;w&quot;, &quot;stdout&quot;); 	</span></span><br><span class="line">	<span class="type">double</span> x, a;</span><br><span class="line">	cin &gt;&gt; x &gt;&gt; a;  </span><br><span class="line">	cout &lt;&lt;  <span class="built_in">poww</span>(x, a) &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; cnt &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="算例"><a href="#算例" class="headerlink" title="算例"></a>算例</h3><h4 id="问题1-2"><a href="#问题1-2" class="headerlink" title="问题1"></a>问题1</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">input1</span><br><span class="line"><span class="number">0.00001</span> <span class="number">3</span></span><br><span class="line">output1</span><br><span class="line"><span class="number">52</span></span><br></pre></td></tr></table></figure>
+<h4 id="问题2-2"><a href="#问题2-2" class="headerlink" title="问题2"></a>问题2</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">input1</span><br><span class="line"><span class="number">0.00001</span> <span class="number">3</span></span><br><span class="line">output1</span><br><span class="line"><span class="number">52</span></span><br></pre></td></tr></table></figure>
+<h3 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h3><ul>
+<li>结果和复杂度正确</li>
+</ul>
+<h1 id="第二章-非线性方程求根"><a href="#第二章-非线性方程求根" class="headerlink" title="第二章 非线性方程求根"></a>第二章 非线性方程求根</h1><h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h3><p><img src="/images/ex2pro1.jpg" class="lazyload placeholder" data-srcset="/images/ex2pro1.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"><br><img src="/images/ex2pro2.jpg" class="lazyload placeholder" data-srcset="/images/ex2pro2.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<h3 id="方案-1"><a href="#方案-1" class="headerlink" title="方案"></a>方案</h3><h4 id="问题1-3"><a href="#问题1-3" class="headerlink" title="问题1"></a>问题1</h4><p>对应三种递推式即可</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">f1=@(x)(<span class="number">15</span>-x^<span class="number">2</span>)</span><br><span class="line">f2=@(x)(<span class="number">15</span>/(<span class="number">2</span>*x+<span class="number">1</span>))</span><br><span class="line">f3=@(x)(x-(<span class="number">2</span>*x^<span class="number">2</span>+x<span class="number">-15</span>)/(<span class="number">4</span>*x+<span class="number">1</span>))</span><br><span class="line">x1=[<span class="number">2</span>];x2=[<span class="number">2</span>];x3=[<span class="number">2</span>];</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">2</span>:<span class="number">100</span></span><br><span class="line">    x1=[x1,f1(x1(<span class="built_in">i</span><span class="number">-1</span>))]</span><br><span class="line">    x2=[x2,f2(x2(<span class="built_in">i</span><span class="number">-1</span>))]</span><br><span class="line">    x3=[x3,f3(x3(<span class="built_in">i</span><span class="number">-1</span>))]</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(x1);</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">100</span>,<span class="number">-10000</span>,<span class="number">100</span>])</span><br><span class="line">subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(x2);</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">70</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>);</span><br><span class="line"><span class="built_in">plot</span>(x3);</span><br><span class="line">axis([<span class="number">0</span>,<span class="number">10</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+
+<h3 id="结果分析-1"><a href="#结果分析-1" class="headerlink" title="结果分析"></a>结果分析</h3><p>$x_{k+1}&#x3D;15-x_{k}^{2}$ 不收敛</p>
+<p>后两个收敛速度如下</p>
+<p><img src="/images/diedaiFigure_1.png" class="lazyload placeholder" data-srcset="/images/diedaiFigure_1.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg">                  |</p>
+<h4 id="问题2-3"><a href="#问题2-3" class="headerlink" title="问题2"></a>问题2</h4><h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">f=@(x)(<span class="number">2</span><span class="number">-3</span>*x-<span class="built_in">sin</span>(x))</span><br><span class="line">l=<span class="number">0</span>;r=<span class="number">1</span>;</span><br><span class="line">fl=f(l);</span><br><span class="line">cnt=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> r-l&gt;<span class="number">0.0005</span></span><br><span class="line">    mid=l+(r-l)/<span class="number">2</span>;</span><br><span class="line">    fm=f(mid);</span><br><span class="line">    cnt=cnt+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> fl*fm&gt;<span class="number">0</span></span><br><span class="line">        l=mid;fl=fm;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        r=mid</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">fprintf(<span class="string">&#x27;根为：%f,迭代次数为: %d\n&#x27;</span>,mid,cnt)</span><br></pre></td></tr></table></figure>
+<h3 id="结果分析-2"><a href="#结果分析-2" class="headerlink" title="结果分析"></a>结果分析</h3><p>迭代次数为11次</p>
+<h4 id="问题3"><a href="#问题3" class="headerlink" title="问题3"></a>问题3</h4><h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>使用牛顿迭代法：<br>$$<br>p_{n}&#x3D;p_{n-1}-\frac{f\left(p_{n-1}\right)}{f^{\prime}\left(p_{n-1}\right)}, \quad n \geqslant 1<br>$$</p>
+<h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">clc,clear;</span><br><span class="line">syms x;</span><br><span class="line">f1=<span class="number">1</span>/<span class="number">2</span>+<span class="number">1</span>/<span class="number">4</span>*x^<span class="number">2</span>-x*<span class="built_in">sin</span>(x)<span class="number">-1</span>/<span class="number">2</span>*<span class="built_in">cos</span>(<span class="number">2</span>*x);</span><br><span class="line">df1=diff(f1);</span><br><span class="line">f=matlabFunction(f1);</span><br><span class="line">df=matlabFunction(df1);</span><br><span class="line">x0=[<span class="built_in">pi</span>/<span class="number">2</span>,<span class="number">5</span>*<span class="built_in">pi</span>,<span class="number">10</span>*<span class="built_in">pi</span>];</span><br><span class="line">cnt=[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>];</span><br><span class="line">tol=<span class="number">1e-5</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">3</span></span><br><span class="line">    p0=x0(<span class="built_in">i</span>);</span><br><span class="line">    p=p0-f(p0)/df(p0);</span><br><span class="line">    <span class="keyword">while</span> cnt(<span class="built_in">i</span>)&lt;<span class="number">1000</span></span><br><span class="line">        p=p0-f(p0)/df(p0);</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">abs</span>(p-p0)&lt;tol</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        cnt(<span class="built_in">i</span>)=cnt(<span class="built_in">i</span>)+<span class="number">1</span>;</span><br><span class="line">        p0=p;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    fprintf(<span class="string">&#x27;p%d=%f,迭代次数：%d\n&#x27;</span>,<span class="built_in">i</span>,p,cnt(<span class="built_in">i</span>));</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="算例-1"><a href="#算例-1" class="headerlink" title="算例"></a>算例</h3><p>初值为 $\frac{\pi}{2}, 5 \pi, 10 \pi$，迭代次数分别为15,19,249</p>
+<h3 id="结果分析-3"><a href="#结果分析-3" class="headerlink" title="结果分析"></a>结果分析</h3><p>初值对牛顿迭代法有影响</p>
+<h4 id="问题4"><a href="#问题4" class="headerlink" title="问题4"></a>问题4</h4><h3 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h3><p>​二分法：$p_{n}&#x3D;a_{n}+\frac{b_{n}-a_{n}}{2}$</p>
+<p>​牛顿法：$p_{n}&#x3D;p_{n-1}-\frac{f\left(p_{n-1}\right)}{f^{\prime}\left(p_{n-1}\right)}, \quad n \geqslant 1$</p>
+<p>​割线法：$p_{n}&#x3D;p_{n-1}-\frac{f\left(p_{n-1}\right)\left(p_{n-1}-p_{n-2}\right)}{f\left(p_{n-1}\right)-f\left(p_{n-2}\right)}$</p>
+<p>​错位法：在割线法基础上，每次检验$p_{n}*p_{n-1}$的正负，来决定使用哪条割线来计算$p_{n+1}$</p>
+<h3 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">syms x;</span><br><span class="line">ff1=<span class="number">5</span>*x-<span class="built_in">exp</span>(x);</span><br><span class="line">f=matlabFunction(ff1);</span><br><span class="line">df1=diff(ff1);</span><br><span class="line">df=matlabFunction(df1);</span><br><span class="line">tol=<span class="number">1e-5</span>;</span><br><span class="line">cnt=[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>];</span><br><span class="line"><span class="comment">%二分法</span></span><br><span class="line">l=<span class="number">0</span>;r=<span class="number">1</span>;</span><br><span class="line">fl=f(l);</span><br><span class="line"><span class="keyword">while</span> r-l&gt;tol</span><br><span class="line">    mid=l+(r-l)/<span class="number">2</span>;</span><br><span class="line">    fm=f(mid);</span><br><span class="line">    cnt(<span class="number">1</span>)=cnt(<span class="number">1</span>)+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> fl*fm&gt;<span class="number">0</span></span><br><span class="line">        l=mid;fl=fm;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        r=mid</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">fprintf(<span class="string">&#x27;二分法根为：%.4f,迭代次数为: %d\n&#x27;</span>,mid,cnt(<span class="number">1</span>))</span><br><span class="line"><span class="comment">%牛顿法</span></span><br><span class="line">x0=<span class="number">0.5</span>;</span><br><span class="line">p0=x0;</span><br><span class="line">p=p0-f(p0)/df(p0);</span><br><span class="line"><span class="keyword">while</span> cnt(<span class="number">2</span>)&lt;<span class="number">1000</span></span><br><span class="line">    p=p0-f(p0)/df(p0);</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(p-p0)&lt;tol</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    cnt(<span class="number">2</span>)=cnt(<span class="number">2</span>)+<span class="number">1</span>;</span><br><span class="line">    p0=p;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">    fprintf(<span class="string">&#x27;牛顿法根为：%.4f,迭代次数：%d\n&#x27;</span>,p,cnt(<span class="number">2</span>));</span><br><span class="line"><span class="comment">%割线法</span></span><br><span class="line">p0=<span class="number">0</span>;</span><br><span class="line">p1=<span class="number">1</span>;</span><br><span class="line">q0=f(p0);</span><br><span class="line">q1=f(p1);</span><br><span class="line"><span class="keyword">while</span> cnt(<span class="number">3</span>)&lt;<span class="number">1000</span></span><br><span class="line">    p=p1-q1*(p1-p0)/(q1-q0);</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(p-p1)&lt;tol</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    cnt(<span class="number">3</span>)=cnt(<span class="number">3</span>)+<span class="number">1</span>;</span><br><span class="line">    p0=p1;</span><br><span class="line">    q0=q1;</span><br><span class="line">    p1=p;</span><br><span class="line">    q1=f(p);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">fprintf(<span class="string">&#x27;割线法根为：%.4f,迭代次数：%d\n&#x27;</span>,p,cnt(<span class="number">3</span>));</span><br><span class="line"><span class="comment">%错位法</span></span><br><span class="line">p0=<span class="number">0</span>;</span><br><span class="line">p1=<span class="number">1</span>;</span><br><span class="line">q0=f(p0);</span><br><span class="line">q1=f(p1);</span><br><span class="line"><span class="keyword">while</span> cnt(<span class="number">4</span>)&lt;<span class="number">1000</span></span><br><span class="line">    p=p1-q1*(p1-p0)/(q1-q0);</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(p-p1)&lt;tol</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    cnt(<span class="number">4</span>)=cnt(<span class="number">4</span>)+<span class="number">1</span>;</span><br><span class="line">    q=f(p);</span><br><span class="line">    <span class="keyword">if</span> q*q1&lt;<span class="number">0</span></span><br><span class="line">        p0=p1;q0=q1;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        p1=p;q1=q;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">fprintf(<span class="string">&#x27;错位法根为：%.4f,迭代次数：%d\n&#x27;</span>,p,cnt(<span class="number">4</span>));</span><br></pre></td></tr></table></figure>
+
+<h4 id="结果分析-4"><a href="#结果分析-4" class="headerlink" title="结果分析"></a>结果分析</h4><table>
+<thead>
+<tr>
+<th></th>
+<th>根</th>
+<th>迭代次数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二分法</td>
+<td>0.2592</td>
+<td>17</td>
+</tr>
+<tr>
+<td>牛顿法</td>
+<td>0.2592</td>
+<td>4</td>
+</tr>
+<tr>
+<td>割线法</td>
+<td>0.2592</td>
+<td>6</td>
+</tr>
+<tr>
+<td>错位法</td>
+<td>0.2592</td>
+<td>6</td>
+</tr>
+</tbody></table>
+<h1 id="第三章-插值多项式"><a href="#第三章-插值多项式" class="headerlink" title="第三章 插值多项式"></a>第三章 插值多项式</h1><h2 id="实验-1"><a href="#实验-1" class="headerlink" title="实验"></a>实验</h2><h3 id="问题1-4"><a href="#问题1-4" class="headerlink" title="问题1"></a>问题1</h3><p><img src="/images/ex3pro1.jpg" class="lazyload placeholder" data-srcset="/images/ex3pro1.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<h3 id="代码-5"><a href="#代码-5" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">clc,clear;</span><br><span class="line">x1=<span class="number">0</span>:<span class="built_in">pi</span>/<span class="number">11</span>:<span class="built_in">pi</span>;</span><br><span class="line">x2=<span class="number">0</span>:<span class="built_in">pi</span>/<span class="number">21</span>:<span class="built_in">pi</span>;</span><br><span class="line">y1=<span class="built_in">sin</span>(x1);</span><br><span class="line">y2=<span class="built_in">sin</span>(x2);</span><br><span class="line">pp=csape(x1,y1,<span class="string">&#x27;variational&#x27;</span>);</span><br><span class="line">yy=ppval(pp,x1);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(x1,yy);</span><br><span class="line"><span class="built_in">scatter</span>(x1,yy);</span><br><span class="line">title(<span class="string">&#x27;自然边界&#x27;</span>);</span><br><span class="line">pp=csape(x2,y2,<span class="string">&#x27;variational&#x27;</span>);</span><br><span class="line">yy=ppval(pp,x2);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(x2,yy);</span><br><span class="line"><span class="built_in">scatter</span>(x2,yy);</span><br><span class="line">title(<span class="string">&#x27;自然边界&#x27;</span>);</span><br><span class="line">pp=csape(x1,y1,<span class="string">&#x27;clamped&#x27;</span>);</span><br><span class="line">yy=ppval(pp,x1);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line"><span class="built_in">hold</span> on;<span class="built_in">plot</span>(x1,yy);</span><br><span class="line"><span class="built_in">scatter</span>(x1,yy);</span><br><span class="line">title(<span class="string">&#x27;固定边界&#x27;</span>);</span><br><span class="line">pp=csape(x2,y2,<span class="string">&#x27;clamped&#x27;</span>);</span><br><span class="line">yy=ppval(pp,x2);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(x2,yy);</span><br><span class="line"><span class="built_in">scatter</span>(x2,yy);</span><br><span class="line">title(<span class="string">&#x27;固定边界&#x27;</span>);</span><br><span class="line"><span class="built_in">figure</span>;</span><br><span class="line">pp=csape(x1,y1,<span class="string">&#x27;periodic&#x27;</span>);</span><br><span class="line">yy=ppval(pp,x1);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(x1,yy);</span><br><span class="line"><span class="built_in">scatter</span>(x1,yy);</span><br><span class="line">title(<span class="string">&#x27;周期边界&#x27;</span>);</span><br><span class="line">pp=csape(x2,y2,<span class="string">&#x27;periodic&#x27;</span>);</span><br><span class="line">yy=ppval(pp,x2);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(x2,yy);</span><br><span class="line"><span class="built_in">scatter</span>(x2,yy);</span><br><span class="line">title(<span class="string">&#x27;周期边界&#x27;</span>);</span><br><span class="line">pp=csape(x1,y1,<span class="string">&#x27;not-a-knot&#x27;</span>);</span><br><span class="line">yy=ppval(pp,x1);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(x1,yy);</span><br><span class="line"><span class="built_in">scatter</span>(x1,yy);</span><br><span class="line">title(<span class="string">&#x27;非扭结边界&#x27;</span>);</span><br><span class="line">pp=csape(x2,y2,<span class="string">&#x27;not-a-knot&#x27;</span>);</span><br><span class="line">yy=ppval(pp,x2);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line"><span class="built_in">hold</span> on;</span><br><span class="line"><span class="built_in">plot</span>(x2,yy);</span><br><span class="line"><span class="built_in">scatter</span>(x2,yy);</span><br><span class="line">title(<span class="string">&#x27;非扭结边界&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="算例-2"><a href="#算例-2" class="headerlink" title="算例"></a>算例</h3><img src="C:\Users\思灵\AppData\Roaming\Typora\typora-user-images\image-20220515155526114.png" class="lazyload placeholder" data-srcset="C:\Users\思灵\AppData\Roaming\Typora\typora-user-images\image-20220515155526114.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="ex3pro211point" style="zoom:67%;" />
+
+<img src="C:\Users\思灵\AppData\Roaming\Typora\typora-user-images\image-20220515155559745.png" class="lazyload placeholder" data-srcset="C:\Users\思灵\AppData\Roaming\Typora\typora-user-images\image-20220515155559745.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="ex3pro221point" style="zoom:67%;" />
+### 结果分析
+
+<p>21个点的拟合结果要比11个点的要好</p>
+<h1 id="第四章-数值微分和数值积分"><a href="#第四章-数值微分和数值积分" class="headerlink" title="第四章 数值微分和数值积分"></a>第四章 数值微分和数值积分</h1><h2 id="算法-2"><a href="#算法-2" class="headerlink" title="算法"></a>算法</h2><h2 id="实验-2"><a href="#实验-2" class="headerlink" title="实验"></a>实验</h2><h3 id="问题3-1"><a href="#问题3-1" class="headerlink" title="问题3"></a>问题3</h3><p><img src="/images/ex4pro1.png" class="lazyload placeholder" data-srcset="/images/ex4pro1.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<p><img src="/images/ex4pro2.jpg" class="lazyload placeholder" data-srcset="/images/ex4pro2.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<h3 id="方案-2"><a href="#方案-2" class="headerlink" title="方案"></a>方案</h3><p>定理 设 $f \in C^{4}[a, b], n$ 是偶数, $h&#x3D;(b-a) &#x2F; n, x_{j}&#x3D;a+j h(j&#x3D;0,1, \cdots, n)$ 。存在一 个 $\mu \in(a, b)$ 使得对于 $n$ 个子区间的复合 Simpson 法郧及其误差项可以写为</p>
+<p>$$<br>\int_{a}^{b} f(x) \mathrm{d} x&#x3D;\frac{h}{2}\left[f(a)+2 \sum_{i&#x3D;1}^{n-1} f\left(x_{j}\right)+f(b)\right]-\frac{b-a}{12} h^{2} f^{\prime \prime}(\mu)<br>$$<br>可得1<br>$$<br>\int_{a}^{b} f(x) \mathrm{d} x&#x3D;\frac{h}{3}\left[f(a)+2 \sum_{i&#x3D;1}^{(n &#x2F; 2)-1} f\left(x_{2 j}\right)+4 \sum_{1}^{n &#x2F; 2} f\left(x_{2,-1}\right)+f(b)\right]-\frac{b-a}{180} h^{4} f^{(4)}(\mu)<br>$$</p>
+<h3 id="代码-6"><a href="#代码-6" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">s</span>=<span class="title">trapezoidal</span><span class="params">(f,a,b,n)</span></span></span><br><span class="line">h=(b-a)/n;</span><br><span class="line">sum=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n<span class="number">-1</span></span><br><span class="line">    sum=sum+feval(f,a+h*<span class="built_in">i</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">s=h/<span class="number">2</span>*(feval(f,a)+feval(f,b)+<span class="number">2</span>*sum);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">clc,clear;format long;syms x;</span><br><span class="line">f =@(x) <span class="built_in">exp</span>(-x^<span class="number">2</span>/<span class="number">2</span>)/<span class="built_in">sqrt</span>(<span class="number">2</span>*<span class="built_in">pi</span>);</span><br><span class="line"><span class="built_in">ans</span>=int(f,x,<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">ans</span>=double(<span class="built_in">ans</span>);</span><br><span class="line">fprintf(<span class="string">&#x27;精确解为%.12f\n&#x27;</span>,<span class="built_in">ans</span>);</span><br><span class="line">ans1=trapezoidal(f,<span class="number">0</span>,<span class="number">1</span>,<span class="number">100</span>);</span><br><span class="line">fprintf(<span class="string">&#x27;复合梯形公式解为%.12f,误差为%.12f\n&#x27;</span>,ans1,<span class="built_in">abs</span>(<span class="built_in">ans</span>-ans1));</span><br><span class="line">ans2=simpson(f,<span class="number">0</span>,<span class="number">1</span>,<span class="number">100</span>);</span><br><span class="line">fprintf(<span class="string">&#x27;simpson解为%.12f,误差为%.12f\n&#x27;</span>,ans2,<span class="built_in">abs</span>(<span class="built_in">ans</span>-ans2));</span><br></pre></td></tr></table></figure>
+
+<h3 id="结果分析-5"><a href="#结果分析-5" class="headerlink" title="结果分析"></a>结果分析</h3><p>复合梯形公式误差0.000002016429， Simpson公式误差0.000000000027<br>Simpson方法误差较小。</p>
+<h3 id="问题4-1"><a href="#问题4-1" class="headerlink" title="问题4"></a>问题4</h3><h3 id="代码-7"><a href="#代码-7" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">clc,clear;format long;syms x;</span><br><span class="line">f =@(x) (<span class="number">2</span>+<span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">sqrt</span>(x)));</span><br><span class="line">n=[<span class="number">10</span>,<span class="number">20</span>,<span class="number">40</span>];</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">3</span></span><br><span class="line">    fprintf(<span class="string">&quot;h=%f时，复合梯形公式结果为%.12f\n&quot;</span>,<span class="number">5</span>/n(<span class="built_in">i</span>),trapezoidal(f,<span class="number">1</span>,<span class="number">6</span>,n(<span class="built_in">i</span>)));</span><br><span class="line">    fprintf(<span class="string">&quot;h=%f时，Simpson公式结果为%.12f\n\n&quot;</span>,<span class="number">5</span>/n(<span class="built_in">i</span>),simpson(f,<span class="number">1</span>,<span class="number">6</span>,n(<span class="built_in">i</span>)));</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="结果分析-6"><a href="#结果分析-6" class="headerlink" title="结果分析"></a>结果分析</h4><table>
+<thead>
+<tr>
+<th>h</th>
+<th>0.5</th>
+<th>0.25</th>
+<th>0.125</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>复合梯形公式</td>
+<td>8.193854565173</td>
+<td>8.186049263770</td>
+<td>8.184120191790</td>
+</tr>
+<tr>
+<td>Simpson</td>
+<td>8.183015494056</td>
+<td>8.183447496636</td>
+<td>8.183477167797</td>
+</tr>
+</tbody></table>
+<h1 id="第五章-常微分方程数值解"><a href="#第五章-常微分方程数值解" class="headerlink" title="第五章 常微分方程数值解"></a>第五章 常微分方程数值解</h1><h2 id="实验-3"><a href="#实验-3" class="headerlink" title="实验"></a>实验</h2><h3 id="问题-2"><a href="#问题-2" class="headerlink" title="问题"></a>问题</h3><p><img src="/images/ex5pro1.jpg" class="lazyload placeholder" data-srcset="/images/ex5pro1.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"><br><img src="/images/ex5pro2.jpg" class="lazyload placeholder" data-srcset="/images/ex5pro2.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<h3 id="方案-3"><a href="#方案-3" class="headerlink" title="方案"></a>方案</h3><p>欧拉法：<br>$$<br>w_{i+1}&#x3D;w_{i}+h f\left(t_{i}, w_{i}\right), \quad i&#x3D;0,1, \cdots, N-1<br>$$</p>
+<p>梯形预估修正格式：<br>$$<br>w_{i+1}&#x3D;w_{i}+\frac{h}{2}\left[f\left(t_{i}, w_{i}\right)+f\left(t_{i+1}, w_{i}+h f\left(t_{i}, w_{i}\right)\right)\right], \quad i&#x3D;0,1,2, \cdots, N-1<br>$$</p>
+<p>4阶龙格库塔格式：<br>$$<br>\begin{aligned}<br>&amp;w_{0}&#x3D;\alpha \<br>&amp;k_{1}&#x3D;h f\left(t_{i}, w_{i}\right)\<br>&amp;k_{2}&#x3D;h f\left(t_{i}+\frac{h}{2}, w_{i}+\frac{1}{2} k_{1}\right) \<br>&amp;k_{3}&#x3D;h f\left(t_{i}+\frac{h}{2}, w_{i}+\frac{1}{2} k_{2}\right) \<br>&amp;k_{4}&#x3D;h f\left(t_{i+1}, w_{i}+k_{3}\right) \<br>&amp;w_{i+1}&#x3D;w_{i}+\frac{1}{6}\left(k_{1}+2 k_{2}+2 k_{3}+k_{4}\right)<br>\end{aligned}<br>$$</p>
+<h3 id="代码-8"><a href="#代码-8" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">E</span>=<span class="title">euler1</span><span class="params">(f,a,b,y0,n)</span></span></span><br><span class="line">h=(b-a)/n;</span><br><span class="line">Y(<span class="number">1</span>)=y0;</span><br><span class="line">T=a:h:b;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">    Y(<span class="built_in">i</span>+<span class="number">1</span>)=Y(<span class="built_in">i</span>)+h*feval(f,<span class="number">0</span>,Y(<span class="built_in">i</span>));</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">E=[T&#x27;,Y&#x27;];</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">E</span>=<span class="title">trape</span><span class="params">(f,a,b,y0,n)</span></span></span><br><span class="line">h=(b-a)/n;</span><br><span class="line">Y(<span class="number">1</span>)=y0;</span><br><span class="line">T=a:h:b;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">    Y(<span class="built_in">i</span>+<span class="number">1</span>)=Y(<span class="built_in">i</span>)+h/<span class="number">2</span>*(feval(f,<span class="number">0</span>,Y(<span class="built_in">i</span>))+feval(f,<span class="number">0</span>,Y(<span class="built_in">i</span>)+h*feval(f,<span class="number">0</span>,Y(<span class="built_in">i</span>))));</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">E=[T&#x27;,Y&#x27;];</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">E</span>=<span class="title">rk4</span><span class="params">(f,a,b,y0,n)</span></span></span><br><span class="line">h=(b-a)/n;</span><br><span class="line">Y(<span class="number">1</span>)=y0;</span><br><span class="line">T=a:h:b;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">    k1=h*feval(f,<span class="number">0</span>,Y(<span class="built_in">i</span>));</span><br><span class="line">    k2=h*feval(f,<span class="number">0</span>+h/<span class="number">2</span>,Y(<span class="built_in">i</span>)+k1/<span class="number">2</span>);</span><br><span class="line">    k3=h*feval(f,<span class="number">0</span>+h/<span class="number">2</span>,Y(<span class="built_in">i</span>)+k2/<span class="number">2</span>);</span><br><span class="line">    k4=h*feval(f,<span class="number">0</span>+h,Y(<span class="built_in">i</span>)+k3);</span><br><span class="line">    Y(<span class="built_in">i</span>+<span class="number">1</span>)=Y(<span class="built_in">i</span>)+(k1+<span class="number">2</span>*k2+<span class="number">2</span>*k3+k4)/<span class="number">6</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">E=[T&#x27;,Y&#x27;];</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">clc,clear;syms y;</span><br><span class="line">f=@(t,y)<span class="number">1</span>+y^<span class="number">2</span>;</span><br><span class="line">y0=<span class="number">0</span>;a=<span class="number">0</span>;b=<span class="number">1.5</span>;</span><br><span class="line">[X,Y]=ode45(f,[a,b],y0);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(X,Y);</span><br><span class="line">title(<span class="string">&#x27;y=tan(x)&#x27;</span>);</span><br><span class="line">E=euler1(f,a,b,y0,<span class="number">50</span>);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(E(:,<span class="number">1</span>),E(:,<span class="number">2</span>));</span><br><span class="line">title(<span class="string">&#x27;Euler Method&#x27;</span>);</span><br><span class="line">E=trape(f,a,b,y0,<span class="number">50</span>);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line"><span class="built_in">plot</span>(E(:,<span class="number">1</span>),E(:,<span class="number">2</span>));</span><br><span class="line">title(<span class="string">&#x27;Corrected Euler Method&#x27;</span>);</span><br><span class="line">E=rk4(f,a,b,y0,<span class="number">50</span>);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line"><span class="built_in">plot</span>(E(:,<span class="number">1</span>),E(:,<span class="number">2</span>));</span><br><span class="line">title(<span class="string">&#x27;Runge Kutta Order=4&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">figure</span>;[X,Y]=ode45(f,[a,b],y0);</span><br><span class="line">E1=euler1(f,a,b,y0,<span class="number">50</span>);</span><br><span class="line">E2=trape(f,a,b,y0,<span class="number">50</span>);</span><br><span class="line">E3=rk4(f,a,b,y0,<span class="number">50</span>);</span><br><span class="line"><span class="built_in">plot</span>(X,Y,<span class="string">&#x27;k&#x27;</span>,E1(:,<span class="number">1</span>),E1(:,<span class="number">2</span>),<span class="string">&#x27;r&#x27;</span>,E2(:,<span class="number">1</span>),E2(:,<span class="number">2</span>),<span class="string">&#x27;gs&#x27;</span>,E3(:,<span class="number">1</span>),E3(:,<span class="number">2</span>),<span class="string">&#x27;b&#x27;</span>);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;y=tan(x)&#x27;</span>,<span class="string">&#x27;Euler Method&#x27;</span>,<span class="string">&#x27;Corrected Euler Method&#x27;</span>,<span class="string">&#x27;Runge Kutta Order=4&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="算例-3"><a href="#算例-3" class="headerlink" title="算例"></a>算例</h3><p><img src="/images/runge1.jpg" class="lazyload placeholder" data-srcset="/images/runge1.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<h3 id="结果分析-7"><a href="#结果分析-7" class="headerlink" title="结果分析"></a>结果分析</h3><p>Runge Kutta Order&#x3D;4 优于修正梯形公式优于欧拉方法</p>
+<h3 id="问题4-2"><a href="#问题4-2" class="headerlink" title="问题4"></a>问题4</h3><h4 id="方案-4"><a href="#方案-4" class="headerlink" title="方案"></a>方案</h4><p>将原方程转化为<br>$$<br>\frac{d\left(y^{\prime}\right)}{d t}&#x3D;\mu\left(1-\left(\int_{0}^{t} y^{\prime}(x) d x+1\right)^{2}\right) y^{\prime}-\left(\int_{0}^{t} y^{\prime}(x) d x+1\right)<br>$$</p>
+<p>解出即可</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">clc,clear;</span><br><span class="line">f=@(t,y) (t-y)/<span class="number">2</span>;</span><br><span class="line">a=<span class="number">0</span>;b=<span class="number">3</span>;</span><br><span class="line">n=[<span class="number">3</span>,<span class="number">6</span>,<span class="number">12</span>,<span class="number">24</span>];</span><br><span class="line">[X1,Y1]=ode45(f,[a,b],<span class="number">1</span>);</span><br><span class="line">fprintf(<span class="string">&#x27;精确解：%.12f\n&#x27;</span>,Y1(<span class="keyword">end</span>));</span><br><span class="line"><span class="keyword">for</span> cnt=<span class="number">1</span>:<span class="number">4</span></span><br><span class="line">    h=(b-a)/n(cnt);</span><br><span class="line">    t=a;</span><br><span class="line">    Y(<span class="number">1</span>)=<span class="number">1</span>;</span><br><span class="line">    X=a:h:b;</span><br><span class="line">    X=X&#x27;;</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">3</span></span><br><span class="line">        k1=h*feval(f,t,Y(<span class="built_in">i</span>));</span><br><span class="line">        k2=h*feval(f,t+h/<span class="number">2</span>,Y(<span class="built_in">i</span>)+k1/<span class="number">2</span>);</span><br><span class="line">        k3=h*feval(f,t+h/<span class="number">2</span>,Y(<span class="built_in">i</span>)+k2/<span class="number">2</span>);</span><br><span class="line">        k4=h*feval(f,t+h,Y(<span class="built_in">i</span>)+k3);</span><br><span class="line">        Y(<span class="built_in">i</span>+<span class="number">1</span>)=Y(<span class="built_in">i</span>)+(k1+<span class="number">2</span>*k2+<span class="number">2</span>*k3+k4)/<span class="number">6</span>;t=a+<span class="built_in">i</span>*h;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">4</span>:n(cnt)</span><br><span class="line">        t=a+<span class="built_in">i</span>*h;</span><br><span class="line">        Y(<span class="built_in">i</span>+<span class="number">1</span>)=Y(<span class="built_in">i</span>)+h*(<span class="number">55</span>*f(t-h,Y(<span class="built_in">i</span>))<span class="number">-59</span>*f(t<span class="number">-2</span>*h,Y(<span class="built_in">i</span><span class="number">-1</span>))+<span class="number">37</span>*f(t<span class="number">-3</span>*h,Y(<span class="built_in">i</span><span class="number">-2</span>))<span class="number">-9</span>*f(t<span class="number">-4</span>*h,Y(<span class="built_in">i</span><span class="number">-3</span>)))/<span class="number">24</span>;</span><br><span class="line">        Y(<span class="built_in">i</span>+<span class="number">1</span>)=Y(<span class="built_in">i</span>)+h*(<span class="number">9</span>*f(t,Y(<span class="built_in">i</span>+<span class="number">1</span>))+<span class="number">19</span>*f(t-h,Y(<span class="built_in">i</span>))<span class="number">-5</span>*f(t<span class="number">-2</span>*h,Y(<span class="built_in">i</span><span class="number">-1</span>))+f(t<span class="number">-3</span>*h,Y(<span class="built_in">i</span><span class="number">-2</span>)))/<span class="number">24</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    subplot(<span class="number">2</span>,<span class="number">2</span>,cnt);</span><br><span class="line">    <span class="built_in">plot</span>(X,Y&#x27;);</span><br><span class="line">    title(num2str(h));</span><br><span class="line">    fprintf(<span class="string">&#x27;h=%f时，数值解为%.12f,误差为%.12f\n&#x27;</span>,h,Y(n(cnt)+<span class="number">1</span>),<span class="built_in">abs</span>(Y1(<span class="keyword">end</span>)-Y(n(cnt)+<span class="number">1</span>)));</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4 id="结果分析-8"><a href="#结果分析-8" class="headerlink" title="结果分析"></a>结果分析</h4><table>
+<thead>
+<tr>
+<th>h</th>
+<th>数值解</th>
+<th>误差</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1.670185989804</td>
+<td>0.000795482163</td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>1.669234936809</td>
+<td>0.000155570832</td>
+</tr>
+<tr>
+<td>0.25</td>
+<td>1.669381576972</td>
+<td>0.000008930669</td>
+</tr>
+<tr>
+<td>0.125</td>
+<td>1.669389992781</td>
+<td>0.000000514860</td>
+</tr>
+</tbody></table>
+<p>h越小，误差越小。</p>
+<h1 id="第六、七章-线性方程组求解"><a href="#第六、七章-线性方程组求解" class="headerlink" title="第六、七章 线性方程组求解"></a>第六、七章 线性方程组求解</h1><h2 id="实验-4"><a href="#实验-4" class="headerlink" title="实验"></a>实验</h2><h3 id="问题-3"><a href="#问题-3" class="headerlink" title="问题"></a>问题</h3><p><img src="/images/ex67pro1.jpg" class="lazyload placeholder" data-srcset="/images/ex67pro1.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<h3 id="LU分解算法"><a href="#LU分解算法" class="headerlink" title="LU分解算法"></a>LU分解算法</h3><p>设 $\mathbf{A}&#x3D;\left(a_{i, j}\right)<em>{n \times n}$, 分解为 $\mathbf{A}&#x3D;\mathbf{L U}$ 的形式, 其中 $\mathbf{L}$ 为对角元为 1 的下三角矩阵, $\mathbf{U}$ 为上三角矩阵, 即<br>$$<br>\left(\begin{array}{cccc}<br>a</em>{11} &amp; a_{12} &amp; \cdots &amp; a_{1 n} \<br>a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2 n} \<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \<br>a_{n 1} &amp; a_{n 2} &amp; \cdots &amp; a_{n n}<br>\end{array}\right)&#x3D;\left(\begin{array}{cccc}<br>1 &amp; 0 &amp; \cdots &amp; 0 \<br>l_{21} &amp; 1 &amp; \cdots &amp; 0 \<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \<br>l_{n 1} &amp; l_{n 2} &amp; \cdots &amp; 1<br>\end{array}\right)\left(\begin{array}{cccc}<br>u_{11} &amp; u_{12} &amp; \cdots &amp; u_{1 n} \<br>0 &amp; u_{22} &amp; \cdots &amp; u_{2 n} \<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \<br>0 &amp; 0 &amp; \cdots &amp; u_{n n}<br>\end{array}\right)<br>$$<br>按照矩阵乘法规则, 比较系数, 可得<br>$$<br>\left{\begin{array}{lr}<br>u_{1 j}&#x3D;a_{1 j} &amp; (j&#x3D;1,2, \cdots, n) \<br>l_{i 1}&#x3D;\frac{a_{i 1}}{u_{11}} &amp; (i&#x3D;2,3, \cdots, n) \<br>u_{i j}&#x3D;a_{i j}-\sum_{k&#x3D;1}^{i-1} l_{i k} u_{k j} &amp; (i&#x3D;2, \cdots, n, j&#x3D;i, \cdots, n) \<br>l_{i j}&#x3D;\left(a_{i j}-\sum_{k&#x3D;1}^{j-1} l_{i k} u_{k j}\right)<br>\end{array} \quad(j&#x3D;1,2, \cdots, n, i&#x3D;j+1, \cdots, n)\right.<br>$$</p>
+<h4 id="代码-9"><a href="#代码-9" class="headerlink" title="代码"></a>代码</h4><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span><span class="params">[L,U,X]</span>=<span class="title">lu</span><span class="params">(A,B,n)</span></span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">    L(<span class="built_in">i</span>,<span class="built_in">i</span>)=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">    U(<span class="number">1</span>,<span class="built_in">i</span>)=A(<span class="number">1</span>,<span class="built_in">i</span>)/L(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">    L(<span class="built_in">i</span>,<span class="number">1</span>)=A(<span class="built_in">i</span>,<span class="number">1</span>)/U(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">2</span>:n<span class="number">-1</span></span><br><span class="line">    zc=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">j</span>=<span class="number">1</span>:<span class="built_in">i</span><span class="number">-1</span></span><br><span class="line">        zc=zc+L(<span class="built_in">i</span>,<span class="built_in">j</span>)*U(<span class="built_in">j</span>,<span class="built_in">i</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    U(<span class="built_in">i</span>,<span class="built_in">i</span>)=A(<span class="built_in">i</span>,<span class="built_in">i</span>)-zc;</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">j</span>=<span class="built_in">i</span>+<span class="number">1</span>:n</span><br><span class="line">        U(<span class="built_in">i</span>,<span class="built_in">j</span>)=A(<span class="built_in">i</span>,<span class="built_in">j</span>);</span><br><span class="line">        L(<span class="built_in">j</span>,<span class="built_in">i</span>)=A(<span class="built_in">j</span>,<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">for</span> k=<span class="number">1</span>:<span class="built_in">i</span><span class="number">-1</span></span><br><span class="line">            U(<span class="built_in">i</span>,<span class="built_in">j</span>)=U(<span class="built_in">i</span>,<span class="built_in">j</span>)-L(<span class="built_in">i</span>,k)*U(k,<span class="built_in">j</span>);L(<span class="built_in">j</span>,<span class="built_in">i</span>)=L(<span class="built_in">j</span>,<span class="built_in">i</span>)-L(<span class="built_in">j</span>,k)*U(k,<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        L(<span class="built_in">j</span>,<span class="built_in">i</span>)=L(<span class="built_in">j</span>,<span class="built_in">i</span>)/U(<span class="built_in">i</span>,<span class="built_in">i</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">U(n,n)=A(n,n);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n<span class="number">-1</span></span><br><span class="line">    U(n,n)=U(n,n)-L(n,<span class="built_in">i</span>)*U(<span class="built_in">i</span>,n);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">Y(<span class="number">1</span>)=B(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">2</span>:n</span><br><span class="line">    Y(<span class="built_in">i</span>)=B(<span class="built_in">i</span>);</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">j</span>=<span class="number">1</span>:<span class="built_in">i</span><span class="number">-1</span></span><br><span class="line">        Y(<span class="built_in">i</span>)=Y(<span class="built_in">i</span>)-L(<span class="built_in">i</span>,<span class="built_in">j</span>)*Y(<span class="built_in">j</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">X(n)=Y(n)/U(n,n);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=n<span class="number">-1</span>:<span class="number">-1</span>:<span class="number">1</span></span><br><span class="line">    X(<span class="built_in">i</span>)=Y(<span class="built_in">i</span>);</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">j</span>=<span class="built_in">i</span>+<span class="number">1</span>:n</span><br><span class="line">        X(<span class="built_in">i</span>)=X(<span class="built_in">i</span>)-U(<span class="built_in">i</span>,<span class="built_in">j</span>)*X(<span class="built_in">j</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    X(<span class="built_in">i</span>)=X(<span class="built_in">i</span>)/U(<span class="built_in">i</span>,<span class="built_in">i</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">clc,clear;format short;</span><br><span class="line">A=[<span class="number">4</span> <span class="number">-1</span> <span class="number">1</span>;<span class="number">4</span> <span class="number">-8</span> <span class="number">1</span>;<span class="number">-2</span> <span class="number">1</span> <span class="number">5</span>];</span><br><span class="line">B=[<span class="number">7</span>;<span class="number">-21</span>;<span class="number">15</span>];</span><br><span class="line">[L,U,X]=lu(A,B,<span class="number">3</span>);</span><br><span class="line"><span class="built_in">disp</span>(L);</span><br><span class="line"><span class="built_in">disp</span>(U);</span><br><span class="line"><span class="built_in">disp</span>(X);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Jacobi方法"><a href="#Jacobi方法" class="headerlink" title="Jacobi方法"></a>Jacobi方法</h3><p> Jacobi 迭代法包含了从 $\boldsymbol{A x}&#x3D;\boldsymbol{b}$ 中的第 $i$ 个方程求解第 $i$ 个分量 $x_{i}$, 得到(假设 $a_{i u} \neq 0$ )<br>$$<br>x_{i}&#x3D;\sum_{\substack{j&#x3D;1 \ j \neq i}}^{n}\left(-\frac{a_{i} x_{j}}{a_{i i}}\right)+\frac{b_{i}}{a_{i i}}, \quad i&#x3D;1,2, \cdots, n<br>$$<br>以及当 $k \geqslant 1$ 时, 从分量 $\boldsymbol{x}^{(k-1)}$ 计算生成各个 $\boldsymbol{x}<em>{i}^{(k)}$<br>$$<br>x</em>{i}^{(k)}&#x3D;\frac{\sum_{\substack{j&#x3D;1 \ j \neq i}}^{n}\left(-a_{i j} x_{j}^{(k-1)}\right)+b_{i}}{a_{i i}}, i&#x3D;1,2, \cdots, n<br>$$</p>
+<h4 id="代码-10"><a href="#代码-10" class="headerlink" title="代码"></a>代码</h4><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[cnt,X]</span>=<span class="title">Jacobi</span><span class="params">(A,B,XO,tol)</span></span></span><br><span class="line">n=<span class="built_in">length</span>(B);</span><br><span class="line">cnt=<span class="number">1</span>;</span><br><span class="line">X=<span class="built_in">zeros</span>(n,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">while</span> cnt&lt;=<span class="number">1000</span></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">        X(<span class="built_in">i</span>)=(B(<span class="built_in">i</span>)-A(<span class="built_in">i</span>,[<span class="number">1</span>:<span class="built_in">i</span><span class="number">-1</span>,<span class="built_in">i</span>+<span class="number">1</span>:n])*XO([<span class="number">1</span>:<span class="built_in">i</span><span class="number">-1</span>,<span class="built_in">i</span>+<span class="number">1</span>:n]))/A(<span class="built_in">i</span>,<span class="built_in">i</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    err=<span class="built_in">abs</span>(norm(X-XO));</span><br><span class="line">    XO=X;</span><br><span class="line">    <span class="keyword">if</span>(err&lt;tol)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    cnt=cnt+<span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Gauss-Seidel方法"><a href="#Gauss-Seidel方法" class="headerlink" title="Gauss_Seidel方法"></a>Gauss_Seidel方法</h3><p>考虑改进上面的算法。 $x^{(k-1)}$ 的分量可以用来计算 $x_{i}^{(k)}$ 。因为对 $i&gt;1$, $x_{1}^{(k)}, \cdots, x_{i-1}^{(k)}$ 已经计算出来了, 并且可能比 $x_{1}^{(k-1)}, \cdots, x_{i-1}^{(k-1)}$ 更接近于实际解 $x_{1}, \cdots, x_{i-1}$, 显然使用那些新近计算出来的值来计算 $x_{i}^{(k)}$ 更合理。也就是说, 可以使用<br>$$<br>x_{i}^{(k)}&#x3D;\frac{-\sum_{j&#x3D;1}^{i&#x3D;1}\left(a_{i j} x_{j}^{(k)}\right)-\sum_{i&#x3D;i+1}^{n}\left(a_{i j} x_{j}^{(k-1)}\right)+b_{i}}{a_{i i}}, i&#x3D;1,2, \cdots, n<br>$$<br>来代替方程。这种改进称作 Gauss-Seidel 迭代法。</p>
+<h4 id="代码-11"><a href="#代码-11" class="headerlink" title="代码"></a>代码</h4><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[cnt,X]</span>=<span class="title">Gauss_Seidel</span><span class="params">(A,B,XO,tol)</span></span></span><br><span class="line">n=<span class="built_in">length</span>(B);</span><br><span class="line">cnt=<span class="number">1</span>;</span><br><span class="line">X=<span class="built_in">zeros</span>(n,<span class="number">1</span>);</span><br><span class="line"><span class="keyword">while</span> cnt&lt;<span class="number">1000</span></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">i</span>==<span class="number">1</span></span><br><span class="line">            X(<span class="number">1</span>) = (B(<span class="number">1</span>)-A(<span class="number">1</span>,<span class="number">2</span>:n)*XO(<span class="number">2</span>:n))/A(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">elseif</span> <span class="built_in">i</span>==n </span><br><span class="line">            X(n) = (B(n)-A(n,<span class="number">1</span>:n<span class="number">-1</span>)*X(<span class="number">1</span>:n<span class="number">-1</span>))/A(n,n);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            X(<span class="built_in">i</span>) = (B(<span class="built_in">i</span>)-A(<span class="built_in">i</span>,<span class="number">1</span>:<span class="built_in">i</span><span class="number">-1</span>)*X(<span class="number">1</span>:<span class="built_in">i</span><span class="number">-1</span>)-A(<span class="built_in">i</span>,<span class="built_in">i</span>+<span class="number">1</span>:n)*XO(<span class="built_in">i</span>+<span class="number">1</span>:n))/A(<span class="built_in">i</span>,<span class="built_in">i</span>);</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    err=<span class="built_in">abs</span>(norm(X-XO));XO=X;</span><br><span class="line">    <span class="keyword">if</span>(err&lt;tol)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    cnt=cnt+<span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">clc,clear;format long;</span><br><span class="line">A=[<span class="number">4</span> <span class="number">-1</span> <span class="number">1</span>;<span class="number">4</span> <span class="number">-8</span> <span class="number">1</span>;<span class="number">-2</span> <span class="number">1</span> <span class="number">5</span>];</span><br><span class="line">B=[<span class="number">7</span>;<span class="number">-21</span>;<span class="number">15</span>];XO=[<span class="number">0</span>;<span class="number">0</span>;<span class="number">0</span>];</span><br><span class="line">[k,X]=Jacobi(A,B,XO,<span class="number">1e-6</span>);</span><br><span class="line"><span class="built_in">disp</span>(<span class="string">&#x27;Jacobi&#x27;</span>);</span><br><span class="line"><span class="built_in">disp</span>(k);<span class="built_in">disp</span>(X);</span><br><span class="line">[k,X]=Gauss_Seidel(A,B,XO,<span class="number">1e-6</span>);</span><br><span class="line"><span class="built_in">disp</span>(<span class="string">&#x27;Gauss_Seidel&#x27;</span>);</span><br><span class="line"><span class="built_in">disp</span>(k);<span class="built_in">disp</span>(X);</span><br></pre></td></tr></table></figure>
+
+<h1 id="第八章-曲线拟合与函数逼近"><a href="#第八章-曲线拟合与函数逼近" class="headerlink" title="第八章 曲线拟合与函数逼近"></a>第八章 曲线拟合与函数逼近</h1><h2 id="算法-3"><a href="#算法-3" class="headerlink" title="算法"></a>算法</h2><h2 id="实验-5"><a href="#实验-5" class="headerlink" title="实验"></a>实验</h2><h3 id="问题-4"><a href="#问题-4" class="headerlink" title="问题"></a>问题</h3><p><img src="/images/ex8pro1.jpg" class="lazyload placeholder" data-srcset="/images/ex8pro1.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"><br><img src="/images/ex8pro2.jpg" class="lazyload placeholder" data-srcset="/images/ex8pro2.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<h3 id="方案-5"><a href="#方案-5" class="headerlink" title="方案"></a>方案</h3><h4 id="问题1-5"><a href="#问题1-5" class="headerlink" title="问题1"></a>问题1</h4><p>设 $\left(x_{k}, y_{k}\right)<em>{k&#x3D;1}^{N}$ 为N个初始点。对于最小二乘二次多项式方程的系数表示为:<br>$$<br>y&#x3D;f(x)&#x3D;A x^{2}+B x+C<br>$$<br>其正则线性方程组为:<br>$$<br>\left{\begin{array}{l}<br>\left(\sum</em>{k&#x3D;1}^{N} x_{k}^{4}\right) A+\left(\sum_{k&#x3D;1}^{N} x_{k}^{3}\right) B+\left(\sum_{k&#x3D;1}^{N} x_{k}^{2}\right) C&#x3D;\sum_{k&#x3D;1}^{N} y_{k} x_{k}^{2} \<br>\left(\sum_{k&#x3D;1}^{N} x_{k}^{3}\right) A+\left(\sum_{k&#x3D;1}^{N} x_{k}^{2}\right) B+\left(\sum_{k&#x3D;1}^{N} x_{k}\right) C&#x3D;\sum_{k&#x3D;1}^{N} y_{k} x_{k} \<br>\left(\sum_{k&#x3D;1}^{N} x_{k}^{2}\right) A+\left(\sum_{k&#x3D;1}^{N} x_{k}\right) B+N C&#x3D;\sum_{k&#x3D;1}^{N} y_{k}<br>\end{array}\right.<br>$$<br>代入数据：<br>$$<br>\left{\begin{array}{l}<br>34 A+10C&#x3D;2\<br>10B&#x3D;0 \<br>10A+5C&#x3D;4<br>\end{array}\right.<br>$$<br>解得<br>$$<br>\left{\begin{array}{l}<br>\mathrm{A}&#x3D;-0.4286 \<br>\mathrm{~B}&#x3D;0 \<br>\mathrm{C}&#x3D;1.6571<br>\end{array}\right.<br>$$<br>故求得最小二乘拟合方程为: $y&#x3D;-0.4286 x^{2}+1.6571$</p>
+<h4 id="问题2-4"><a href="#问题2-4" class="headerlink" title="问题2"></a>问题2</h4><p>可以将$y&#x3D;ae^{-bx}$ 转化为$lny &#x3D; lna - bx$, 然后线性去做类似上面</p>
+<p>得到$y &#x3D; 1.8123e^{0.3699x}$</p>
+<h1 id="第九章-特征值和特征向量"><a href="#第九章-特征值和特征向量" class="headerlink" title="第九章 特征值和特征向量"></a>第九章 特征值和特征向量</h1><h2 id="实验-6"><a href="#实验-6" class="headerlink" title="实验"></a>实验</h2><h3 id="问题-5"><a href="#问题-5" class="headerlink" title="问题"></a>问题</h3><p><img src="/images/ex9pro1.jpg" class="lazyload placeholder" data-srcset="/images/ex9pro1.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"><br><img src="/images/ex9pro2.jpg" class="lazyload placeholder" data-srcset="/images/ex9pro2.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg"></p>
+<h3 id="方案-6"><a href="#方案-6" class="headerlink" title="方案"></a>方案</h3><h4 id="幂法"><a href="#幂法" class="headerlink" title="幂法"></a>幂法</h4><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[u,X]</span>=<span class="title">mi</span><span class="params">(n,A,X,tol)</span></span></span><br><span class="line">cnt=<span class="number">1</span>;u=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> cnt&lt;<span class="number">1000</span></span><br><span class="line">    Y=A*X;u1=<span class="built_in">max</span>(Y);</span><br><span class="line">    err=X-Y./u1;</span><br><span class="line">    X=Y./u1;</span><br><span class="line">    u=u1;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">abs</span>(u1-u)&lt;tol&amp;&amp;norm(err)&lt;tol)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    cnt=cnt+<span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4 id="对称幂法"><a href="#对称幂法" class="headerlink" title="对称幂法"></a>对称幂法</h4><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span><span class="params">[u,X]</span>=<span class="title">dui</span><span class="params">(n,A,X,tol)</span></span></span><br><span class="line">cnt=<span class="number">1</span>;</span><br><span class="line">X=X./<span class="built_in">sqrt</span>(X&#x27;*X);</span><br><span class="line"><span class="keyword">while</span> cnt&lt;<span class="number">1000</span></span><br><span class="line">    Y=A*X;</span><br><span class="line">    u=X&#x27;*Y;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">sqrt</span>(Y&#x27;*Y)==<span class="number">0</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    err=<span class="built_in">sqrt</span>((X-Y./<span class="built_in">sqrt</span>(Y&#x27;*Y))&#x27;*(X-Y./<span class="built_in">sqrt</span>(Y&#x27;*Y)));X=Y./<span class="built_in">sqrt</span>(Y&#x27;*Y);</span><br><span class="line">    <span class="keyword">if</span> err&lt;tol</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    cnt=cnt+<span class="number">1</span>;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h4 id="反幂法"><a href="#反幂法" class="headerlink" title="反幂法"></a>反幂法</h4><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span><span class="params">[u,X]</span>=<span class="title">fan</span><span class="params">(n,A,X,tol,u1)</span></span></span><br><span class="line">cnt=<span class="number">1</span>;</span><br><span class="line">[m,n]=<span class="built_in">size</span>(X);</span><br><span class="line">Y=<span class="built_in">zeros</span>(m,n);I=<span class="built_in">eye</span>(m);</span><br><span class="line">H=A-u1.*I;[L,U]=lu(H);</span><br><span class="line"><span class="keyword">while</span> cnt&lt;<span class="number">1000</span></span><br><span class="line">    p=<span class="built_in">max</span>(X);</span><br><span class="line">    Y=X./p;</span><br><span class="line">    Z=L\Y;</span><br><span class="line">    X=U\Z;</span><br><span class="line">    p=<span class="built_in">max</span>(X);</span><br><span class="line">    u=u1+<span class="number">1</span>/p;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(<span class="number">1</span>/p<span class="number">-1</span>/uu)&lt;tol</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    cnt=cnt+<span class="number">1</span>;</span><br><span class="line">    uu=p;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="结果分析-9"><a href="#结果分析-9" class="headerlink" title="结果分析"></a>结果分析</h4><p>幂法和对称幂法都找到了最大的特征值 𝜆 &#x3D; 6然后对应的特<br>征向量都形如$\alpha(1,-1,1)^{T}$</p>
+
+      </div>
+      <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/" class="">
+              课程设计
+            </a>
+          
+            <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" class="">
+              数值分析
+            </a>
+          
+            <a href="/tags/python/" class="">
+              python
+            </a>
+          
+        </div>
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>author:  </strong>John Doe</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>link:  </strong>
+    <a href="/2022/05/11/课程设计—数值分析实验/" target="_blank" title="课程设计—数值分析实验">http://example.com/2022/05/11/课程设计—数值分析实验/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>Copyright notice:   </strong>
+      All articles on this website, unless otherwise stated, adopt <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      reprint policy. If reproduced, please indicate source!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="/medias/15.jpg" class="lazyload placeholder" data-srcset="/medias/15.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+    </div>
+    <a href="/2022/07/07/ICPC%E2%80%94%E2%80%947%E6%9C%887%E6%97%A5%E8%AE%AD%E7%BB%83/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> Prev:
+        <div class="title-text">ICPC——7月7日训练</div>
+      </div>
+      
+      <!-- <div class="content">
+        1.认识了ICPC的环境，装好了训练环境。2.了解了训练流程。
+QWQ
+
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="/medias/7.jpg" class="lazyload placeholder" data-srcset="/medias/7.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" src="" alt="">
+    </div>
+    <a href="/2022/04/12/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/" class="post-nav-link">
+      <div class="title">
+        Next: <i class="fas fa-angle-right"></i>
+        <div class="title-text">课程设计-计算机组成原理实验</div>
+      </div>
+      <!-- <div class="content">
+        前置知识verilog环境配置
+基本环境
+
+modelsim安装后可能没有license，破解教程,破解文件备份链接
+提
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <!-- 文章详情页右侧目录 -->
+
+  <div class="toc-aside">
+    <div class="toc-main">
+      <div class="toc-aside-title">
+        <i class="fas fa-list-ul" aria-hidden="true"></i><span>catalog</span>
+        
+          <div class="toc-open-close">catalog</div>
+        
+      </div>
+      <div class="toc-content">
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手机端目录按钮 -->
+  <div id="toc-mobile-btn">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </div>
+
+
+<script>
+  function closeToc(init) {
+    $(".toc-aside").css({'width': 0, 'padding': 0, 'transition': init ?  'noe' : 'width 0.3s' });
+    $(".toc-content").css({'width': 0});
+    $(".toc-aside-title span, .toc-aside-title i").css({'display': 'none'});
+    $(".main-content").css({'width': '75%', 'margin': '10px auto'});
+  };
+  function openToc() {
+    $(".main-content").css({'width': '65%', 'margin-right': '10px', 'margin-left': 'calc(35% - 350px)'});
+    $(".toc-aside").css({'width': '300px', 'padding': '0 10px', 'transition': 'width 0.3s'});
+    $(".toc-content").css({'width': '300px'});
+    $(".toc-aside-title span, .toc-aside-title i").css({'display': 'inline-block'});
+  }
+  function openBtnClickFn () {
+    let openOrCloseBtn = $('.toc-aside .toc-aside-title .toc-open-close');
+    let open = eval('' || 'true');
+    openOrCloseBtn.click(function() {
+      if (open) {
+        closeToc();
+        open = false;
+      } else {
+        openToc();
+        open = true;
+      }
+    });
+  };
+  openBtnClickFn();
+  initCloseTocWidth(true);
+
+  function initCloseTocWidth(init) {
+    if (window.innerWidth >= 992) {
+      let isClose = false;
+      isClose && closeToc(init)
+    }
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    $(".toc-aside").css({'transition': 'no'});
+  })
+  document.addEventListener('pjax:complete', function () {
+    openBtnClickFn();
+  })
+  
+</script>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+  <script>
+  // https://github.com/theme-next/hexo-theme-next/blob/master/layout/_third-party/math/mathjax.swig
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    // 文章章节标题不能为 “MathJax” ，否则会报错。
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Copyright © 2019 - 2022hexo <a target="_blank" rel="noopener" href="https://github.com/yuang01">yuang01</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+
+          </div>
+        
+      
+        
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>Total visits：<span id="busuanzi_value_site_pv"></span> times
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>Number of visitors：<span id="busuanzi_value_site_uv"></span> people
+</span>
+
+          
+        
+      
+        
+          <div class="footer-custom">
+            
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+      <link rel="stylesheet" href="/js/aplayer/APlayer@1.10.1.min.css">
+<style>
+.aplayer .aplayer-lrc p {
+  
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px !important;
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+  
+  font-size: 15px;
+  color: #42b983;
+}
+
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+  left: -66px !important;
+}
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+  left: 0px !important;
+}
+
+
+</style>
+<meting-js  
+  class=""
+  server="tencent"
+  type="playlist"
+  id="8062553743"
+  fixed='true'
+  autoplay='false'
+  theme='#42b983'
+  loop='all'
+  order='random'
+  preload='auto'
+  volume='0.7'
+  list-folded='true'
+>
+</meting-js>
+
+<!-- <style>
+  #aplayer {
+    position: fixed;
+    left: 0;
+    bottom: 300px;
+  }
+</style> -->
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="/js/fancybox/jquery.fancybox.min.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script>
+
+<script>
+  var headerEl = 'h2, h3, h4',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -80,
+    headingsOffset: -($(window).height() * 0.4 - 45),
+    positionFixedSelector: '.toc-main',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 100) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('toc-aside')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  }
+</style> 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const headerMenuTransparent = true;
+    if (!headerMenuTransparent) { return; }
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/v-plugs-ayu/lib/ayu.css">
+  <script src="https://cdn.jsdelivr.net/npm/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = 'copy';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <script type="text/javascript">
+  var utteranceCommon = {};
+
+  function check_utterance() {
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    if (isDark) {
+      utteranceCommon.Theme = 'github-dark';
+    } else {
+      utteranceCommon.Theme = 'github-light';
+    }
+
+    return document.getElementById("gitment-container");
+  }
+  comment_el = '#gitment-container';
+  load_utterance = function () {
+    if ($(comment_el).length) {
+      // 匿名函数，防止污染全局变量
+      const HEAD = check_utterance();
+
+      var utterances = document.createElement('script');
+      utterances.type = 'text/javascript';
+      utterances.async = true;
+      utterances.setAttribute('issue-term', 'pathname')
+      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('repo', '')
+      utterances.crossorigin = 'anonymous';
+      utterances.src = 'https://utteranc.es/client.js';
+      // content 是要插入评论的地方
+      document.getElementById('gitment-container').appendChild(utterances);
+
+    }
+  }
+
+  function dark_utterance() {
+    const HEAD = check_utterance();
+    if (!HEAD) return;
+    const message = {
+      type: 'set-theme',
+      theme: utteranceCommon.Theme
+    };
+    const utteranceIframe = document.querySelector('iframe');
+    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  $(document).ready(load_utterance);
+  document.addEventListener('pjax:complete', function () {
+    load_utterance();
+  });
+
+  $('.dark').click(function () {
+    setTimeout(() => {
+      dark_utterance();
+    });
+  })
+
+</script>
+
+<style>
+  .utterances {
+    max-width: inherit !important;
+  }
+</style>
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+   
+    <script src="/js/cursor/clicklove.js"></script> 
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>

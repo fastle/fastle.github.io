@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html>
+  <!-- meta/link... -->
+  
+
+
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', '');
+</script>
+
+
+  <title>Go 语言圣经笔记  第七章：接口 | Hexo</title>
+
+  <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
+  <link href="https://cdn.jsdelivr.net/gh/inkss/fontawesome@5.15.3/css/all.min.css" rel="stylesheet">
+  <link href="/js/swiper/swiper@5.4.1.min.css" rel="stylesheet">
+  
+  
+    <script>
+        var themeModelId = '';
+        if (themeModelId) {
+            localStorage.setItem('modelId', themeModelId);
+        }
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/yuang01/live2d-widget@latest/autoload.js"></script>
+    <script>
+        var live2dOpen = eval('true') || false;
+        if (!live2dOpen) {
+            localStorage.setItem('waifu-display', 1609323474481);
+        }
+    </script>
+  
+  
+  
+<link rel="stylesheet" href="/css/animate.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/js/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/js/shareJs/share.min.css">
+
+  
+  <style>
+        @media (max-width: 992px) {
+            #waifu {
+                display: none;
+            }
+        }
+    </style>
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+    
+
+    <!-- import link -->
+    
+        
+            
+        
+            
+        
+    
+    <!-- import script -->
+    
+        
+            
+        
+            
+        
+    
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  
+  <!-- 依赖于jquery和vue -->
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+  
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+
+  
+  
+  <body>
+    <!-- 预加载动画 -->
+    <!-- 页面预加载动画 -->
+
+<div id='loader'>
+  <link rel="stylesheet" href="/js/loaded/index.css" >
+  <div class="loading-left-bg"></div>
+  <div class="loading-right-bg"></div>
+  <div class="spinner-box">
+    <div class="configure-border-1">
+      <div class="configure-core"></div>
+    </div>
+    <div class="configure-border-2">
+      <div class="configure-core"></div>
+    </div>
+    <div class="loading-word">loading...</div>
+  </div>
+</div>
+
+<script>
+  var endLoading = function () {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loader').classList.add("loading");
+  }
+  window.addEventListener('DOMContentLoaded',endLoading);
+  
+</script>
+
+    
+    <!-- 判断是否为暗黑风格 -->
+    <!-- 判断是否为黑夜模式 -->
+<script>
+  let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+
+  if (isDark) {
+    $(document.body).addClass('darkModel');
+  }
+</script>
+
+    <!-- 需要在上面加载的js -->
+    <script>
+  function loadScript(src, cb) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+
+  //https://github.com/filamentgroup/loadCSS
+  var loadCSS = function (href, before, media, attributes) {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  };
+
+</script> 
+
+<!-- 轮播图所需要的js -->
+<script src="/js/swiper/swiper.min.js"></script>
+<script src="/js/swiper/vue-awesome-swiper.js"></script>
+<script src="/js/swiper/swiper.animate1.0.3.min.js"></script>
+
+<script type="text/javascript">
+  Vue.use(window.VueAwesomeSwiper)
+</script>
+
+
+  <script src="/js/vue-typed-js/index.js"></script>
+
+
+<!-- 首页的公告滚动插件的js需要重新加载 -->
+<script src="/js/vue-seamless-scroll/index.js"></script>
+
+<!-- 打字机效果js -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+
+
+    <div id="safearea">
+      <main class="main" id="pjax-container">
+        <!-- 头部导航 -->
+        
+<header class="header   " 
+  id="navHeader"
+  style="position: fixed;
+  left: 0; top: 0; z-index: 10;width: 100%;"
+>
+  <div class="header-content">
+    <div class="bars">
+      <div id="appDrawer" class="sidebar-image">
+  <div class="drawer-box-icon">
+    <i class="fas fa-bars" aria-hidden="true" @click="showDialogDrawer"></i>
+  </div>
+  
+  <transition name="fade">
+    <div class="drawer-box_mask" v-cloak style="display: none;" v-show="visible" @click.self="cancelDialogDrawer">
+    </div>
+  </transition>
+  <div class="drawer-box" :class="{'active': visible}">
+    <div class="drawer-box-head bg-color">
+      <img class="drawer-box-head_logo lazyload placeholder" src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="logo">
+      <h3 class="drawer-box-head_title">Hexo</h3>
+      <h5 class="drawer-box-head_desc"></h5>
+    </div>
+    
+    <div class="drawer-box-content">
+      <ul class="drawer-box-content_menu">
+        
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">Home</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/archives" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">Archives</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/tags" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">Tags</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/categories" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">Categories</span>
+                </a>
+              
+            </li>
+          
+            <li class="drawer-box-content_item" style="position: relative;">
+              
+                <a href="/about" class="drawer-menu-item-link">
+                  
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  
+                  <span class="name">About</span>
+                </a>
+              
+            </li>
+          
+        
+        
+          <li class="drawer-box-content_item">
+            <a target="_blank" rel="noopener" href="https://github.com/fastle">
+              <i class="fas fa-github" aria-hidden="true"></i>
+              <span>Github</span>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appDrawer',
+    data: {
+      visible: false,
+      top: 0,
+      openArr: [],
+    },
+    computed: {
+    },
+    mounted() {
+    },
+    methods: {
+      isOpen(index) {
+        if (this.openArr.includes(index)) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      openOrCloseMenu(curIndex) {
+        const index = this.openArr.indexOf(curIndex);
+        if (index !== -1) {
+          this.openArr.splice(index, 1);
+        } else {
+          this.openArr.push(curIndex);
+        }
+      },
+      showDialogDrawer() {
+        this.visible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'width: 100%; height: 100%;overflow: hidden;';
+      },
+      cancelDialogDrawer() {
+        this.visible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      }
+    },
+    created() {}
+  })
+</script>
+
+    </div>
+    <div class="blog-title" id="author-avatar">
+      
+        <div class="avatar">
+          <img src="/medias/logo.png" class="lazyload placeholder" data-srcset="/medias/logo.png" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="logo">
+        </div>
+      
+      <a href="/" class="logo">Hexo</a>
+    </div>
+    <nav class="navbar">
+      <ul class="menu">
+        
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/" class="menu-item-link" title="Home">
+                  
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                  
+                  <span class="name">Home</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/archives" class="menu-item-link" title="Archives">
+                  
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                  
+                  <span class="name">Archives</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/tags" class="menu-item-link" title="Tags">
+                  
+                    <i class="fas fa-tags" aria-hidden="true"></i>
+                  
+                  <span class="name">Tags</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/categories" class="menu-item-link" title="Categories">
+                  
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                  
+                  <span class="name">Categories</span>
+                </a>
+              
+            </li>
+          
+            <li class="menu-item" style="position: relative;">
+              
+                <a href="/about" class="menu-item-link" title="About">
+                  
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                  
+                  <span class="name">About</span>
+                </a>
+              
+            </li>
+          
+        
+      </ul>
+      
+      
+        <div id="appSearch">
+  <div class="search"  @click="showDialog()"><i class="fas fa-search" aria-hidden="true"></i></div>
+  <transition name="fade">
+    <div class="message-box_wrapper" style="display: none;" v-cloak v-show="dialogVisible" @click.self="cancelDialogVisible()">
+      <div class="message-box animated bounceInDown">
+        <h2>
+          <span>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <span class="title">Search</span>
+          </span>
+          <i class="fas fa-times close" pointer style="float:right;" aria-hidden="true" @click.self="cancelDialogVisible()"></i>
+        </h2>
+        <form class="site-search-form">
+          <input type="text"
+            placeholder="Please enter keywords"
+            id="local-search-input" 
+            @click="getSearchFile()"
+            class="st-search-input"
+            v-model="searchInput"
+          />
+        </form>
+        <div class="result-wrapper">
+          <div id="local-search-result" class="local-search-result-cls"></div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</div>
+<script src="/js/local_search.js"></script>
+<script>
+  var body = document.body || document.documentElement || window;
+  var vm = new Vue({
+    el: '#appSearch',
+    data: {
+      dialogVisible: false,
+      searchInput: '',
+      top: 0,
+    },
+    computed: {
+    },
+    mounted() {
+      window.addEventListener('pjax:complete', () => {
+        this.cancelDialogVisible();
+      })
+    },
+    methods: {
+      showDialog() {
+        this.dialogVisible = true;
+        // 防止页面滚动，只能让弹框滚动
+        this.top = $(document).scrollTop()
+        body.style.cssText = 'overflow: hidden;';
+      },
+      getSearchFile() {
+        if (!this.searchInput) {
+          getSearchFile("/search.xml");
+        }
+      },
+      cancelDialogVisible() {
+        this.dialogVisible = false;
+        body.removeAttribute('style');
+        $(document).scrollTop(this.top)
+      },
+    },
+    created() {}
+  })
+</script>
+<!-- 解决刷新页面闪烁问题，可以在元素上添加display: none, 或者用vue.extend方法，详情：https://blog.csdn.net/qq_31393401/article/details/81017912 -->
+<!-- 下面是搜索基本写法 -->
+<!-- <script type="text/javascript" id="local.search.active">
+  var inputArea = document.querySelector("#local-search-input");
+  inputArea.onclick   = function(){ getSearchFile(); this.onclick = null }
+  inputArea.onkeydown = function(){ if(event.keyCode == 13) return false }
+</script> -->
+
+      
+
+    </nav>
+  </div>
+  
+    <a target="_blank" rel="noopener" href="https://github.com/fastle" class="github-corner color-primary" aria-label="View source on GitHub"><svg width="60" height="60" viewBox="0 0 250 250" style="fill:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+  
+  
+    <div id="he-plugin-simple"></div>
+    <script>
+      WIDGET = {
+        CONFIG: {
+          "modules": "012",
+          "background": 5,
+          "tmpColor": "4A4A4A",
+          "tmpSize": 16,
+          "cityColor": "4A4A4A",
+          "citySize": 16,
+          "aqiSize": 16,
+          "weatherIconSize": 24,
+          "alertIconSize": 18,
+          "padding": "10px 10px 10px 10px",
+          "shadow": "1",
+          "language": "auto",
+          "borderRadius": 5,
+          "fixed": "false",
+          "vertical": "middle",
+          "horizontal": "center",
+          "key": "2784dd3fcb1e4f0f9a9b579bf69641f2"
+        }
+      }
+    </script>
+    <script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script> 
+    
+</header>
+        <!-- 内容区域 -->
+        
+ <!-- prismjs 代码高亮 -->
+ 
+
+
+<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
+
+
+  <!-- 文章详情页顶部图片和标题 -->
+
+
+
+
+<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
+  background-position: center center;position: relative;background-image:url('/medias/10.jpg')">
+  <div class="post-detail-header-mask"></div>
+  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
+  
+  <div class="post-detail-header_info-box">
+    <div class="title-box">
+      <span class="title">
+        Go 语言圣经笔记  第七章：接口
+      </span>
+    </div>
+    
+    
+      
+        <span class="post-detail-header_date">
+          <i class="fas fa-calendar"></i> Published in：2024-08-09 |
+        </span>
+      
+
+      
+
+      
+    
+  </div>
+  
+  
+    <script src="/js/bubble/bubble.js"></script>
+  
+</div>
+
+
+
+
+
+<div class="row justify-position" 
+  style="padding-top: 0px;">
+  <div class="main-content">
+    <article class="post post-detail">
+      <div class="post-content">
+        <h1 id="第七章-接口"><a href="#第七章-接口" class="headerlink" title="第七章 接口"></a>第七章 接口</h1><ul>
+<li>接口类型是对其他类型行为的概括和抽象， 通过使用接口， 我们可以写出更加灵活和通用的函数</li>
+<li>接口类型不会暴露出他所代表的对象的内部值的结构， 只会暴露出自己的方法， 也就是你并不知道他是怎么做的，只知道他是做什么的</li>
+</ul>
+<h3 id="练习7-1"><a href="#练习7-1" class="headerlink" title="练习7.1"></a>练习7.1</h3><ul>
+<li>使用来自ByteCounter的思路，实现一个针对单词和行数的计数器。你会发现bufio.ScanWords非常的有用。</li>
+<li><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">type</span> WordCounter <span class="type">int</span></span><br><span class="line"><span class="keyword">type</span> LineCounter <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *WordCounter)</span></span> Write(p []<span class="type">byte</span>) (<span class="type">int</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> sc = bufio.NewScanner(bytes.NewReader(p))</span><br><span class="line">	sc.Split(bufio.ScanWords)</span><br><span class="line">	<span class="keyword">for</span> sc.Scan() &#123;</span><br><span class="line">		*c++</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="type">int</span>(*c), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *LineCounter)</span></span> Write(p []<span class="type">byte</span>) (<span class="type">int</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> sc = bufio.NewScanner(bytes.NewReader(p))</span><br><span class="line">	sc.Split(bufio.ScanLines)</span><br><span class="line">	<span class="keyword">for</span> sc.Scan() &#123;</span><br><span class="line">		*c++</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="type">int</span>(*c), <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习7-2"><a href="#练习7-2" class="headerlink" title="练习7.2"></a>练习7.2</h3><ul>
+<li>写一个带有如下函数签名的函数CountingWriter，传入一个io.Writer接口类型，返回一个把原来的Writer封装在里面的新的Writer类型和一个表示新的写入字节数的int64类型指针。</li>
+<li></li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 传入一个io.Writer接口类型，返回一个把原来的Writer封装在里面的新的Writer类型和一个表示新的写入字节数的int64类型指针。</span></span><br><span class="line"><span class="comment">// f返回的是一个新的类型， 和Printf的封装不是很一样</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CountWriter <span class="keyword">struct</span> &#123;</span><br><span class="line">	Writer io.Writer </span><br><span class="line">	Count <span class="type">int64</span> </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(cw *CountWriter)</span></span> Write (content []<span class="type">byte</span>) (<span class="type">int</span>, <span class="type">error</span>) &#123;</span><br><span class="line">	n, err := cw.Writer.Write(content)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> n, err</span><br><span class="line">	&#125;</span><br><span class="line">	cw.Count += <span class="type">int64</span>(<span class="built_in">len</span>(content))</span><br><span class="line">	<span class="keyword">return</span> n, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CountingWriter</span><span class="params">(w  io.Writer)</span></span>(io.Writer, *<span class="type">int64</span>) &#123;</span><br><span class="line">	cw := CountWriter&#123;Writer: w&#125;</span><br><span class="line">	<span class="keyword">return</span> &amp;cw, &amp;cw.Count <span class="comment">// </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cw, counter := CountingWriter(os.Stdout)</span><br><span class="line">	fmt.Fprintf(cw, <span class="string">&quot;%s&quot;</span>, <span class="string">&quot;Print somethind to the screen...&quot;</span>) <span class="comment">// 在这里调用Write 的时候计数器才加的</span></span><br><span class="line">	fmt.Println(*counter)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="练习7-3"><a href="#练习7-3" class="headerlink" title="练习7.3"></a>练习7.3</h3><ul>
+<li>为在gopl.io&#x2F;ch4&#x2F;treesort (§4.4)的*tree类型实现一个String方法去展示tree类型的值序列。</li>
+<li>跳过</li>
+<li></li>
+</ul>
+<h2 id="接口类型"><a href="#接口类型" class="headerlink" title="接口类型"></a>接口类型</h2><ul>
+<li>一些常见接口</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> io </span><br><span class="line"><span class="keyword">type</span> Reader <span class="keyword">interface</span> &#123; <span class="comment">// 关键词是type </span></span><br><span class="line">	Read(p []<span class="type">byte</span>) (n <span class="type">int</span>, err <span class="type">error</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Closer <span class="keyword">interface</span> &#123;</span><br><span class="line">	Close() <span class="type">error</span> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> ReadWriter <span class="keyword">interface</span> &#123; <span class="comment">// 可以使用已有的接口类型来进行组合</span></span><br><span class="line">	Reader</span><br><span class="line">	Writer </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>发现可以使用已有的接口类型简写命名接口， 这种方式叫做接口内嵌</li>
+</ul>
+<h3 id="练习7-4"><a href="#练习7-4" class="headerlink" title="练习7.4"></a>练习7.4</h3><ul>
+<li>strings.NewReader函数通过读取一个string参数返回一个满足io.Reader接口类型的值（和其它值）。实现一个简单版本的NewReader，用它来构造一个接收字符串输入的HTML解析器<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// strings.NewReader函数通过读取一个string参数返回一个满足io.Reader接口类型的值（和其它值）。实现一个简单版本的NewReader，用它来构造一个接收字符串输入的HTML解析器</span></span><br><span class="line"><span class="comment">// 我的理解是， 构建一个一个NewReader函数， 输入html 字符串， 返回一个自定义reader， 然后传到html.Parse() 中即可</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">&quot;golang.org/x/net/html&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">type Reader interface &#123;</span></span><br><span class="line"><span class="comment">	Read(p []byte) (n int, err error)</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">返回的是一个string.Reader</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">func (r *Reader) Read(b []byte) (n int, err error) &#123;</span></span><br><span class="line"><span class="comment">	if r.i &gt;= int64(len(r.s)) &#123;</span></span><br><span class="line"><span class="comment">		return 0, io.EOF</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	r.prevRune = -1</span></span><br><span class="line"><span class="comment">	n = copy(b, r.s[r.i:])</span></span><br><span class="line"><span class="comment">	r.i += int64(n)</span></span><br><span class="line"><span class="comment">	return</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> MyReader <span class="keyword">struct</span> &#123;</span><br><span class="line">	s <span class="type">string</span></span><br><span class="line">	i <span class="type">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *MyReader)</span></span> Read(b []<span class="type">byte</span>) (n <span class="type">int</span>, err <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> r.i &gt;= <span class="type">int64</span>(<span class="built_in">len</span>(r.s)) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>, io.EOF</span><br><span class="line">	&#125;</span><br><span class="line">	n = <span class="built_in">copy</span>(b, r.s[r.i:])</span><br><span class="line">	r.i += <span class="type">int64</span>(n)</span><br><span class="line">	<span class="keyword">return</span> n, <span class="literal">nil</span> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewReader</span><span class="params">(s <span class="type">string</span>)</span></span> *MyReader &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;MyReader&#123;s, <span class="number">0</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	readernow := NewReader(<span class="string">&quot;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;a href=\&quot;this is a test\&quot;&gt;aaa&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>)</span><br><span class="line">	doc, err := html.Parse(readernow)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Fprintf(os.Stderr, <span class="string">&quot;ex7.4: %v\n&quot;</span>, err)</span><br><span class="line">		os.Exit(<span class="number">1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> _, n := <span class="keyword">range</span> visit(<span class="literal">nil</span>, doc) &#123;</span><br><span class="line">		fmt.Println(n)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">visit</span><span class="params">(links []<span class="type">string</span>, n *html.Node)</span></span> []<span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> n.Type == html.ElementNode &amp;&amp; n.Data == <span class="string">&quot;a&quot;</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, a := <span class="keyword">range</span> n.Attr &#123;</span><br><span class="line">			<span class="keyword">if</span> a.Key == <span class="string">&quot;href&quot;</span> &#123;</span><br><span class="line">				links = <span class="built_in">append</span>(links, a.Val)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> c := n.FirstChild; c != <span class="literal">nil</span>; c = c.NextSibling &#123; </span><br><span class="line">		links = visit(links, c) <span class="comment">// 递归调用， </span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> links</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习7-5"><a href="#练习7-5" class="headerlink" title="练习7.5"></a>练习7.5</h3><ul>
+<li>io包里面的LimitReader函数接收一个io.Reader接口类型的r和字节数n，并且返回另一个从r中读取字节但是当读完n个字节后就表示读到文件结束的Reader。实现这个LimitReader函数：</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// io包里面的LimitReader函数接收一个io.Reader接口类型的r和字节数n，并且返回另一个从r中读取字节但是当读完n个字节后就表示读到文件结束的Reader。实现这个LimitReader函数：s</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> LimitType <span class="keyword">struct</span> &#123;</span><br><span class="line">	n <span class="type">int64</span></span><br><span class="line">	i <span class="type">int64</span> </span><br><span class="line">	w io.Reader</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *LimitType)</span></span> Read(p []<span class="type">byte</span>) (n <span class="type">int</span>, err <span class="type">error</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> r.i &gt;= r.n &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>, io.EOF </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> r.i + <span class="type">int64</span>(<span class="built_in">len</span>(p)) &gt; r.n &#123;</span><br><span class="line">		p = p[:r.n - r.i]</span><br><span class="line">	&#125; </span><br><span class="line">	n, err = r.w.Read(p)</span><br><span class="line">	r.i += <span class="type">int64</span>(n)</span><br><span class="line">	<span class="keyword">return</span> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">LimitReader</span><span class="params">(r io.Reader, n <span class="type">int64</span>)</span></span> io.Reader &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;LimitType&#123;n, <span class="number">0</span>, r&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	r := LimitReader(io.Reader(strings.NewReader(<span class="type">string</span>(<span class="string">&quot;hello world&quot;</span>))), <span class="number">5</span>)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		b := <span class="built_in">make</span>([]<span class="type">byte</span>, <span class="number">1</span>)</span><br><span class="line">		n, err := r.Read(b)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">println</span>(<span class="type">string</span>(b[:n]))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="练习7-6"><a href="#练习7-6" class="headerlink" title="练习7.6"></a>练习7.6</h3><ul>
+<li>对tempFlag加入支持开尔文温度。<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对tempFlag加入支持开尔文温度。</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">package flag</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">// Value is the interface to the value stored in a flag.</span></span><br><span class="line"><span class="comment">type Value interface &#123;</span></span><br><span class="line"><span class="comment">    String() string</span></span><br><span class="line"><span class="comment">    Set(string) error</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;flag&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Celsius <span class="type">float64</span></span><br><span class="line"><span class="keyword">type</span> Fahrenheit <span class="type">float64</span></span><br><span class="line"><span class="keyword">type</span> Kelvin <span class="type">float64</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	AbsoluteZeroC Celsius = <span class="number">-273.15</span></span><br><span class="line">	FreezingC Celsius = <span class="number">0</span></span><br><span class="line">	BoilingC Celsius = <span class="number">100</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> celsiusFlag <span class="keyword">struct</span>&#123; Celsius &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *celsiusFlag)</span></span> Set(s <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> unit <span class="type">string</span></span><br><span class="line">    <span class="keyword">var</span> value <span class="type">float64</span></span><br><span class="line">    fmt.Sscanf(s, <span class="string">&quot;%f%s&quot;</span>, &amp;value, &amp;unit)</span><br><span class="line">    <span class="keyword">switch</span> unit &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;C&quot;</span>, <span class="string">&quot;°C&quot;</span>:</span><br><span class="line">        f.Celsius = Celsius(value)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;F&quot;</span>, <span class="string">&quot;°F&quot;</span>:</span><br><span class="line">        f.Celsius = FToC(Fahrenheit(value))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;K&quot;</span>, <span class="string">&quot;°K&quot;</span>:</span><br><span class="line">		f.Celsius = KToC(Kelvin(value))</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span> </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;invalid temperature %q&quot;</span>, s)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Celsius)</span></span> String() <span class="type">string</span> &#123; <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%g°C&quot;</span>, c)&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CToF</span><span class="params">(c Celsius)</span></span> Fahrenheit &#123; <span class="keyword">return</span> Fahrenheit(c * <span class="number">9</span> / <span class="number">5</span> + <span class="number">32</span>)&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">FToC</span><span class="params">(f Fahrenheit)</span></span> Celsius &#123; <span class="keyword">return</span> Celsius((f - <span class="number">32</span>) * <span class="number">5</span> / <span class="number">9</span>)&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">KToC</span><span class="params">(k Kelvin)</span></span> Celsius &#123;<span class="keyword">return</span> Celsius(k + Kelvin(AbsoluteZeroC))&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">KToF</span><span class="params">(k Kelvin)</span></span> Fahrenheit &#123;<span class="keyword">return</span> Fahrenheit(CToF(KToC(k)))&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CToK</span><span class="params">(c Celsius)</span></span> Kelvin &#123;<span class="keyword">return</span> Kelvin(c - AbsoluteZeroC)&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">FToK</span><span class="params">(f Fahrenheit)</span></span> Kelvin &#123;<span class="keyword">return</span> CToK(FToC(f))&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CelsiusFlag</span><span class="params">(name <span class="type">string</span>, value Celsius, usage <span class="type">string</span>)</span></span> *Celsius &#123;</span><br><span class="line">    f := celsiusFlag&#123;value&#125;</span><br><span class="line">    flag.CommandLine.Var(&amp;f, name, usage) <span class="comment">// 因为这里已经实现了String() 和Set() 所以可以调用</span></span><br><span class="line">    <span class="keyword">return</span> &amp;f.Celsius</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> temp = CelsiusFlag(<span class="string">&quot;temp&quot;</span>, <span class="number">20.0</span>, <span class="string">&quot;the temperature&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    flag.Parse()</span><br><span class="line">    fmt.Println(*temp)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习7-7"><a href="#练习7-7" class="headerlink" title="练习7.7"></a>练习7.7</h3><ul>
+<li>解释为什么帮助信息在它的默认值是20.0没有包含°C的情况下输出了°C。</li>
+<li>因为我们定义实现了Celsius.string， 在输出时调用了， 所以会直接输出</li>
+<li></li>
+</ul>
+<h2 id="实现接口条件"><a href="#实现接口条件" class="headerlink" title="实现接口条件"></a>实现接口条件</h2><ul>
+<li>首先必须实现该接口需要的所有方法.</li>
+<li>接口赋值规则对且看下面示例<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> w io.Writer</span><br><span class="line">w = os.Stdout           <span class="comment">// OK: *os.File has Write method</span></span><br><span class="line">w = <span class="built_in">new</span>(bytes.Buffer)   <span class="comment">// OK: *bytes.Buffer has Write method</span></span><br><span class="line">w = time.Second         <span class="comment">// compile error: time.Duration lacks Write method</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> rwc io.ReadWriteCloser</span><br><span class="line">rwc = os.Stdout         <span class="comment">// OK: *os.File has Read, Write, Close methods</span></span><br><span class="line">rwc = <span class="built_in">new</span>(bytes.Buffer) <span class="comment">// compile error: *bytes.Buffer lacks Close method</span></span><br></pre></td></tr></table></figure></li>
+<li>甚至可以使用接口类型来定义变量， 并且赋值给接口变量</li>
+<li>所以接口可以用来实现基于类的语言的接口的效果， 通过抽取共性形成接口， 并且通过组合接口来继承</li>
+<li>区别是Go语言可以在需要时才定义新的抽象和分组， 并且不用修改原有类型的定义。</li>
+</ul>
+<h3 id="空接口"><a href="#空接口" class="headerlink" title="空接口"></a>空接口</h3><ul>
+<li>空接口类型是所有类型的超类型， 所有类型都实现了空接口， 空接口类型可以接收任何类型的值， 也可以返回任何类型的值</li>
+<li>比如说 在我们经常使用的Printf 和 Fprintf函数中， 就使用空接口来接收任何值</li>
+</ul>
+<h3 id="接口值"><a href="#接口值" class="headerlink" title="接口值"></a>接口值</h3><ul>
+<li><p>概念上一个接口的值包含两部分：一个类型和一个值。 由于Go语言是静态类型的语言， 我们不认为他的类型是一个值</p>
+</li>
+<li><p>下面四个语句中， 变量w得到了三个不同的值，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> w io.Writer <span class="comment">//1</span></span><br><span class="line">w = os.Stdout <span class="comment">//2 </span></span><br><span class="line">w = <span class="built_in">new</span>(bytes.Buffer)<span class="comment">//3</span></span><br><span class="line">w = <span class="literal">nil</span> <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引起的问题大概如下， 一个包含nil指针的接口不是nil接口</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> debug = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> buf *bytes.Buffer</span><br><span class="line">    buf = <span class="built_in">new</span>(bytes.Buffer) </span><br><span class="line">    f(buf)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(out io.Writer)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> out != <span class="literal">nil</span> &#123;</span><br><span class="line">        out.Write([]<span class="type">byte</span>(<span class="string">&quot;done!\n&quot;</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用时会报错， out 是一个类型为*bytes.Buffer的指针，值是nil， 但是他并不是nil接口， 这时候会报错</p>
+</li>
+</ul>
+<h2 id="常见接口解析"><a href="#常见接口解析" class="headerlink" title="常见接口解析"></a>常见接口解析</h2><h3 id="flag-Value"><a href="#flag-Value" class="headerlink" title="flag.Value"></a>flag.Value</h3><ul>
+<li><p>flag.Value 定义如下</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> flag</span><br><span class="line"></span><br><span class="line"><span class="comment">// Value is the interface to the value stored in a flag.</span></span><br><span class="line"><span class="keyword">type</span> Value <span class="keyword">interface</span> &#123;</span><br><span class="line">    String() <span class="type">string</span></span><br><span class="line">    Set(<span class="type">string</span>) <span class="type">error</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>思考下面这个会休眠特定时间的程序</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> period = flag.Duration(<span class="string">&quot;period&quot;</span>, <span class="number">1</span>*time.Second, <span class="string">&quot;sleep period&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    flag.Parse()</span><br><span class="line">    fmt.Printf(<span class="string">&quot;Sleeping for %v...&quot;</span>, *period)</span><br><span class="line">    time.Sleep(*period)</span><br><span class="line">    fmt.Println()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>其中period是一个Duration类型的值， 并且实现了String和Set方法， 所以可以使用flag.Duration函数来创建period变量</p>
+</li>
+<li><p>我们对之前使用过的tempconv程序进行改编, 定义了String() 和set(), 并通过set分类自动输出转换后的信息， </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 进行摄氏温度和华氏温度的转换</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;flag&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Celsius <span class="type">float64</span></span><br><span class="line"><span class="keyword">type</span> Fahrenheit <span class="type">float64</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	AbsoluteZeroC Celsius = <span class="number">-273.15</span></span><br><span class="line">	FreezingC Celsius = <span class="number">0</span></span><br><span class="line">	BoilingC Celsius = <span class="number">100</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> celsiusFlag <span class="keyword">struct</span>&#123; Celsius &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *celsiusFlag)</span></span> Set(s <span class="type">string</span>) <span class="type">error</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> unit <span class="type">string</span></span><br><span class="line">    <span class="keyword">var</span> value <span class="type">float64</span></span><br><span class="line">    fmt.Sscanf(s, <span class="string">&quot;%f%s&quot;</span>, &amp;value, &amp;unit) <span class="comment">// no error check needed</span></span><br><span class="line">    <span class="keyword">switch</span> unit &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;C&quot;</span>, <span class="string">&quot;°C&quot;</span>:</span><br><span class="line">        f.Celsius = Celsius(value)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&quot;F&quot;</span>, <span class="string">&quot;°F&quot;</span>:</span><br><span class="line">        f.Celsius = FToC(Fahrenheit(value))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;invalid temperature %q&quot;</span>, s)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(f *celsiusFlag)</span></span>String() <span class="type">string</span> &#123; <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;%g°C&quot;</span>, f.Celsius) &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CToF</span><span class="params">(c Celsius)</span></span> Fahrenheit &#123; <span class="keyword">return</span> Fahrenheit(c * <span class="number">9</span> / <span class="number">5</span> + <span class="number">32</span>)&#125;  <span class="comment">// 构造时若两个底层是相同类型可以直接构造</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">FToC</span><span class="params">(f Fahrenheit)</span></span> Celsius &#123; <span class="keyword">return</span> Celsius((f - <span class="number">32</span>) * <span class="number">5</span> / <span class="number">9</span>)&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CelsiusFlag</span><span class="params">(name <span class="type">string</span>, value Celsius, usage <span class="type">string</span>)</span></span> *Celsius &#123;</span><br><span class="line">    f := celsiusFlag&#123;value&#125;</span><br><span class="line">    flag.CommandLine.Var(&amp;f, name, usage) <span class="comment">/// 因为这里已经实现了String() 和Set() 所以可以调用</span></span><br><span class="line">    <span class="keyword">return</span> &amp;f.Celsius</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> temp = CelsiusFlag(<span class="string">&quot;temp&quot;</span>, <span class="number">20.0</span>, <span class="string">&quot;the temperature&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    flag.Parse()</span><br><span class="line">    fmt.Println(*temp)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="sort-Interface"><a href="#sort-Interface" class="headerlink" title="sort.Interface"></a>sort.Interface</h3><p>- </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> sort</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">    Len() <span class="type">int</span></span><br><span class="line">    Less(i, j <span class="type">int</span>) <span class="type">bool</span> <span class="comment">// i, j are indices of sequence elements</span></span><br><span class="line">    Swap(i, j <span class="type">int</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="http-Handler"><a href="#http-Handler" class="headerlink" title="http.Handler"></a>http.Handler</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> http</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Handler <span class="keyword">interface</span> &#123;</span><br><span class="line">    ServeHTTP(w ResponseWriter, r *Request)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ListenAndServe</span><span class="params">(address <span class="type">string</span>, h Handler)</span></span> <span class="type">error</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ListenAndServe函数接收一个地址和Handler接口类型的值， 并且返回一个错误, 会一直运行， 直到遇见一个错误而失败</li>
+</ul>
+<h3 id="error"><a href="#error" class="headerlink" title="error"></a>error</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="type">error</span> <span class="keyword">interface</span> &#123;</span><br><span class="line">    Error() <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h3><ul>
+<li><p>类型断言是Go语言中一个重要的特性， 它允许我们检查一个接口的值是否属于某个类型， 并且获取该类型的值表示为x.(T)</p>
+</li>
+<li><p>这里的T有两种可能， 一种是具体的类型， 这种情况的话， 成功则会从返回x的动态值， 失败的话则返回panic</p>
+</li>
+<li><p>另一种是接口， 若成功则并不获取动态值， </p>
+</li>
+<li><p>如果采用下面这种写法， 则在失败的时候不会崩溃， 并且能能够获取到错误信息。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> w io.Writer = os.Stdout</span><br><span class="line">f, ok := w.(*os.File)      <span class="comment">// success:  ok, f == os.Stdout</span></span><br><span class="line">b, ok := w.(*bytes.Buffer) <span class="comment">// failure: !ok, b == nil</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="通过断言识别错误类型"><a href="#通过断言识别错误类型" class="headerlink" title="通过断言识别错误类型"></a>通过断言识别错误类型</h3><ul>
+<li><p>如何判断处理返回的错误的类型， 这是一个问题</p>
+</li>
+<li><p>一个幼稚的实现会通过检查错误信息里面是否含有某个字符串来检查</p>
+</li>
+<li><p>使用专门的类型os.PathError来表示结构化的错误值， </p>
+</li>
+<li><p>建议即时处理， 不然如果调用类似fmt.Errorf 之类的方法后， 结构信息就没了。</p>
+</li>
+<li><p>接口有两种风格， 一种突出了满足这个接口的具体类型之间的相似性， 但是隐藏了各个具体类型的布局与各自特有的功能</p>
+</li>
+<li><p>另一种充分利用了接口值能够容纳各种具体类型的能力， 把接口作为这些类型的联合来使用。</p>
+</li>
+<li></li>
+</ul>
+<h3 id="sort-Interface-1"><a href="#sort-Interface-1" class="headerlink" title="sort.Interface"></a>sort.Interface</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">	Len() <span class="type">int</span> </span><br><span class="line">	Less(i, j <span class="type">int</span>) <span class="type">bool</span></span><br><span class="line">	Swap(i, j <span class="type">int</span>) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>教材实例<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;sort&quot;</span></span><br><span class="line">	<span class="string">&quot;text/tabwriter&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Track <span class="keyword">struct</span> &#123;</span><br><span class="line">	Title  <span class="type">string</span></span><br><span class="line">	Artist <span class="type">string</span></span><br><span class="line">	Album  <span class="type">string</span></span><br><span class="line">	Year   <span class="type">int</span></span><br><span class="line">	Length time.Duration</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tracks = []*Track&#123;</span><br><span class="line">    &#123;<span class="string">&quot;Go&quot;</span>, <span class="string">&quot;Delilah&quot;</span>, <span class="string">&quot;From the Roots Up&quot;</span>, <span class="number">2012</span>, length(<span class="string">&quot;3m38s&quot;</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;Go&quot;</span>, <span class="string">&quot;Moby&quot;</span>, <span class="string">&quot;Moby&quot;</span>, <span class="number">1992</span>, length(<span class="string">&quot;3m37s&quot;</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;Go Ahead&quot;</span>, <span class="string">&quot;Alicia Keys&quot;</span>, <span class="string">&quot;As I Am&quot;</span>, <span class="number">2007</span>, length(<span class="string">&quot;4m36s&quot;</span>)&#125;,</span><br><span class="line">    &#123;<span class="string">&quot;Ready 2 Go&quot;</span>, <span class="string">&quot;Martin Solveig&quot;</span>, <span class="string">&quot;Smash&quot;</span>, <span class="number">2011</span>, length(<span class="string">&quot;4m24s&quot;</span>)&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">length</span><span class="params">(s <span class="type">string</span>)</span></span> time.Duration &#123;</span><br><span class="line">    d, err := time.ParseDuration(s)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(s)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> d</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PrintTracks</span><span class="params">(tracks []*Track)</span></span> &#123;</span><br><span class="line">	<span class="keyword">const</span> format = <span class="string">&quot;%v\t%v\t%v\t%v\t%v\t\n&quot;</span></span><br><span class="line">	tw := <span class="built_in">new</span>(tabwriter.Writer).Init(os.Stdout,<span class="number">0</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="string">&#x27; &#x27;</span>, <span class="number">0</span>)</span><br><span class="line">	fmt.Fprintf(tw, format, <span class="string">&quot;Title&quot;</span>, <span class="string">&quot;Artist&quot;</span>, <span class="string">&quot;Album&quot;</span>, <span class="string">&quot;Year&quot;</span>, <span class="string">&quot;Length&quot;</span>)</span><br><span class="line">	fmt.Fprintf(tw, format, <span class="string">&quot;-----&quot;</span>, <span class="string">&quot;------&quot;</span>, <span class="string">&quot;-----&quot;</span>, <span class="string">&quot;----&quot;</span>, <span class="string">&quot;------&quot;</span>)</span><br><span class="line">	<span class="keyword">for</span> _, t := <span class="keyword">range</span> tracks &#123;</span><br><span class="line">		fmt.Fprintf(tw, format, t.Title, t.Artist, t.Album, t.Year, t.Length)</span><br><span class="line">	&#125;</span><br><span class="line">	tw.Flush() <span class="comment">// 计算各列宽度， 输出表格</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> byArtist []*Track  <span class="comment">// 两种类型直接转， 但是会对应不同函数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x byArtist)</span></span> Len() <span class="type">int</span> &#123;<span class="keyword">return</span> <span class="built_in">len</span>(x)&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x byArtist)</span></span> Less(i, j <span class="type">int</span>) <span class="type">bool</span> &#123;<span class="keyword">return</span> x[i].Artist &lt; x[j].Artist&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x byArtist)</span></span> Swap(i, j <span class="type">int</span>) &#123;x[i], x[j] = x[j], x[i]&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> customSort <span class="keyword">struct</span> &#123;</span><br><span class="line">	t []*Track </span><br><span class="line">	less <span class="function"><span class="keyword">func</span><span class="params">(x, y *Track)</span></span> <span class="type">bool</span> <span class="comment">// 只需要自定义less比较方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x customSort)</span></span> Len() <span class="type">int</span> &#123;<span class="keyword">return</span> <span class="built_in">len</span>(x.t)&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x customSort)</span></span> Less(i, j <span class="type">int</span>) <span class="type">bool</span> &#123;<span class="keyword">return</span> x.less(x.t[i], x.t[j])&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x customSort)</span></span> Swap(i, j <span class="type">int</span>) &#123;x.t[i], x.t[j] = x.t[j], x.t[i]&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	sort.Sort(byArtist(tracks))</span><br><span class="line">	PrintTracks(tracks)</span><br><span class="line">	sort.Sort(sort.Reverse(byArtist(tracks)))</span><br><span class="line">	PrintTracks(tracks)</span><br><span class="line">	sort.Sort(customSort&#123;tracks, <span class="function"><span class="keyword">func</span><span class="params">(x, y *Track)</span></span><span class="type">bool</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> x.Title != y.Title &#123;</span><br><span class="line">			<span class="keyword">return</span> x.Title &lt; y.Title</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> x.Year != y.Year &#123;</span><br><span class="line">			<span class="keyword">return</span> x.Year &lt; y.Year</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> x.Length != y.Length &#123;</span><br><span class="line">			<span class="keyword">return</span> x.Length &lt; y.Length</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;&#125;)</span><br><span class="line">	PrintTracks(tracks)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习7-8"><a href="#练习7-8" class="headerlink" title="练习7.8"></a>练习7.8</h3><ul>
+<li>很多图形界面提供了一个有状态的多重排序表格插件：主要的排序键是最近一次点击过列头的列，第二个排序键是第二最近点击过列头的列，等等。定义一个sort.Interface的实现用在这样的表格中。比较这个实现方式和重复使用sort.Stable来排序的方式。<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置一个键值slice， 每次追加一个键值</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;sort&quot;</span></span><br><span class="line">	<span class="string">&quot;text/tabwriter&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Track <span class="keyword">struct</span> &#123;</span><br><span class="line">	Title  <span class="type">string</span></span><br><span class="line">	Artist <span class="type">string</span></span><br><span class="line">	Album  <span class="type">string</span></span><br><span class="line">	Year   <span class="type">int</span></span><br><span class="line">	Length time.Duration</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tracks = []*Track&#123;</span><br><span class="line">	&#123;<span class="string">&quot;Go&quot;</span>, <span class="string">&quot;Delilah&quot;</span>, <span class="string">&quot;From the Roots Up&quot;</span>, <span class="number">2012</span>, length(<span class="string">&quot;3m38s&quot;</span>)&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;Go&quot;</span>, <span class="string">&quot;Moby&quot;</span>, <span class="string">&quot;Moby&quot;</span>, <span class="number">1992</span>, length(<span class="string">&quot;3m37s&quot;</span>)&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;Go Ahead&quot;</span>, <span class="string">&quot;Alicia Keys&quot;</span>, <span class="string">&quot;As I Am&quot;</span>, <span class="number">2007</span>, length(<span class="string">&quot;4m36s&quot;</span>)&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;Ready 2 Go&quot;</span>, <span class="string">&quot;Martin Solveig&quot;</span>, <span class="string">&quot;Smash&quot;</span>, <span class="number">2011</span>, length(<span class="string">&quot;4m24s&quot;</span>)&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">PrintTracks</span><span class="params">(tracks []*Track)</span></span> &#123;</span><br><span class="line">	<span class="keyword">const</span> format = <span class="string">&quot;%v\t%v\t%v\t%v\t%v\t\n&quot;</span></span><br><span class="line">	tw := <span class="built_in">new</span>(tabwriter.Writer).Init(os.Stdout,<span class="number">0</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="string">&#x27; &#x27;</span>, <span class="number">0</span>)</span><br><span class="line">	fmt.Fprintf(tw, format, <span class="string">&quot;Title&quot;</span>, <span class="string">&quot;Artist&quot;</span>, <span class="string">&quot;Album&quot;</span>, <span class="string">&quot;Year&quot;</span>, <span class="string">&quot;Length&quot;</span>)</span><br><span class="line">	fmt.Fprintf(tw, format, <span class="string">&quot;-----&quot;</span>, <span class="string">&quot;------&quot;</span>, <span class="string">&quot;-----&quot;</span>, <span class="string">&quot;----&quot;</span>, <span class="string">&quot;------&quot;</span>)</span><br><span class="line">	<span class="keyword">for</span> _, t := <span class="keyword">range</span> tracks &#123;</span><br><span class="line">		fmt.Fprintf(tw, format, t.Title, t.Artist, t.Album, t.Year, t.Length)</span><br><span class="line">	&#125;</span><br><span class="line">	tw.Flush() <span class="comment">// 计算各列宽度， 输出表格</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">length</span><span class="params">(s <span class="type">string</span>)</span></span> time.Duration &#123;</span><br><span class="line">    d, err := time.ParseDuration(s)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(s)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> d</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> table <span class="keyword">struct</span> &#123;</span><br><span class="line">	t    []*Track</span><br><span class="line">	keys []<span class="type">string</span> <span class="comment">// keys to sort by</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t table)</span></span> Len() <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(t.t)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t table)</span></span> Less(i, j <span class="type">int</span>) <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">for</span> p := <span class="built_in">len</span>(t.keys) - <span class="number">1</span>; p &gt;= <span class="number">0</span>; p--&#123;</span><br><span class="line">		fmt.Println(t.keys[p])</span><br><span class="line">		<span class="keyword">switch</span> t.keys[p] &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;Title&quot;</span>:</span><br><span class="line">			<span class="keyword">if</span> t.t[i].Title != t.t[j].Title &#123;</span><br><span class="line">				<span class="keyword">return</span> t.t[i].Title &lt; t.t[j].Title</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;Artist&quot;</span>:</span><br><span class="line">			<span class="keyword">if</span> t.t[i].Artist != t.t[j].Artist &#123;</span><br><span class="line">				<span class="keyword">return</span> t.t[i].Artist &lt; t.t[j].Artist</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;Album&quot;</span>:</span><br><span class="line">			<span class="keyword">if</span> t.t[i].Album != t.t[j].Album &#123;</span><br><span class="line">				<span class="keyword">return</span> t.t[i].Album &lt; t.t[j].Album</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;Year&quot;</span>:</span><br><span class="line">			<span class="keyword">if</span> t.t[i].Year != t.t[j].Year &#123;</span><br><span class="line">				<span class="keyword">return</span> t.t[i].Year &lt; t.t[j].Year</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// all keys are equal</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t table)</span></span> Swap(i, j <span class="type">int</span>) &#123;</span><br><span class="line">	t.t[i], t.t[j] = t.t[j], t.t[i]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">setPrime</span><span class="params">(t *table, key <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">	t.keys = <span class="built_in">append</span>(t.keys, key)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	table := table&#123;tracks, []<span class="type">string</span>&#123;&#125;&#125;</span><br><span class="line">	setPrime(&amp;table, <span class="string">&quot;Year&quot;</span>)</span><br><span class="line">	setPrime(&amp;table, <span class="string">&quot;Title&quot;</span>)</span><br><span class="line">	sort.Sort(table)</span><br><span class="line">	PrintTracks(table.t)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习7-9"><a href="#练习7-9" class="headerlink" title="练习7.9"></a>练习7.9</h3><ul>
+<li>使用html&#x2F;template包（§4.6）替代printTracks将tracks展示成一个HTML表格。将这个解决方案用在前一个练习中，让每次点击一个列的头部产生一个HTTP请求来排序这个表格。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用html/template包（§4.6）替代printTracks将tracks展示成一个HTML表格。将这个解决方案用在前一个练习中，让每次点击一个列的头部产生一个HTTP请求来排序这个表格。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;html/template&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;sort&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Track <span class="keyword">struct</span> &#123;</span><br><span class="line">	Title  <span class="type">string</span></span><br><span class="line">	Artist <span class="type">string</span></span><br><span class="line">	Album  <span class="type">string</span></span><br><span class="line">	Year   <span class="type">int</span></span><br><span class="line">	Length time.Duration</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tracks = []*Track&#123;</span><br><span class="line">	&#123;<span class="string">&quot;Go&quot;</span>, <span class="string">&quot;Delilah&quot;</span>, <span class="string">&quot;From the Roots Up&quot;</span>, <span class="number">2012</span>, length(<span class="string">&quot;3m38s&quot;</span>)&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;Go&quot;</span>, <span class="string">&quot;Moby&quot;</span>, <span class="string">&quot;Moby&quot;</span>, <span class="number">1992</span>, length(<span class="string">&quot;3m37s&quot;</span>)&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;Go Ahead&quot;</span>, <span class="string">&quot;Alicia Keys&quot;</span>, <span class="string">&quot;As I Am&quot;</span>, <span class="number">2007</span>, length(<span class="string">&quot;4m36s&quot;</span>)&#125;,</span><br><span class="line">	&#123;<span class="string">&quot;Ready 2 Go&quot;</span>, <span class="string">&quot;Martin Solveig&quot;</span>, <span class="string">&quot;Smash&quot;</span>, <span class="number">2011</span>, length(<span class="string">&quot;4m24s&quot;</span>)&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> trackTable = template.Must(template.New(<span class="string">&quot;Track&quot;</span>).Parse(<span class="string">`</span></span><br><span class="line"><span class="string">&lt;h1&gt; Tracks &lt;/h1&gt;</span></span><br><span class="line"><span class="string">&lt;table&gt;</span></span><br><span class="line"><span class="string">&lt;tr style=&#x27;text-align: left&#x27;&gt;</span></span><br><span class="line"><span class="string">    &lt;th onclick=&quot;submitform(&#x27;Title&#x27;)&quot;&gt;Title</span></span><br><span class="line"><span class="string">        &lt;form action=&quot;&quot; name=&quot;Title&quot; method=&quot;post&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;hidden&quot; name=&quot;orderby&quot; value=&quot;Title&quot;/&gt;</span></span><br><span class="line"><span class="string">        &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &lt;/th&gt;</span></span><br><span class="line"><span class="string">    &lt;th&gt;Artist</span></span><br><span class="line"><span class="string">        &lt;form action=&quot;&quot; name=&quot;Artist&quot; method=&quot;post&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;hidden&quot; name=&quot;orderby&quot; value=&quot;Artist&quot;/&gt;</span></span><br><span class="line"><span class="string">        &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &lt;/th&gt;</span></span><br><span class="line"><span class="string">    &lt;th&gt;Album</span></span><br><span class="line"><span class="string">        &lt;form action=&quot;&quot; name=&quot;Album&quot; method=&quot;post&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;hidden&quot; name=&quot;orderby&quot; value=&quot;Album&quot;/&gt;</span></span><br><span class="line"><span class="string">        &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &lt;/th&gt;</span></span><br><span class="line"><span class="string">    &lt;th onclick=&quot;submitform(&#x27;Year&#x27;)&quot;&gt;Year</span></span><br><span class="line"><span class="string">        &lt;form action=&quot;&quot; name=&quot;Year&quot; method=&quot;post&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;hidden&quot; name=&quot;orderby&quot; value=&quot;Year&quot;/&gt;</span></span><br><span class="line"><span class="string">        &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &lt;/th&gt;</span></span><br><span class="line"><span class="string">    &lt;th onclick=&quot;submitform(&#x27;Length&#x27;)&quot;&gt;Length</span></span><br><span class="line"><span class="string">        &lt;form action=&quot;&quot; name=&quot;Length&quot; method=&quot;post&quot;&gt;</span></span><br><span class="line"><span class="string">            &lt;input type=&quot;hidden&quot; name=&quot;orderby&quot; value=&quot;Length&quot;/&gt;</span></span><br><span class="line"><span class="string">        &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &lt;/th&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&#123;&#123;range .T&#125;&#125;</span></span><br><span class="line"><span class="string">&lt;tr&gt;</span></span><br><span class="line"><span class="string">    &lt;td&gt;&#123;&#123;.Title&#125;&#125;&lt;/td&gt;</span></span><br><span class="line"><span class="string">    &lt;td&gt;&#123;&#123;.Artist&#125;&#125;&lt;/td&gt;</span></span><br><span class="line"><span class="string">    &lt;td&gt;&#123;&#123;.Album&#125;&#125;&lt;/td&gt;</span></span><br><span class="line"><span class="string">    &lt;td&gt;&#123;&#123;.Year&#125;&#125;&lt;/td&gt;</span></span><br><span class="line"><span class="string">    &lt;td&gt;&#123;&#123;.Length&#125;&#125;&lt;/td&gt;</span></span><br><span class="line"><span class="string">&lt;/tr&gt;</span></span><br><span class="line"><span class="string">&#123;&#123;end&#125;&#125;</span></span><br><span class="line"><span class="string">&lt;/table&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&lt;script&gt;</span></span><br><span class="line"><span class="string">function submitform(formname) &#123;</span></span><br><span class="line"><span class="string">    document[formname].submit();</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&lt;/script&gt;</span></span><br><span class="line"><span class="string">`</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">length</span><span class="params">(s <span class="type">string</span>)</span></span> time.Duration &#123;</span><br><span class="line">    d, err := time.ParseDuration(s)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(s)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> d</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> table <span class="keyword">struct</span> &#123;</span><br><span class="line">	T    []*Track</span><br><span class="line">	keys []<span class="type">string</span> <span class="comment">// keys to sort by</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t table)</span></span> Len() <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(t.T)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t table)</span></span> Less(i, j <span class="type">int</span>) <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">for</span> p := <span class="built_in">len</span>(t.keys) - <span class="number">1</span>; p &gt;= <span class="number">0</span>; p--&#123;</span><br><span class="line">		fmt.Println(t.keys[p])</span><br><span class="line">		<span class="keyword">switch</span> t.keys[p] &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;Title&quot;</span>:</span><br><span class="line">			<span class="keyword">if</span> t.T[i].Title != t.T[j].Title &#123;</span><br><span class="line">				<span class="keyword">return</span> t.T[i].Title &lt; t.T[j].Title</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;Artist&quot;</span>:</span><br><span class="line">			<span class="keyword">if</span> t.T[i].Artist != t.T[j].Artist &#123;</span><br><span class="line">				<span class="keyword">return</span> t.T[i].Artist &lt; t.T[j].Artist</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;Album&quot;</span>:</span><br><span class="line">			<span class="keyword">if</span> t.T[i].Album != t.T[j].Album &#123;</span><br><span class="line">				<span class="keyword">return</span> t.T[i].Album &lt; t.T[j].Album</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&quot;Year&quot;</span>:</span><br><span class="line">			<span class="keyword">if</span> t.T[i].Year != t.T[j].Year &#123;</span><br><span class="line">				<span class="keyword">return</span> t.T[i].Year &lt; t.T[j].Year</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span> <span class="comment">// all keys are equal</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t table)</span></span> Swap(i, j <span class="type">int</span>) &#123;</span><br><span class="line">	t.T[i], t.T[j] = t.T[j], t.T[i]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">setPrime</span><span class="params">(t *table, key <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">	t.keys = <span class="built_in">append</span>(t.keys, key)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">printTracks</span><span class="params">(w io.Writer, x *table)</span></span> &#123;</span><br><span class="line">        trackTable.Execute(w, x)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	table := table&#123;tracks, []<span class="type">string</span>&#123;&#125;&#125;</span><br><span class="line">	http.HandleFunc(<span class="string">&quot;/&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span> err := r.ParseForm(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Printf(<span class="string">&quot;ParseForm: %v\n&quot;</span>, err)</span><br><span class="line">        &#125;</span><br><span class="line">		<span class="keyword">for</span> k, v := <span class="keyword">range</span> r.Form &#123;</span><br><span class="line">			<span class="keyword">if</span> k == <span class="string">&quot;orderby&quot;</span> &#123;</span><br><span class="line">				setPrime(&amp;table, v[<span class="number">0</span>])</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		sort.Sort(table)</span><br><span class="line">		printTracks(w, &amp;table)</span><br><span class="line">	&#125;)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">&quot;localhost:8000&quot;</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="练习7-10"><a href="#练习7-10" class="headerlink" title="练习7.10"></a>练习7.10</h3><ul>
+<li>sort.Interface类型也可以适用在其它地方。编写一个IsPalindrome(s sort.Interface) bool函数表明序列s是否是回文序列，换句话说反向排序不会改变这个序列。假设如果!s.Less(i, j) &amp;&amp; !s.Less(j, i)则索引i和j上的元素相等。<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">IsPalindrome</span><span class="params">(s sort.Interface)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	l := s.Len()</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; l / <span class="number">2</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">if</span> s.Less(i, l - i - <span class="number">1</span>) != s.Less(l - i - <span class="number">1</span>, i) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="http-Handle-接口"><a href="#http-Handle-接口" class="headerlink" title="http.Handle 接口"></a>http.Handle 接口</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> http</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Handler <span class="keyword">interface</span> &#123;</span><br><span class="line">	ServeHTTP(w ResponseWriter, r *Request)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// L</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ListenAndServe</span><span class="params">(address <span class="type">string</span>, h Handler)</span></span> <span class="type">error</span> </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现一个简单的电子商务网站如下</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	db := database&#123;<span class="string">&quot;shoes&quot;</span>: <span class="number">50</span>, <span class="string">&quot;socks&quot;</span>: <span class="number">5</span>&#125;</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">&quot;localhost:8000&quot;</span>, db))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> dollars <span class="type">float32</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d dollars)</span></span> String() <span class="type">string</span> &#123; <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;$%.2f&quot;</span>, d) &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> database <span class="keyword">map</span>[<span class="type">string</span>]dollars</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(db database)</span></span> ServeHTTP(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	<span class="keyword">for</span> item, price := <span class="keyword">range</span> db &#123;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;%s: %s\n&quot;</span>, item, price)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>指定参数方法</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>下面的程序中，我们创建一个ServeMux并且使用它将URL和相应处理&#x2F;list和&#x2F;price操作的handler联系起来，这些操作逻辑都已经被分到不同的方法中。然后我们在调用ListenAndServe函数中使用ServeMux为主要的handler。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	db := database&#123;<span class="string">&quot;shoes&quot;</span>: <span class="number">50</span>, <span class="string">&quot;socks&quot;</span>: <span class="number">5</span>&#125;</span><br><span class="line">	mux := http.NewServeMux()</span><br><span class="line">	mux.Handle(<span class="string">&quot;/list&quot;</span>, http.HandlerFunc(db.list))</span><br><span class="line">	mux.Handle(<span class="string">&quot;/price&quot;</span>, http.HandlerFunc(db.price))</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">&quot;localhost:8000&quot;</span>, mux))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> dollars <span class="type">float32</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d dollars)</span></span> String() <span class="type">string</span> &#123; <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;$%.2f&quot;</span>, d) &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> database <span class="keyword">map</span>[<span class="type">string</span>]dollars</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(db database)</span></span> list (w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	<span class="keyword">for</span> item, price := <span class="keyword">range</span> db &#123;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;%s: %s\n&quot;</span>, item, price)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(db database)</span></span> price(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	item := r.URL.Query().Get(<span class="string">&quot;item&quot;</span>) <span class="comment">// 获取参数方法</span></span><br><span class="line">		price, ok := db[item]</span><br><span class="line">		<span class="keyword">if</span> ! ok&#123;</span><br><span class="line">			w.WriteHeader(http.StatusNotFound) <span class="comment">// 404</span></span><br><span class="line">			fmt.Fprintf(w, <span class="string">&quot;no such item: %q\n&quot;</span>, item)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;%s\n&quot;</span>, price)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以简写为<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    db := database&#123;<span class="string">&quot;shoes&quot;</span>: <span class="number">50</span>, <span class="string">&quot;socks&quot;</span>: <span class="number">5</span>&#125;</span><br><span class="line">    http.HandleFunc(<span class="string">&quot;/list&quot;</span>, db.list)</span><br><span class="line">    http.HandleFunc(<span class="string">&quot;/price&quot;</span>, db.price)</span><br><span class="line">    log.Fatal(http.ListenAndServe(<span class="string">&quot;localhost:8000&quot;</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="练习7-11"><a href="#练习7-11" class="headerlink" title="练习7.11"></a>练习7.11</h3><ul>
+<li>增加额外的handler让客户端可以创建，读取，更新和删除数据库记录。例如，一个形如 &#x2F;update?item&#x3D;socks&amp;price&#x3D;6 的请求会更新库存清单里一个货品的价格并且当这个货品不存在或价格无效时返回一个错误值。（注意：这个修改会引入变量同时更新的问题）</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">	<span class="string">&quot;strconv&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	db := database&#123;<span class="string">&quot;shoes&quot;</span>: <span class="number">50</span>, <span class="string">&quot;socks&quot;</span>: <span class="number">5</span>&#125;</span><br><span class="line">    log.Fatal(http.ListenAndServe(<span class="string">&quot;localhost:8000&quot;</span>, db))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> dollars <span class="type">float32</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d dollars)</span></span> String() <span class="type">string</span> &#123; <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;$%.2f&quot;</span>, d) &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> database <span class="keyword">map</span>[<span class="type">string</span>]dollars</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(db database)</span></span> ServeHTTP(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	<span class="keyword">switch</span> r.URL.Path &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;/list&quot;</span>:</span><br><span class="line">		<span class="keyword">for</span> item, price := <span class="keyword">range</span> db &#123;</span><br><span class="line">			fmt.Fprintf(w, <span class="string">&quot;%s: %s\n&quot;</span>, item, price)</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;/price&quot;</span>:</span><br><span class="line">		item := r.URL.Query().Get(<span class="string">&quot;item&quot;</span>) <span class="comment">// 获取参数方法</span></span><br><span class="line">		price, ok := db[item]</span><br><span class="line">		<span class="keyword">if</span> ! ok&#123;</span><br><span class="line">			w.WriteHeader(http.StatusNotFound) <span class="comment">// 404</span></span><br><span class="line">			fmt.Fprintf(w, <span class="string">&quot;no such item: %q\n&quot;</span>, item)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;%s\n&quot;</span>, price)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;/create&quot;</span>: </span><br><span class="line">		item := r.URL.Query().Get(<span class="string">&quot;item&quot;</span>)</span><br><span class="line">		price, err := strconv.ParseFloat(r.URL.Query().Get(<span class="string">&quot;price&quot;</span>), <span class="number">32</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			w.WriteHeader(http.StatusBadRequest)</span><br><span class="line">			fmt.Fprintf(w, <span class="string">&quot;invalid price: %s\n&quot;</span>, r.URL.Query().Get(<span class="string">&quot;price&quot;</span>))</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		db[item] = dollars(price)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;/modify&quot;</span>:</span><br><span class="line">		item := r.URL.Query().Get(<span class="string">&quot;item&quot;</span>)</span><br><span class="line">		price, err := strconv.ParseFloat(r.URL.Query().Get(<span class="string">&quot;price&quot;</span>), <span class="number">32</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			w.WriteHeader(http.StatusBadRequest)</span><br><span class="line">			fmt.Fprintf(w, <span class="string">&quot;invalid price: %s\n&quot;</span>, r.URL.Query().Get(<span class="string">&quot;price&quot;</span>))</span><br><span class="line">			<span class="keyword">return</span> </span><br><span class="line">		&#125;</span><br><span class="line">		db[item] = dollars(price)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;/delete&quot;</span>:</span><br><span class="line">		item := r.URL.Query().Get(<span class="string">&quot;item&quot;</span>)</span><br><span class="line">		<span class="built_in">delete</span>(db, item) <span class="comment">// delete 为Go内置， 按照指定的键将元素从map中删除， 若删除的键为nil或者在map中不存在， 则不进行任何操作。</span></span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		w.WriteHeader(http.StatusNotFound)</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;no such page: %s\n&quot;</span>, r.URL)	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="练习7-12"><a href="#练习7-12" class="headerlink" title="练习7.12"></a>练习7.12</h3><ul>
+<li>修改&#x2F;list的handler让它把输出打印成一个HTML的表格而不是文本。html&#x2F;template包（§4.6）可能会对你有帮助。</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 练习7.12</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;html/template&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;net/http&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	db := database&#123;<span class="string">&quot;shoes&quot;</span>: <span class="number">50</span>, <span class="string">&quot;socks&quot;</span>: <span class="number">5</span>&#125;</span><br><span class="line">    log.Fatal(http.ListenAndServe(<span class="string">&quot;localhost:8000&quot;</span>, db))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> dollars <span class="type">float32</span></span><br><span class="line"><span class="keyword">var</span> itemTable = template.Must(template.New(<span class="string">&quot;Items&quot;</span>).Parse(<span class="string">`</span></span><br><span class="line"><span class="string">	&lt;h1&gt;Items&lt;/h1&gt;</span></span><br><span class="line"><span class="string">&lt;table&gt;</span></span><br><span class="line"><span class="string">    &lt;tr&gt;</span></span><br><span class="line"><span class="string">        &lt;th&gt; Item &lt;/th&gt;</span></span><br><span class="line"><span class="string">        &lt;th&gt; Price &lt;/th&gt;</span></span><br><span class="line"><span class="string">    &lt;/tr&gt;</span></span><br><span class="line"><span class="string">    &#123;&#123; range $k, $v := . &#125;&#125;</span></span><br><span class="line"><span class="string">        &lt;tr&gt;</span></span><br><span class="line"><span class="string">            &lt;td&gt;&#123;&#123; $k &#125;&#125;&lt;/td&gt;</span></span><br><span class="line"><span class="string">            &lt;td&gt;&#123;&#123; $v &#125;&#125;&lt;/td&gt;</span></span><br><span class="line"><span class="string">        &lt;/tr&gt;</span></span><br><span class="line"><span class="string">    &#123;&#123;end&#125;&#125;</span></span><br><span class="line"><span class="string">&lt;/table&gt;</span></span><br><span class="line"><span class="string">`</span>))</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d dollars)</span></span> String() <span class="type">string</span> &#123; <span class="keyword">return</span> fmt.Sprintf(<span class="string">&quot;$%.2f&quot;</span>, d) &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> database <span class="keyword">map</span>[<span class="type">string</span>]dollars</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(db database)</span></span> ServeHTTP(w http.ResponseWriter, r *http.Request) &#123;</span><br><span class="line">	<span class="keyword">switch</span> r.URL.Path &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;/list&quot;</span>:</span><br><span class="line">		itemTable.Execute(w, db)</span><br><span class="line">		<span class="keyword">for</span> item, price := <span class="keyword">range</span> db &#123;</span><br><span class="line">			fmt.Fprintf(w, <span class="string">&quot;%s: %s\n&quot;</span>, item, price)</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;/price&quot;</span>:</span><br><span class="line">		item := r.URL.Query().Get(<span class="string">&quot;item&quot;</span>) <span class="comment">// 获取参数方法</span></span><br><span class="line">		price, ok := db[item]</span><br><span class="line">		<span class="keyword">if</span> ! ok&#123;</span><br><span class="line">			w.WriteHeader(http.StatusNotFound) <span class="comment">// 404</span></span><br><span class="line">			fmt.Fprintf(w, <span class="string">&quot;no such item: %q\n&quot;</span>, item)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;%s\n&quot;</span>, price)</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		w.WriteHeader(http.StatusNotFound)</span><br><span class="line">		fmt.Fprintf(w, <span class="string">&quot;no such page: %s\n&quot;</span>, r.URL)	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="error-接口"><a href="#error-接口" class="headerlink" title="error 接口"></a>error 接口</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="type">error</span> <span class="keyword">interface</span> &#123;</span><br><span class="line">    Error() <span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="接口示例-表达式求值"><a href="#接口示例-表达式求值" class="headerlink" title="接口示例 表达式求值"></a>接口示例 表达式求值</h3><ul>
+<li>创建一个接口， 并进行相关测试</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line">\\ 整体代码结构较复杂， 这里仅展示前面信息的定义</span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;math&quot;</span></span><br><span class="line">	<span class="string">&quot;strconv&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">	<span class="string">&quot;testing&quot;</span></span><br><span class="line">	<span class="string">&quot;text/scanner&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Expr <span class="keyword">interface</span> &#123;</span><br><span class="line">	Eval(env Env) <span class="type">float64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Var <span class="type">string</span></span><br><span class="line"><span class="keyword">type</span> literal <span class="type">float64</span></span><br><span class="line"><span class="keyword">type</span> Env <span class="keyword">map</span>[Var]<span class="type">float64</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> unary <span class="keyword">struct</span> &#123; <span class="comment">// 一元运算符</span></span><br><span class="line">	op <span class="type">rune</span></span><br><span class="line">	x  Expr <span class="comment">//当前定义下， 可以放var or literal</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u unary)</span></span> Eval(env Env) <span class="type">float64</span> &#123;</span><br><span class="line">	<span class="keyword">switch</span> u.op &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>:</span><br><span class="line">		<span class="keyword">return</span> +u.x.Eval(env)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">		<span class="keyword">return</span> -u.x.Eval(env)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">panic</span>(fmt.Sprintf(<span class="string">&quot;unsupported unary operator: %q&quot;</span>, u.op))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> binary <span class="keyword">struct</span> &#123; <span class="comment">// 二元运算符</span></span><br><span class="line">	op   <span class="type">rune</span></span><br><span class="line">	x, y Expr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u binary)</span></span> Eval(env Env) <span class="type">float64</span> &#123;</span><br><span class="line">	<span class="keyword">switch</span> u.op &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>:</span><br><span class="line">		<span class="keyword">return</span> u.x.Eval(env) + u.y.Eval(env)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>:</span><br><span class="line">		<span class="keyword">return</span> u.x.Eval(env) - u.y.Eval(env)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>:</span><br><span class="line">		<span class="keyword">return</span> u.x.Eval(env) * u.y.Eval(env)</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>:</span><br><span class="line">		<span class="keyword">return</span> u.x.Eval(env) / u.y.Eval(env)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">panic</span>(fmt.Sprintf(<span class="string">&quot;unsupported binary operator: %q&quot;</span>, u.op))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> call <span class="keyword">struct</span> &#123;</span><br><span class="line">	fn   <span class="type">string</span></span><br><span class="line">	args []Expr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u call)</span></span> Eval(env Env) <span class="type">float64</span> &#123;</span><br><span class="line">	<span class="keyword">switch</span> u.fn &#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;pow&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> math.Pow(u.args[<span class="number">0</span>].Eval(env), u.args[<span class="number">1</span>].Eval(env))</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;sin&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> math.Sin(u.args[<span class="number">0</span>].Eval(env))</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&quot;sqrt&quot;</span>:</span><br><span class="line">		<span class="keyword">return</span> math.Sqrt(u.args[<span class="number">0</span>].Eval(env))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">panic</span>(fmt.Sprintln(<span class="string">&quot;unsupported binary operator &quot;</span>+  u.fn))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(v Var)</span></span> Eval(env Env) <span class="type">float64</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> env[v]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l literal)</span></span> Eval(env Env) <span class="type">float64</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="type">float64</span>(l)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestEval</span><span class="params">(t *testing.T)</span></span> &#123; <span class="comment">// 测试用例</span></span><br><span class="line">	tests := []<span class="keyword">struct</span> &#123;</span><br><span class="line">		expr <span class="type">string</span></span><br><span class="line">		env Env</span><br><span class="line">		want <span class="type">string</span> </span><br><span class="line">	&#125;&#123;</span><br><span class="line">		&#123;<span class="string">&quot;sqrt(A / pi)&quot;</span>, Env&#123;<span class="string">&quot;A&quot;</span>: <span class="number">87616</span>, <span class="string">&quot;pi&quot;</span>: math.Pi&#125;, <span class="string">&quot;167&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;pow(x, 3) + pow(y, 3)&quot;</span>, Env&#123;<span class="string">&quot;x&quot;</span>: <span class="number">12</span>, <span class="string">&quot;y&quot;</span>: <span class="number">1</span>&#125;, <span class="string">&quot;1729&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;pow(x, 3) + pow(y, 3)&quot;</span>, Env&#123;<span class="string">&quot;x&quot;</span>: <span class="number">9</span>, <span class="string">&quot;y&quot;</span>: <span class="number">10</span>&#125;, <span class="string">&quot;1729&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;5 / 9 * (F - 32)&quot;</span>, Env&#123;<span class="string">&quot;F&quot;</span>: <span class="number">-40</span>&#125;, <span class="string">&quot;-40&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;5 / 9 * (F - 32)&quot;</span>, Env&#123;<span class="string">&quot;F&quot;</span>: <span class="number">32</span>&#125;, <span class="string">&quot;0&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;5 / 9 * (F - 32)&quot;</span>, Env&#123;<span class="string">&quot;F&quot;</span>: <span class="number">212</span>&#125;, <span class="string">&quot;100&quot;</span>&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> prevExpr <span class="type">string</span> </span><br><span class="line">	<span class="keyword">for</span> _, test := <span class="keyword">range</span> tests &#123;</span><br><span class="line">		<span class="keyword">if</span> test.expr != prevExpr &#123;</span><br><span class="line">			fmt.Printf(<span class="string">&quot;\n%s\n&quot;</span>, test.expr)</span><br><span class="line">			prevExpr = test.expr</span><br><span class="line">		&#125;</span><br><span class="line">		expr, err := Parse(test.expr)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			t.Error(err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		got := fmt.Sprintf(<span class="string">&quot;%.6g&quot;</span>, expr.Eval(test.env))</span><br><span class="line">		fmt.Printf(<span class="string">&quot;\t%v =&gt; %s\n&quot;</span>, test.env, got)</span><br><span class="line">		<span class="keyword">if</span> got != test.want &#123;</span><br><span class="line">			t.Errorf(<span class="string">&quot;%s, Eval() in %v = %q, want %q\n&quot;</span>, test.expr, test.env, got, test.want)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="练习7-13-7-16"><a href="#练习7-13-7-16" class="headerlink" title="练习7.13 - 7.16"></a>练习7.13 - 7.16</h3><ul>
+<li>量有点大， 先略过<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="xml解码示例"><a href="#xml解码示例" class="headerlink" title="xml解码示例"></a>xml解码示例</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Xmlselect prints the text of selected elements of an XML document.</span></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;encoding/xml&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    dec := xml.NewDecoder(os.Stdin)</span><br><span class="line">    <span class="keyword">var</span> stack []<span class="type">string</span> <span class="comment">// stack of element names</span></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        tok, err := dec.Token()</span><br><span class="line">        <span class="keyword">if</span> err == io.EOF &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Fprintf(os.Stderr, <span class="string">&quot;xmlselect: %v\n&quot;</span>, err)</span><br><span class="line">            os.Exit(<span class="number">1</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">switch</span> tok := tok.(<span class="keyword">type</span>) &#123; <span class="comment">// 类型分支写法</span></span><br><span class="line">        <span class="keyword">case</span> xml.StartElement:</span><br><span class="line">            stack = <span class="built_in">append</span>(stack, tok.Name.Local) <span class="comment">// push</span></span><br><span class="line">        <span class="keyword">case</span> xml.EndElement:</span><br><span class="line">            stack = stack[:<span class="built_in">len</span>(stack)<span class="number">-1</span>] <span class="comment">// pop</span></span><br><span class="line">        <span class="keyword">case</span> xml.CharData:</span><br><span class="line">            <span class="keyword">if</span> containsAll(stack, os.Args[<span class="number">1</span>:]) &#123;</span><br><span class="line">                fmt.Printf(<span class="string">&quot;%s: %s\n&quot;</span>, strings.Join(stack, <span class="string">&quot; &quot;</span>), tok)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// containsAll reports whether x contains the elements of y, in order.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">containsAll</span><span class="params">(x, y []<span class="type">string</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">len</span>(y) &lt;= <span class="built_in">len</span>(x) &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(y) == <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> x[<span class="number">0</span>] == y[<span class="number">0</span>] &#123;</span><br><span class="line">            y = y[<span class="number">1</span>:]</span><br><span class="line">        &#125;</span><br><span class="line">        x = x[<span class="number">1</span>:]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      </div>
+      <div class="post-tags-categories">
+        
+        <div class="tags">
+          
+            <a href="/tags/Go/" class="">
+              Go
+            </a>
+          
+            <a href="/tags/Go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F/" class="">
+              Go语言圣经
+            </a>
+          
+        </div>
+        
+      </div>
+      
+        <div class="copyright">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+    <strong>author:  </strong>John Doe</a>
+    </li>
+    <li class="post-copyright-link">
+    <strong>link:  </strong>
+    <a href="/2024/08/09/Go-语言圣经笔记-第七章：接口/" target="_blank" title="Go 语言圣经笔记  第七章：接口">http://example.com/2024/08/09/Go-语言圣经笔记-第七章：接口/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>Copyright notice:   </strong>
+      All articles on this website, unless otherwise stated, adopt <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
+      reprint policy. If reproduced, please indicate source!
+    </li>
+  </ul>
+<div>
+      
+    </article>
+    <!-- 上一篇文章和下一篇文章 -->
+    
+      <!-- 文章详情页的上一页和下一页 -->
+<div class="post-nav">
+
+
+
+  
+  <div class="post-nav-prev post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="/medias/9.jpg" class="lazyload placeholder" data-srcset="/medias/9.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+    </div>
+    <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%85%AB%E7%AB%A0%EF%BC%9AGoroutines%E5%92%8CChannels/" class="post-nav-link">
+      <div class="title">
+        <i class="fas fa-angle-left"></i> Prev:
+        <div class="title-text">Go 语言圣经笔记  第八章：Goroutines和Channels</div>
+      </div>
+      
+      <!-- <div class="content">
+        第八章 Goroutines 和ChannelsGoroutines
+在Go语言中，每一个并发的执行单元叫做一个goro
+      </div> -->
+    </a>
+  </div>
+
+
+
+  
+  <div class="post-nav-next post-nav-item">
+    <div class="post-nav-img" style="background-size: cover; 
+      background-position: center center;">
+      <img class="lazyload lazyload placeholder" src="/medias/3.jpg" class="lazyload placeholder" data-srcset="/medias/3.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" src="" alt="">
+    </div>
+    <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E6%96%B9%E6%B3%95/" class="post-nav-link">
+      <div class="title">
+        Next: <i class="fas fa-angle-right"></i>
+        <div class="title-text">Go 语言圣经笔记  第六章：方法</div>
+      </div>
+      <!-- <div class="content">
+        第六章 方法
+在函数声明时， 在其名字前面放上一个变量， 就是一个方法， 这个附加的参数会将该函数附加到这种类型上，相当
+      </div> -->
+    </a>
+  </div>
+
+</div>
+
+    
+    
+
+    <!-- 打赏 -->
+    
+
+    <!-- 分享 -->
+    
+      <!-- https://github.com/overtrue/share.js -->
+<!-- 文章详情页的分享 -->
+<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+
+<script src="/js/shareJs/social-share.min.js"></script>
+</script>
+
+<style>
+  .social-share {
+    margin: 20px 0;
+  }
+</style>
+
+
+    
+    
+    <!-- 评论 -->
+    <!-- 评论 -->
+
+  <div id="myComment">
+    
+      <div id="gitment-container"></div>
+
+    
+  </div>
+
+<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
+
+
+  </div>
+
+  <!-- 目录 -->
+  <!-- 文章详情页右侧目录 -->
+
+  <div class="toc-aside">
+    <div class="toc-main">
+      <div class="toc-aside-title">
+        <i class="fas fa-list-ul" aria-hidden="true"></i><span>catalog</span>
+        
+          <div class="toc-open-close">catalog</div>
+        
+      </div>
+      <div class="toc-content">
+        <div class="toc"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手机端目录按钮 -->
+  <div id="toc-mobile-btn">
+    <i class="fas fa-list-ul" aria-hidden="true"></i>
+  </div>
+
+
+<script>
+  function closeToc(init) {
+    $(".toc-aside").css({'width': 0, 'padding': 0, 'transition': init ?  'noe' : 'width 0.3s' });
+    $(".toc-content").css({'width': 0});
+    $(".toc-aside-title span, .toc-aside-title i").css({'display': 'none'});
+    $(".main-content").css({'width': '75%', 'margin': '10px auto'});
+  };
+  function openToc() {
+    $(".main-content").css({'width': '65%', 'margin-right': '10px', 'margin-left': 'calc(35% - 350px)'});
+    $(".toc-aside").css({'width': '300px', 'padding': '0 10px', 'transition': 'width 0.3s'});
+    $(".toc-content").css({'width': '300px'});
+    $(".toc-aside-title span, .toc-aside-title i").css({'display': 'inline-block'});
+  }
+  function openBtnClickFn () {
+    let openOrCloseBtn = $('.toc-aside .toc-aside-title .toc-open-close');
+    let open = eval('' || 'true');
+    openOrCloseBtn.click(function() {
+      if (open) {
+        closeToc();
+        open = false;
+      } else {
+        openToc();
+        open = true;
+      }
+    });
+  };
+  openBtnClickFn();
+  initCloseTocWidth(true);
+
+  function initCloseTocWidth(init) {
+    if (window.innerWidth >= 992) {
+      let isClose = false;
+      isClose && closeToc(init)
+    }
+  }
+
+  document.addEventListener('pjax:complete', function () {
+    $(".toc-aside").css({'transition': 'no'});
+  })
+  document.addEventListener('pjax:complete', function () {
+    openBtnClickFn();
+  })
+  
+</script>
+
+  <!-- 图片放大 Wrap images with fancybox support -->
+  <script src="/js/wrapImage.js"></script>
+</div>
+
+<!-- 文章详情页背景图 -->
+<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
+	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
+	<transition-group tag="ul" :name="names">
+		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
+			<img :src="image" class="bg-swiper-img no-lazy">
+		</li>
+	</transition-group>
+</div>
+<script>
+	var vm = new Vue({
+		el: '#appBgSwiper',
+		data: {
+			names: '' || 'fade' || 'fade', // translate-fade fade
+			mark: 0,
+			img: [],
+			bgColor: '',
+			time: null
+		},
+		methods: {   //添加方法
+			change(i, m) {
+				if (i > m) {
+					// this.names = 'fade';
+				} else if (i < m) {
+					// this.names = 'fade';
+				} else {
+					return;
+				}
+				this.mark = i;
+			},
+			prev() {
+				// this.names = 'fade';
+				this.mark--;
+				if (this.mark === -1) {
+					this.mark = 3;
+					return
+				}
+			},
+			next() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			autoPlay() {
+				// this.names = 'fade';
+				this.mark++;
+				if (this.mark === this.img.length) {
+					this.mark = 0;
+					return
+				}
+			},
+			play() {
+				let bgImgDelay = '' || '180000'
+				let delay = parseInt(bgImgDelay) || 180000;
+				this.time = setInterval(this.autoPlay, delay);
+			},
+			enter() {
+				clearInterval(this.time);
+			},
+			leave() {
+				this.play();
+			}
+		},
+		created() {
+			this.play()
+		},
+		beforeDestroy() {
+			clearInterval(this.time);
+		},
+		mounted() {
+			let prop = '' || '';
+			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
+			if (isImg) {
+				let img = prop.split(',');
+				let configRoot = '/'
+				let arrImg = [];
+				img.forEach(el => {
+					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+					var objExp = new RegExp(Expression);
+
+					if (objExp.test(el)) {
+						// http or https
+						arrImg.push(el);
+					} else {
+						// 非http or https开头
+						// 本地文件
+						let firstStr = el.charAt(0);
+						if (firstStr == '/') {
+							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
+						}
+						el = configRoot + el;
+						arrImg.push(el);
+					}
+				})
+				this.img = arrImg;
+			} else {
+				this.bgColor = prop;
+			}
+		}
+	})
+</script>
+
+<style>
+	.bg-swiper-box {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.bg-swiper-img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+
+
+
+  <script>
+  function loadMermaid() {
+    if (document.getElementsByClassName('mermaid').length) {
+      if (window.mermaidJsLoad) mermaid.init()
+      else {
+        loadScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+          window.mermaidJsLoad = true
+          mermaid.initialize({
+            theme: 'default',
+          })
+          if ('true') {
+            mermaid.init();
+          }
+        })
+      }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", function () {
+    loadMermaid();
+  })
+
+  document.addEventListener('pjax:complete', function () {
+    loadMermaid();
+  })
+  
+</script>
+
+
+      </main>
+    </div>
+
+    <!-- 页脚 -->
+    
+  
+  <div class="footer bg-color">
+    <div class="footer-main">
+      
+        
+          <div class="link">
+            
+          </div>
+        
+      
+        
+          <div class="footer-copyright">
+            <p>Copyright © 2019 - 2022hexo <a target="_blank" rel="noopener" href="https://github.com/yuang01">yuang01</a> | Powered by <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a> | Theme <a target="_blank" rel="noopener" href="https://github.com/yuang01/theme">Bamboo</a> </p>
+
+          </div>
+        
+      
+        
+          
+            <!-- 不蒜子统计 -->
+            <!-- 不蒜子统计 -->
+<span id="busuanzi_container_site_pv">
+      <i class="fas fa-eye" aria-hidden="true"></i>Total visits：<span id="busuanzi_value_site_pv"></span> times
+</span>
+<span class="post-meta-divider">|</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+      <i class="fas fa-users" aria-hidden="true"></i>Number of visitors：<span id="busuanzi_value_site_uv"></span> people
+</span>
+
+          
+        
+      
+        
+          <div class="footer-custom">
+            
+          </div>
+        
+      
+    </div>
+  </div>
+
+
+
+    <!-- 渲染暗黑按钮 -->
+    
+      <div class="dark">
+  <div class="dark-content">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+    <!-- <span>关灯</span> -->
+  </div>
+  
+</div>
+
+<script>
+  $(function() {
+    let isDark = JSON.parse(localStorage.getItem('dark'))  || JSON.parse('false');
+    if (isDark) {
+      $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+    }
+    $('.dark').click(function() {
+      if ($(document.body).is('.darkModel')) {
+        $(document.body).removeClass('darkModel');
+        localStorage.setItem('dark', false);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      } else {
+        $(document.body).addClass('darkModel');
+        localStorage.setItem('dark', true);
+        $(".dark-content").replaceWith(
+          `
+          <div class='dark-content'>
+            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+          </div>
+          `
+        );
+      }
+    })
+  })
+</script>
+    
+    <!-- 渲染回到顶部按钮 -->
+    
+      <div class="goTop top-btn-color" pointer>
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</div>
+<script src="/js/goTop.js"></script>
+
+    
+    <!-- 渲染左下角音乐播放器 -->
+    
+      <link rel="stylesheet" href="/js/aplayer/APlayer@1.10.1.min.css">
+<style>
+.aplayer .aplayer-lrc p {
+  
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px !important;
+}
+
+.aplayer .aplayer-lrc p.aplayer-lrc-current {
+  
+  font-size: 15px;
+  color: #42b983;
+}
+
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+  left: -66px !important;
+}
+
+.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+  left: 0px !important;
+}
+
+
+</style>
+<meting-js  
+  class=""
+  server="tencent"
+  type="playlist"
+  id="8062553743"
+  fixed='true'
+  autoplay='false'
+  theme='#42b983'
+  loop='all'
+  order='random'
+  preload='auto'
+  volume='0.7'
+  list-folded='true'
+>
+</meting-js>
+
+<!-- <style>
+  #aplayer {
+    position: fixed;
+    left: 0;
+    bottom: 300px;
+  }
+</style> -->
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    
+
+    <!-- 图片放大 -->
+    
+      <script src="/js/fancybox/jquery.fancybox.min.js"></script>
+    
+
+    <!-- 百度解析 -->
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <!-- 背景彩带 -->
+    
+      <script type="text/javascript" size="100" alpha='0.4' zIndex="-1" src="/js/ribbon.min.js"></script>
+    
+
+    <script src="/js/utils/index.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <!-- 文章目录所需js -->
+<link href="/js/tocbot/tocbot.css" rel="stylesheet">
+<script src="/js/tocbot/tocbot.min.js"></script>
+
+<script>
+  var headerEl = 'h2, h3, h4',  //headers 
+    content = '.post-detail',//文章容器
+    idArr = {};  //标题数组以确定是否增加索引id
+  //add #id
+  var option = {
+    // Where to render the table of contents.
+    tocSelector: '.toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: content,
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: headerEl,
+    scrollSmooth: true,
+    scrollSmoothOffset: -80,
+    headingsOffset: -($(window).height() * 0.4 - 45),
+    positionFixedSelector: '.toc-main',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    activeLinkClass: 'is-active-link',
+    // onClick: function (e) {},
+  }
+  if ($('.toc').length > 0) {
+
+    $(content).children(headerEl).each(function () {
+      //去除空格以及多余标点
+      var headerId = $(this).text().replace(/[\s|\~|`|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\=|\||\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/|\?|\：|\，|\。]/g, '');
+
+      headerId = headerId.toLowerCase();
+      if (idArr[headerId]) {
+        //id已经存在
+        $(this).attr('id', headerId + '-' + idArr[headerId]);
+        idArr[headerId]++;
+      }
+      else {
+        //id未存在
+        idArr[headerId] = 1;
+        $(this).attr('id', headerId);
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      tocbot.init(option);
+      mobileTocClick();
+    });
+
+  }
+
+  window.tocScrollFn = function () {
+    return bamboo.throttle(function () {
+      findHeadPosition();
+    }, 100)()
+  }
+  window.addEventListener('scroll', tocScrollFn);
+
+  const findHeadPosition = function (top) {
+    if ($('.toc-list').length <= 0) {
+      return false;
+    }
+    setTimeout(() => {  // or DOMContentLoaded 
+      autoScrollToc();
+    }, 0);
+  }
+
+  const autoScrollToc = function () {
+    const $activeItem = document.querySelector('.is-active-link');
+    const $cardToc = document.querySelector('.toc-content');
+    const activePosition = $activeItem.getBoundingClientRect().top
+    const sidebarScrollTop = $cardToc.scrollTop
+    if (activePosition > (document.documentElement.clientHeight - 100)) {
+      $cardToc.scrollTop = sidebarScrollTop + 150
+    }
+    if (activePosition < 100) {
+      $cardToc.scrollTop = sidebarScrollTop - 150
+    }
+  }
+
+  document.addEventListener('pjax:send', function () {
+    if ($('.toc').length) {
+      tocbot.destroy();
+    }
+  });
+
+  document.addEventListener('pjax:complete', function () {
+    if ($('.toc').length) {
+      tocbot.init(option);
+      mobileTocClick();
+    }
+  });
+  
+  // 手机端toc按钮点击出现目录
+  const mobileTocClick = function () {
+    const $cardTocLayout = document.getElementsByClassName('toc-aside')[0];
+    const $cardToc = $cardTocLayout.getElementsByClassName('toc-content')[0];
+    let right = '45px';
+    if (window.innerWidth >= 551 && window.innerWidth <= 992) {
+      right = '100px'
+    }
+    const mobileToc = {
+      open: () => {
+        $cardTocLayout.style.cssText = 'animation: toc-open .3s; opacity: 1; right: ' + right
+      },
+
+      close: () => {
+        $cardTocLayout.style.animation = 'toc-close .2s'
+        setTimeout(() => {
+          $cardTocLayout.style.cssText = "opacity:''; animation: ''; right: ''"
+        }, 100)
+      }
+    }
+    document.getElementById('toc-mobile-btn').addEventListener('click', () => {
+      if (window.getComputedStyle($cardTocLayout).getPropertyValue('opacity') === '0') mobileToc.open()
+      else mobileToc.close()
+    })
+
+    $cardToc.addEventListener('click', (e) => {
+      if (window.innerWidth < 992) { // 小于992px的时候
+        mobileToc.close()
+      }
+    })
+  }
+</script>
+
+<style>
+  .is-position-fixed {
+    position: sticky !important;
+    top: 74px;
+  }
+
+  .toc-main ul {
+    counter-reset: show-list;
+  }
+
+  .toc-main ul li::before {
+    content: counter(item)".";
+    display: block;
+    position: absolute;
+    left: 12px;
+    top: 0;
+  }
+</style> 
+
+<!-- 设置导航背景 -->
+<script>
+  let setHeaderClass = () => {
+    const headerMenuTransparent = true;
+    if (!headerMenuTransparent) { return; }
+    const nav = $('#navHeader');
+    const navTop = nav.outerHeight();
+    const winTop = $(window).scrollTop();
+    if(winTop > navTop) {
+      nav.addClass('header-bg-color');
+    }
+    else {
+      nav.removeClass('header-bg-color');
+    }
+  };
+
+  let scrollCollect = () => {
+    return bamboo.throttle(function (e) {
+      setHeaderClass();
+    }, 200)()
+  }
+
+  let initHeaderBg = () => {
+    setHeaderClass();
+  }
+
+  setHeaderClass();
+  window.addEventListener('scroll', scrollCollect);
+
+  document.addEventListener('pjax:send', function () {
+    window.removeEventListener('scroll', scrollCollect)
+  })
+  document.addEventListener('pjax:complete', function () {
+    window.addEventListener('scroll', scrollCollect);
+    setHeaderClass();
+  })
+</script> 
+
+<!-- 渲染issues标签里的内容 -->
+<script>
+  function loadIssuesJS() {
+    if ($(".post-detail").find(".issues-api").length == 0) {
+      return;
+    } 
+    loadScript('/js/issues/index.js');
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  document.addEventListener('pjax:complete', function () {
+    if (typeof IssuesAPI == "undefined") {
+      loadIssuesJS();
+    }
+  })
+</script>
+
+<!-- 输入框打字特效 -->
+<!-- 输入框打字特效 -->
+
+  <script src="/js/activate-power-mode.js"></script>
+  <script>
+    POWERMODE.colorful = true;  // 打开随机颜色特效
+    POWERMODE.shake = false;    // 关闭输入框抖动
+    document.body.addEventListener('input', POWERMODE);//监听打字事件
+  </script>
+
+
+<!-- markdown代码一键复制功能 -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/v-plugs-ayu/lib/ayu.css">
+  <script src="https://cdn.jsdelivr.net/npm/v-plugs-ayu/lib/ayu.umd.min.js"></script>
+  <script src="/js/clipboard/clipboard.min.js"></script>
+  <div id="appCopy">
+  </div>
+  <script data-pjax>
+    var vm = new Vue({
+      el: '#appCopy',
+      data: {
+      },
+      computed: {
+      },
+      mounted() {
+        const that = this;
+        var copy = 'copy';
+        /* code */
+        var initCopyCode = function () {
+          var copyHtml = '';
+          copyHtml += '<button class="btn-copy" data-clipboard-snippet="" style="position:absolute;top:0;right:0;z-index:1;">';
+          copyHtml += '<i class="fas fa-copy"></i><span>' + copy + '</span>';
+          copyHtml += '</button>';
+          $(".post-detail pre").not('.gutter pre').wrap("<div class='codeBox' style='position:relative;width:100%;'></div>")
+          $(".post-detail pre").not('.gutter pre').before(copyHtml);
+          new ClipboardJS('.btn-copy', {
+            target: function (trigger) {
+              return trigger.nextElementSibling;
+            }
+          });
+        }
+        initCopyCode();
+        $('.btn-copy').unbind('click').bind('click', function () {
+          doSomething();
+        })
+        $(document).unbind('keypress').bind('keypress', function (e) {
+          if (e.ctrlKey && e.keyCode == 67) {
+            doSomething();
+          }
+        })
+
+        function doSomething() {
+          that.$notify({
+            title: "成功",
+            content: "代码已复制，请遵守相关授权协议。",
+            type: 'success'
+          })
+        }
+      },
+      methods: {
+      },
+      created() { }
+    })
+  </script>
+  
+
+<!-- 图片懒加载 -->
+<script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazyload",
+    threshold: 0
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    lazyLoadInstance.update();
+  });
+  document.addEventListener('pjax:complete', function () {
+    lazyLoadInstance.update();
+  });
+</script>
+
+
+<!-- 卡片滚动动画 -->
+   
+
+<!-- 评论所需js -->
+
+  
+    <script type="text/javascript">
+  var utteranceCommon = {};
+
+  function check_utterance() {
+    let isDark = JSON.parse(localStorage.getItem('dark')) || JSON.parse('false');
+    if (isDark) {
+      utteranceCommon.Theme = 'github-dark';
+    } else {
+      utteranceCommon.Theme = 'github-light';
+    }
+
+    return document.getElementById("gitment-container");
+  }
+  comment_el = '#gitment-container';
+  load_utterance = function () {
+    if ($(comment_el).length) {
+      // 匿名函数，防止污染全局变量
+      const HEAD = check_utterance();
+
+      var utterances = document.createElement('script');
+      utterances.type = 'text/javascript';
+      utterances.async = true;
+      utterances.setAttribute('issue-term', 'pathname')
+      utterances.setAttribute('theme', utteranceCommon.Theme)
+      utterances.setAttribute('repo', '')
+      utterances.crossorigin = 'anonymous';
+      utterances.src = 'https://utteranc.es/client.js';
+      // content 是要插入评论的地方
+      document.getElementById('gitment-container').appendChild(utterances);
+
+    }
+  }
+
+  function dark_utterance() {
+    const HEAD = check_utterance();
+    if (!HEAD) return;
+    const message = {
+      type: 'set-theme',
+      theme: utteranceCommon.Theme
+    };
+    const utteranceIframe = document.querySelector('iframe');
+    utteranceIframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+
+  $(document).ready(load_utterance);
+  document.addEventListener('pjax:complete', function () {
+    load_utterance();
+  });
+
+  $('.dark').click(function () {
+    setTimeout(() => {
+      dark_utterance();
+    });
+  })
+
+</script>
+
+<style>
+  .utterances {
+    max-width: inherit !important;
+  }
+</style>
+  
+
+
+<!-- 鼠标点击特效 -->
+<!-- 爱心点击 -->
+
+   
+    <script src="/js/cursor/clicklove.js"></script> 
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" data-pjax></script>
+
+
+    <!-- pjax -->
+    
+
+<!-- pjax -->
+
+
+  <script src="/js/pjax@0.2.8/index.js"></script>
+  
+    <!-- 样式位于：source/css/_third-party/pjaxanimate.styl -->
+
+<div class="pjax-animate">
+  
+    <div class="loading-circle"><div id="loader-circle"></div></div>
+    <script>
+      window.ShowLoading = function() {
+        $(".loading-circle").css("display", "block");
+      };
+      window.HideLoading = function() {
+        $(".loading-circle").css("display", "none");
+      }
+    </script>
+  
+	<script>
+    document.addEventListener('pjax:complete', function () {
+      window.HideLoading();
+    })
+    document.addEventListener('pjax:send', function () {
+      window.ShowLoading();
+    })
+    document.addEventListener('pjax:error', function () {
+      window.HideLoading();
+    })
+	</script>
+</div>
+
+  
+
+  <script>
+    var pjax = new Pjax({
+      elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([no-pjax])',   // 拦截正常带链接的 a 标签
+      selectors: ["#pjax-container","title"],                                   // 根据实际需要确认重载区域
+      cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+      timeout: 5000
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+
+    })
+    
+    document.addEventListener('pjax:complete', function () {
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      window.location.href = e.triggerElement.href;
+    })
+    
+    // 刷新不从顶部开始
+    document.addEventListener("DOMContentLoaded", function () {
+      history.scrollRestoration = 'auto';
+    })
+  </script>
+
+
+
+  </body>
+</html>
