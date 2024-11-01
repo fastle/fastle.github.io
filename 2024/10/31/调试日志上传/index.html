@@ -22,7 +22,7 @@
 </script>
 
 
-  <title>Controller kafka消费分析 | Fastle的小屋</title>
+  <title>调试日志上传 | Fastle的小屋</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -559,21 +559,21 @@
 
 
 <div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('/medias/5.jpg')">
+  background-position: center center;position: relative;background-image:url('/medias/9.jpg')">
   <div class="post-detail-header-mask"></div>
   <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
   
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        Controller kafka消费分析
+        调试日志上传
       </span>
     </div>
     
     
       
         <span class="post-detail-header_date">
-          <i class="fas fa-calendar"></i> Published in：2024-10-29 |
+          <i class="fas fa-calendar"></i> Published in：2024-10-31 |
         </span>
       
 
@@ -597,29 +597,13 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p>来表演一下盲人摸象。</p>
-<h1 id="controller-correlation-service"><a href="#controller-correlation-service" class="headerlink" title="controller-correlation-service"></a>controller-correlation-service</h1><p>该模块从 Yaml 文件读入解析规则， 并构建返回 Application。 调用了 analyze.Application , 但是有点奇怪， 搜不到其他使用 Application 的。</p>
-<p>然后也找不到调用这个库的。 可能起到个初始化作用 ？</p>
-<p>基本路径</p>
-<p>rulePath -&gt; applicationManager.add(rules)</p>
-<h1 id="licenseApplicationFeignClient"><a href="#licenseApplicationFeignClient" class="headerlink" title="licenseApplicationFeignClient"></a>licenseApplicationFeignClient</h1><p>该模块</p>
-<h1 id="controller-threat-graph-service"><a href="#controller-threat-graph-service" class="headerlink" title="controller-threat-graph-service"></a>controller-threat-graph-service</h1><p>参与事件溯源</p>
-<p>该模块比较好观察 kafka 信息。 ThreatGraphApplicationService 中消费事件 id 溯源事件。</p>
-<p>使用 Spring 中 spring-kafka </p>
-<p>名称为 <code>graphTaskConsumer</code>, 监听 topic <code>threat_graph_task_queue</code> （但是这个在R4图中没清晰看到）， 监听器工厂为 <code>threatGraphTaskFactory</code></p>
-<p><code>threatGraphTaskFactory</code> 处于 <code>controller.config.kafka</code> , 在这里设置了配置信息， 并设置为单线程。</p>
-<h1 id="当前Event-Topic"><a href="#当前Event-Topic" class="headerlink" title="当前Event Topic"></a>当前Event Topic</h1><p>controller-flink-job&#x2F;flink-job-util&#x2F;…&#x2F;ues&#x2F;flink&#x2F;common&#x2F;util&#x2F;threat </p>
-<p>UES_SYSMON “ues_sysmon” “sysmon事件”<br>UES_OSQUERY “ues_osquery” “osquery事件”<br>UES_WINEVENT “ues_winevent”  “winevent事件”<br>UES_OTHER “ues_other” “othershi事件”<br>THREAT_LOG “THREAT_LOG” “行为事件”<br>SUSP_LOG “susp_log” “可疑事件”<br>BRUTE_FORCE_EVENT “brute_force_event”<br>LIBRARY_UPDATE_TOPIC library_update<br>EDR_THREAT_LOG “edr_threat_log” 威胁事件 &#x2F;&#x2F;<br>UHS_EDR “uhs_edr”<br>GRAPH_ENGINE_EVENT “graph_engine_event”    &#x2F;&#x2F; 没有任何使用记录<br>THREAT_GRAPH_TASK “threat_graph_task_queue” 通知威胁溯源<br>CORRELTION_PRE_LOG “correlation_pre_log” 关联分析预处理日志<br>GRAPH_LOG “edr_graph” 图引擎处理日志<br>ICA_MATCH_TOPIC “ica_match” 图引擎数据</p>
-<p>当前 add kafka 需要修改</p>
-<ol>
-<li>controller-flink-job&#x2F;flink-job-util&#x2F;…&#x2F;ues&#x2F;flink&#x2F;common&#x2F;util&#x2F;threat  增加常量</li>
-<li>controller-flink-job-mgnt&#x2F;…&#x2F;job&#x2F;application&#x2F;FlinkJobMgntApplicationService 增加 create Topics &#x2F;&#x2F; 这个地方的createOrModifyTopics(org.apache.kafka.clients.admin.NewTopic… topics) 不知道有没有用到</li>
-<li>输出到</li>
+        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>增加新目录下的文件上传。</p>
+<h1 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h1><p>该程序可以在 controller， agent, 命令行调用， 会根据 <code>tecExportList.yaml</code> 的信息查找</p>
+<h1 id="更改内容"><a href="#更改内容" class="headerlink" title="更改内容"></a>更改内容</h1><ol>
+<li>添加 pushMap</li>
+<li>增加文件通配</li>
+<li>更改 <code>deploy\tecsupport\tecsupportExportList.json</code>, 有对应的文档， 非常清晰。</li>
 </ol>
-<p>除了通知威胁溯源， 其他全都是从 flink 里面走的</p>
-<p>连接kafka 用到 AbstractKafkaFactory.createKafkaSource</p>
-<p>点进去是调用 Flink 的KafkaSource， 设置GroupID是提出来的</p>
-<p><a target="_blank" rel="noopener" href="https://shigure.me/archives/flink%E6%96%B0%E7%89%88kafka%E8%BF%9E%E6%8E%A5%E5%99%A8%E7%9A%84kafkasource%E4%B8%8Ekafkasink%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B">KafkaSource使用指南</a></p>
 
       </div>
       <div class="post-tags-categories">
@@ -633,7 +617,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>link:  </strong>
-    <a href="/2024/10/29/Controller-kafka消费分析/" target="_blank" title="Controller kafka消费分析">http://example.com/2024/10/29/Controller-kafka消费分析/</a>
+    <a href="/2024/10/31/调试日志上传/" target="_blank" title="调试日志上传">http://example.com/2024/10/31/调试日志上传/</a>
     </li>
     <li class="post-copyright-license">
       <strong>Copyright notice:   </strong>
@@ -657,15 +641,17 @@
       background-position: center center;">
       <img class="lazyload lazyload placeholder" src="/medias/9.jpg" class="lazyload placeholder" data-srcset="/medias/9.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
     </div>
-    <a href="/2024/10/31/%E8%B0%83%E8%AF%95%E6%97%A5%E5%BF%97%E4%B8%8A%E4%BC%A0/" class="post-nav-link">
+    <a href="/2024/11/01/%E5%B1%B1%E9%A3%8E/" class="post-nav-link">
       <div class="title">
         <i class="fas fa-angle-left"></i> Prev:
-        <div class="title-text">调试日志上传</div>
+        <div class="title-text">山风</div>
       </div>
       
       <!-- <div class="content">
-        需求增加新目录下的文件上传。
-输入输出该程序可以在 controller， agent, 命令行调用， 会根据 tecE
+        梗概
+设定环境世界设定仙界， 仙魂殿， 仙魂坛， 不死， 仙魂劫。
+人物山风， 原为岳风，岳家
+
       </div> -->
     </a>
   </div>
@@ -676,17 +662,16 @@
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="/medias/11.jpg" class="lazyload placeholder" data-srcset="/medias/11.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="/medias/5.jpg" class="lazyload placeholder" data-srcset="/medias/5.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" src="" alt="">
     </div>
-    <a href="/2024/10/24/cep%E5%BC%95%E6%93%8E%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" class="post-nav-link">
+    <a href="/2024/10/29/Controller-kafka%E6%B6%88%E8%B4%B9%E5%88%86%E6%9E%90/" class="post-nav-link">
       <div class="title">
         Next: <i class="fas fa-angle-right"></i>
-        <div class="title-text">cep引擎开源项目</div>
+        <div class="title-text">Controller kafka消费分析</div>
       </div>
       <!-- <div class="content">
-        wongi&#x3D;engine 基于 Ruby , 存内存
-一些常见开源JBoss DroolsDrools外部化
-
+        来表演一下盲人摸象。
+controller-correlation-service该模块从 Yaml 文件读入解析规则，
       </div> -->
     </a>
   </div>
