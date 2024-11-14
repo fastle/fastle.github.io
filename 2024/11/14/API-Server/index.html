@@ -22,7 +22,7 @@
 </script>
 
 
-  <title>kafka-go | Fastle的小屋</title>
+  <title>API Server | Fastle的小屋</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -566,14 +566,14 @@
   <div class="post-detail-header_info-box">
     <div class="title-box">
       <span class="title">
-        kafka-go
+        API Server
       </span>
     </div>
     
     
       
         <span class="post-detail-header_date">
-          <i class="fas fa-calendar"></i> Published in：2024-11-04 |
+          <i class="fas fa-calendar"></i> Published in：2024-11-14 |
         </span>
       
 
@@ -597,21 +597,10 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <p><code>confluent-kafka-go</code> LLM 建议使用这个 find kafka消息。 </p>
-<p>我们是另一个kafka-go 库</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_38031406/article/details/130951303">框架对比</a></p>
-<p>sysmonmongo &#x2F;&#x2F; mongo 编译入口</p>
+        <p>注意：不要把apiserver当作controller与agent交互的中间对象来使用，保持单向性原则，一方修<br>改，另一方得到配置，避免同时修改一个字段。apiserver放的是配置，应当只有controller下发配<br>置，agent得到配置执行。agent通过status更新的最好是状态，对于agent需要上报的数据，应该<br>走数据通道。</p>
 
       </div>
       <div class="post-tags-categories">
-        
-        <div class="tags">
-          
-            <a href="/tags/%E9%9A%8F%E7%AC%94/" class="">
-              随笔
-            </a>
-          
-        </div>
         
       </div>
       
@@ -622,7 +611,7 @@
     </li>
     <li class="post-copyright-link">
     <strong>link:  </strong>
-    <a href="/2024/11/04/kafka-go/" target="_blank" title="kafka-go">http://example.com/2024/11/04/kafka-go/</a>
+    <a href="/2024/11/14/API-Server/" target="_blank" title="API Server">http://example.com/2024/11/14/API-Server/</a>
     </li>
     <li class="post-copyright-license">
       <strong>Copyright notice:   </strong>
@@ -644,16 +633,16 @@
   <div class="post-nav-prev post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="/medias/4.jpg" class="lazyload placeholder" data-srcset="/medias/4.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+      <img class="lazyload lazyload placeholder" src="/medias/3.jpg" class="lazyload placeholder" data-srcset="/medias/3.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
     </div>
-    <a href="/2024/11/14/API-Server/" class="post-nav-link">
+    <a href="/2024/11/14/grpc/" class="post-nav-link">
       <div class="title">
         <i class="fas fa-angle-left"></i> Prev:
-        <div class="title-text">API Server</div>
+        <div class="title-text">gRPC</div>
       </div>
       
       <!-- <div class="content">
-        注意：不要把apiserver当作controller与agent交互的中间对象来使用，保持单向性原则，一方修改，另一方
+        gRPC 是一个高性能、开源的通用 RPC（Remote Procedure Call 远程过程调用）框架，由 Goog
       </div> -->
     </a>
   </div>
@@ -664,19 +653,16 @@
   <div class="post-nav-next post-nav-item">
     <div class="post-nav-img" style="background-size: cover; 
       background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="/medias/14.jpg" class="lazyload placeholder" data-srcset="/medias/14.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" src="" alt="">
+      <img class="lazyload lazyload placeholder" src="/medias/4.jpg" class="lazyload placeholder" data-srcset="/medias/4.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" src="" alt="">
     </div>
-    <a href="/2024/11/01/%E6%97%A5%E8%AE%B0-2024-11/" class="post-nav-link">
+    <a href="/2024/11/04/kafka-go/" class="post-nav-link">
       <div class="title">
         Next: <i class="fas fa-angle-right"></i>
-        <div class="title-text">日记--2024-11</div>
+        <div class="title-text">kafka-go</div>
       </div>
       <!-- <div class="content">
-        1日 星期五好饿 吃不饱
-4日睡觉好少， 但是一点不困。
-14日白驹过隙
-三观差太多真的不适合交流， 
-第一次使用年假。
+        confluent-kafka-go LLM 建议使用这个 find kafka消息。 
+我们是另一个kafka-go 
       </div> -->
     </a>
   </div>
