@@ -597,8 +597,41 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h1 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h1><h2 id="admissionControl"><a href="#admissionControl" class="headerlink" title="admissionControl"></a>admissionControl</h2><h2 id="assets"><a href="#assets" class="headerlink" title="assets"></a>assets</h2><h2 id="atp"><a href="#atp" class="headerlink" title="atp"></a>atp</h2><h2 id="av"><a href="#av" class="headerlink" title="av"></a>av</h2><h2 id="clickhouseClean"><a href="#clickhouseClean" class="headerlink" title="clickhouseClean"></a>clickhouseClean</h2><h2 id="cloud"><a href="#cloud" class="headerlink" title="cloud"></a>cloud</h2><h2 id="compliance"><a href="#compliance" class="headerlink" title="compliance"></a>compliance</h2><h2 id="hcnf"><a href="#hcnf" class="headerlink" title="hcnf"></a>hcnf</h2><h2 id="hscscli"><a href="#hscscli" class="headerlink" title="hscscli"></a>hscscli</h2><h2 id="kafkaconsume"><a href="#kafkaconsume" class="headerlink" title="kafkaconsume"></a>kafkaconsume</h2><h2 id="kbupdate"><a href="#kbupdate" class="headerlink" title="kbupdate"></a>kbupdate</h2><h2 id="mgmt"><a href="#mgmt" class="headerlink" title="mgmt"></a>mgmt</h2><h2 id="rtsec"><a href="#rtsec" class="headerlink" title="rtsec"></a>rtsec</h2><h2 id="securityScan"><a href="#securityScan" class="headerlink" title="securityScan"></a>securityScan</h2><h2 id="sysmoncontroller"><a href="#sysmoncontroller" class="headerlink" title="sysmoncontroller"></a>sysmoncontroller</h2><h2 id="sysmonmongo"><a href="#sysmonmongo" class="headerlink" title="sysmonmongo"></a>sysmonmongo</h2><h2 id="vulnScan"><a href="#vulnScan" class="headerlink" title="vulnScan"></a>vulnScan</h2><h2 id="webservice"><a href="#webservice" class="headerlink" title="webservice"></a>webservice</h2><h1 id="agent"><a href="#agent" class="headerlink" title="agent"></a>agent</h1><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>ev</p>
-
+        <h1 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h1><h2 id="admissionControl"><a href="#admissionControl" class="headerlink" title="admissionControl"></a>admissionControl</h2><p>准入控制模块</p>
+<h2 id="assets"><a href="#assets" class="headerlink" title="assets"></a>assets</h2><p>资产模块</p>
+<h2 id="atp"><a href="#atp" class="headerlink" title="atp"></a>atp</h2><p>入侵检测模块</p>
+<h2 id="av"><a href="#av" class="headerlink" title="av"></a>av</h2><p>病毒查杀模块</p>
+<h2 id="clickhouseClean"><a href="#clickhouseClean" class="headerlink" title="clickhouseClean"></a>clickhouseClean</h2><p>clickhouse 数据库清理</p>
+<p>clickhouse 是一个用于联机分析(OLAP Online Analytical Processing)的列式数据库管理系统(DBMS)。</p>
+<p>联机分析处理（OLAP,On-line Analytical Processing），数据量大，DML少。使用数据仓库模板</p>
+<p>联机事务处理（OLTP,On-line Transaction Processing），数据量少，DML频繁，并行事务处理多，但是一般都很短。使用一般用途或事务处理模板。</p>
+<p>决策支持系统（DDS，Decision support system），典型的操作是全表扫描，长查询，长事务，但是一般事务的个数很少，往往是一个事务独占系统。</p>
+<h3 id="辨析一下-OLAP-和-OLTP-的区别"><a href="#辨析一下-OLAP-和-OLTP-的区别" class="headerlink" title="辨析一下 OLAP 和 OLTP 的区别"></a>辨析一下 OLAP 和 OLTP 的区别</h3><ul>
+<li>doubao 生成</li>
+</ul>
+<ol>
+<li>应用场景<br>OLAP：<br>主要用于支持复杂的分析操作，以帮助企业管理者和决策者从大量数据中获取有价值的信息，从而进行决策制定。<br>例如，企业想要分析不同地区、不同时间段的销售数据，以了解销售趋势、找出畅销产品、评估各地区销售业绩等，就会使用 OLAP 工具对销售数据库进行分析。<br>OLTP：<br>侧重于日常的业务操作处理，如订单处理、库存管理、客户注册等基本业务流程。<br>比如，电商平台处理用户下单、支付，更新库存等实时交易操作，就是典型的 OLTP 应用场景。</li>
+<li>数据特点<br>OLAP：<br>处理的数据量通常非常大，可能涉及企业多年积累的历史数据以及从多个数据源整合而来的数据。<br>数据的综合性强，经过了一定程度的预处理和聚合，以便于快速进行各种分析查询。例如，将原始销售记录按天、月、年等不同维度进行汇总统计，形成可供分析的汇总数据。<br>OLTP：<br>主要处理当前业务运营中产生的实时数据，数据量相对 OLAP 来说较小，但更新频繁。<br>数据以事务为单位进行处理，要求保证数据的完整性和准确性，比如一笔订单的各项信息（商品、数量、价格、客户信息等）都要准确无误地记录和处理。</li>
+<li>用户群体<br>OLAP：<br>主要面向企业的管理人员、数据分析人员、决策者等。这些用户需要通过对数据的深入分析来洞察业务状况、发现问题和机会，进而制定战略和决策。<br>OLTP：<br>面向企业的一线业务人员，如销售员、仓库管理员、收银员等。他们在日常工作中直接与业务交易打交道，通过 OLTP 系统完成各种业务操作，确保业务流程的正常运转。</li>
+<li>数据库设计<br>OLAP：<br>通常采用星型模型或雪花模型等多维数据模型进行设计。以星型模型为例，有一个中心事实表，周围连接着多个维度表，这种结构便于进行多维度的数据分析查询。<br>数据库的索引设计侧重于优化复杂的查询操作，以提高分析性能。<br>OLTP：<br>一般按照传统的关系模型进行设计，注重数据的规范化，通过范式化来减少数据冗余，保证数据的一致性和完整性。<br>索引设计主要是为了加快常见业务操作（如插入、更新、删除等）的处理速度。</li>
+<li>事务处理要求<br>OLAP：<br>对事务处理的即时性要求相对较低，因为其主要目的是进行数据分析，而不是实时处理业务交易。<br>更关注数据查询的效率和准确性，以便能够快速准确地提供分析结果。<br>OLTP：<br>对事务处理的即时性要求很高，一笔业务交易必须在尽可能短的时间内完成处理，以确保业务流程的顺畅进行。<br>例如，用户在电商平台下单支付，如果支付过程耗时过长或出现故障，会严重影响用户体验和业务运营。</li>
+<li>数据更新频率<br>OLAP：<br>数据更新频率相对较低，通常是定期（如每天、每周、每月等）从 OLTP 系统等数据源抽取、转换、加载（ETL）新的数据进行更新。<br>主要是对已有的分析数据进行补充和完善，而不是频繁地实时更新。<br>OLTP：<br>数据更新频繁，随着每一笔业务交易的发生，相关的数据都会实时进行更新。<br>比如库存数量会随着商品的销售或入库实时变动，客户信息也可能在客户进行注册、修改等操作时实时更新。<br>OLAP 和 OLTP 在应用场景、数据特点、用户群体、数据库设计、事务处理要求以及数据更新频率等方面都存在显著差异，它们在企业的信息化建设中各自发挥着重要作用，相互配合以满足企业不同层面的需求。</li>
+</ol>
+<h2 id="cloud"><a href="#cloud" class="headerlink" title="cloud"></a>cloud</h2><p>同步互联网数据（合规）</p>
+<h2 id="compliance"><a href="#compliance" class="headerlink" title="compliance"></a>compliance</h2><p>合规</p>
+<h2 id="hcnf"><a href="#hcnf" class="headerlink" title="hcnf"></a>hcnf</h2><p>微隔离</p>
+<h2 id="hscscli"><a href="#hscscli" class="headerlink" title="hscscli"></a>hscscli</h2><p>controller 命令行补全</p>
+<h2 id="kafkaconsume"><a href="#kafkaconsume" class="headerlink" title="kafkaconsume"></a>kafkaconsume</h2><p>kafka消费者， 用于分发从 agent 收集的日志到数据库</p>
+<h2 id="kbupdate"><a href="#kbupdate" class="headerlink" title="kbupdate"></a>kbupdate</h2><p>同步互联网数据（漏洞扫描（</p>
+<h2 id="mgmt"><a href="#mgmt" class="headerlink" title="mgmt"></a>mgmt</h2><p>基础功能相关，用户、证书、debug日志。</p>
+<h2 id="rtsec"><a href="#rtsec" class="headerlink" title="rtsec"></a>rtsec</h2><p>运行时安全</p>
+<h2 id="securityScan"><a href="#securityScan" class="headerlink" title="securityScan"></a>securityScan</h2><p>镜像合规模块</p>
+<h2 id="sysmoncontroller"><a href="#sysmoncontroller" class="headerlink" title="sysmoncontroller"></a>sysmoncontroller</h2><p>controller 系统监控管理模块，管理 controller 其他的进程的生命周期</p>
+<h2 id="sysmonmongo"><a href="#sysmonmongo" class="headerlink" title="sysmonmongo"></a>sysmonmongo</h2><p>mongo 数据库管理模块</p>
+<h2 id="vulnScan"><a href="#vulnScan" class="headerlink" title="vulnScan"></a>vulnScan</h2><p>漏洞扫描模块</p>
+<h2 id="webservice"><a href="#webservice" class="headerlink" title="webservice"></a>webservice</h2><p>webservice 模块</p>
+<h1 id="agent"><a href="#agent" class="headerlink" title="agent"></a>agent</h1><h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>ftrace 追踪</p>
+<h2 id="beats"><a href="#beats" class="headerlink" title="beats"></a>beats</h2>
       </div>
       <div class="post-tags-categories">
         
