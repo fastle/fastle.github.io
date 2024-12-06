@@ -617,7 +617,7 @@
 <h2 id="Raft-算法"><a href="#Raft-算法" class="headerlink" title="Raft 算法"></a>Raft 算法</h2><p>很简单。 分布式储存系统中存在 Leader 、 Follower 、 Candidate， 一个 Leader 负责整个系统， 然后 Leader 坏了就重选一个。使用心跳包来确认各个角色是正常的。 同步机制是<br>Leader 将请求转化为日志条目发送给 Follower 复制，多数节点成功复制某条日志条目后该条目对应的操作才被认为已提交。</p>
 <h2 id="ZAB-算法"><a href="#ZAB-算法" class="headerlink" title="ZAB 算法"></a>ZAB 算法</h2><p>增加了 Observer 角色， 同样要心跳包、 要选举。同步机制是 Leader 接收到事务请求后转化为事务并加入事务队列，通过广播形式发送给 Follower 和 Observer，Follower 和 Observer 需检查日志匹配情况后处理事务。</p>
 <h1 id="资源定义"><a href="#资源定义" class="headerlink" title="资源定义"></a>资源定义</h1><p>API-Server 作为 controller 和 Agent 之间配置交互的通道，负责配置资源的管理。Controller 上与 Agent 相关的配置抽象成资源，每种资源定义一个资源文件，基于资源文件生成客户端代码，使用客户端代码对资源进行增删改查监听等操作。</p>
-
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1>
       </div>
       <div class="post-tags-categories">
         

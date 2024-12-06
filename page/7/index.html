@@ -1178,6 +1178,109 @@
         <div class="post-info">
           <div class="post-time">
             <i class="fas fa-clock" aria-hidden="true"></i>
+            <span class="post-time">2024-08-09</span>
+          </div>
+          <div class="post-title">
+            <a class="post-title-link" href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E6%96%B9%E6%B3%95/">Go 语言圣经笔记  第六章：方法</a>
+          </div>
+          <div class="post-meta">
+            <div class="post-tags">
+              <!-- 文章详情页的标签 -->
+
+    <i class="iconfont icontag"></i>
+    <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F/" rel="tag">Go语言圣经</a></li></ul>
+
+            </div>
+            <div class="post-categories">
+              <!-- 文章详情页的分类 -->
+
+
+            </div>
+          </div>
+          <div class="post-img-mobile">
+            <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E6%96%B9%E6%B3%95/" style="background-size: cover; 
+              background-position: center center;">
+              <img class="lazyload lazyload placeholder" src="/medias/3.jpg" class="lazyload placeholder" data-srcset="/medias/3.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+            </a>
+          </div>
+          <div class="post-content">
+            第六章 方法
+在函数声明时， 在其名字前面放上一个变量， 就是一个方法， 这个附加的参数会将该函数附加到这种类型上，相当于我们对于这种类型建立了一种独立的方法。
+
+123456789101112131415// 建立方法样例package 
+          </div>
+        </div>
+        <div class="post-more">
+          <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E6%96%B9%E6%B3%95/">
+            <i class="iconfont iconmore" pointer style="float: right;  " title="阅读更多"></i>
+          </a>
+        </div>
+      </div>
+      <div class="post-img">
+        <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%9A%E6%96%B9%E6%B3%95/" style="background-size: cover; 
+          background-position: center center;">
+          <img class="lazyload lazyload placeholder" src="/medias/3.jpg" class="lazyload placeholder" data-srcset="/medias/3.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+        </a>
+      </div>
+    </article>
+  
+    
+    <article class="post reveal" style="   ">
+      <div class="post-main">
+        <div class="post-info">
+          <div class="post-time">
+            <i class="fas fa-clock" aria-hidden="true"></i>
+            <span class="post-time">2024-08-09</span>
+          </div>
+          <div class="post-title">
+            <a class="post-title-link" href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%9A%E5%87%BD%E6%95%B0/">Go 语言圣经笔记  第五章：函数</a>
+          </div>
+          <div class="post-meta">
+            <div class="post-tags">
+              <!-- 文章详情页的标签 -->
+
+    <i class="iconfont icontag"></i>
+    <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/" rel="tag">Go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F/" rel="tag">Go语言圣经</a></li></ul>
+
+            </div>
+            <div class="post-categories">
+              <!-- 文章详情页的分类 -->
+
+
+            </div>
+          </div>
+          <div class="post-img-mobile">
+            <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%9A%E5%87%BD%E6%95%B0/" style="background-size: cover; 
+              background-position: center center;">
+              <img class="lazyload lazyload placeholder" src="/medias/12.jpg" class="lazyload placeholder" data-srcset="/medias/12.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+            </a>
+          </div>
+          <div class="post-content">
+            第五章
+函数的四种写法——你懂么?
+123456func add(x int, y int) int &#123;return x + y&#125;func sub(x, y int) int &#123;return x - y&#12
+          </div>
+        </div>
+        <div class="post-more">
+          <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%9A%E5%87%BD%E6%95%B0/">
+            <i class="iconfont iconmore" pointer style="  " title="阅读更多"></i>
+          </a>
+        </div>
+      </div>
+      <div class="post-img">
+        <a href="/2024/08/09/Go-%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E7%AC%94%E8%AE%B0-%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%9A%E5%87%BD%E6%95%B0/" style="background-size: cover; 
+          background-position: center center;">
+          <img class="lazyload lazyload placeholder" src="/medias/12.jpg" class="lazyload placeholder" data-srcset="/medias/12.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+        </a>
+      </div>
+    </article>
+  
+    
+    <article class="post reveal" style="flex-direction: row-reverse;   ">
+      <div class="post-main">
+        <div class="post-info">
+          <div class="post-time">
+            <i class="fas fa-clock" aria-hidden="true"></i>
             <span class="post-time">2024-08-08</span>
           </div>
           <div class="post-title">
@@ -1588,118 +1691,11 @@ QWQ
       </div>
     </article>
   
-    
-    <article class="post reveal" style="flex-direction: row-reverse;   ">
-      <div class="post-main">
-        <div class="post-info">
-          <div class="post-time">
-            <i class="fas fa-clock" aria-hidden="true"></i>
-            <span class="post-time">2022-05-11</span>
-          </div>
-          <div class="post-title">
-            <a class="post-title-link" href="/2022/05/11/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C/">课程设计—数值分析实验</a>
-          </div>
-          <div class="post-meta">
-            <div class="post-tags">
-              <!-- 文章详情页的标签 -->
-
-    <i class="iconfont icontag"></i>
-    <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag">数值分析</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/" rel="tag">课程设计</a></li></ul>
-
-            </div>
-            <div class="post-categories">
-              <!-- 文章详情页的分类 -->
-
-
-            </div>
-          </div>
-          <div class="post-img-mobile">
-            <a href="/2022/05/11/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C/" style="background-size: cover; 
-              background-position: center center;">
-              <img class="lazyload lazyload placeholder" src="/medias/13.jpg" class="lazyload placeholder" data-srcset="/medias/13.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
-            </a>
-          </div>
-          <div class="post-content">
-            [TOC]
-第一章 误差理论背景知识描述了误差的来源于类型、度量方法、误差的收敛阶、误差的累计以及局部与整体误差。
-误差的来源与类型模型误差我们在计算时经常将问题进行数学建模，建模往往省略了一些影响小的变量，近似地模拟了问题，我们吧数学模型
-          </div>
-        </div>
-        <div class="post-more">
-          <a href="/2022/05/11/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C/">
-            <i class="iconfont iconmore" pointer style="float: right;  " title="阅读更多"></i>
-          </a>
-        </div>
-      </div>
-      <div class="post-img">
-        <a href="/2022/05/11/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1%E2%80%94%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C/" style="background-size: cover; 
-          background-position: center center;">
-          <img class="lazyload lazyload placeholder" src="/medias/13.jpg" class="lazyload placeholder" data-srcset="/medias/13.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
-        </a>
-      </div>
-    </article>
-  
-    
-    <article class="post reveal" style="   ">
-      <div class="post-main">
-        <div class="post-info">
-          <div class="post-time">
-            <i class="fas fa-clock" aria-hidden="true"></i>
-            <span class="post-time">2022-04-12</span>
-          </div>
-          <div class="post-title">
-            <a class="post-title-link" href="/2022/04/12/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/">课程设计-计算机组成原理实验</a>
-          </div>
-          <div class="post-meta">
-            <div class="post-tags">
-              <!-- 文章详情页的标签 -->
-
-    <i class="iconfont icontag"></i>
-    <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/quartus/" rel="tag">quartus</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" rel="tag">计算机组成原理</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1/" rel="tag">课程设计</a></li></ul>
-
-            </div>
-            <div class="post-categories">
-              <!-- 文章详情页的分类 -->
-
-
-            </div>
-          </div>
-          <div class="post-img-mobile">
-            <a href="/2022/04/12/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/" style="background-size: cover; 
-              background-position: center center;">
-              <img class="lazyload lazyload placeholder" src="/medias/7.jpg" class="lazyload placeholder" data-srcset="/medias/7.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
-            </a>
-          </div>
-          <div class="post-content">
-            前置知识verilog环境配置
-基本环境
-
-modelsim安装后可能没有license，破解教程,破解文件备份链接
-提取码：yydz
-中途遇到modelsim已破解但是quartus调用仍然不行的情况，我是重启quartus成功的。
-
-t
-          </div>
-        </div>
-        <div class="post-more">
-          <a href="/2022/04/12/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/">
-            <i class="iconfont iconmore" pointer style="  " title="阅读更多"></i>
-          </a>
-        </div>
-      </div>
-      <div class="post-img">
-        <a href="/2022/04/12/%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86%E5%AE%9E%E9%AA%8C/" style="background-size: cover; 
-          background-position: center center;">
-          <img class="lazyload lazyload placeholder" src="/medias/7.jpg" class="lazyload placeholder" data-srcset="/medias/7.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
-        </a>
-      </div>
-    </article>
-  
 </section>
     <!-- 翻页 -->
     
   <!-- <nav class="page-nav">
-    <a class="extend prev" rel="prev" href="/page/6/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+    <a class="extend prev" rel="prev" href="/page/6/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next</a>
   </nav> -->
   <div class="page-nav">
     
@@ -1709,9 +1705,14 @@ t
       </a>
     
     <div class="page-info">
-        <div class="page-info-text">7 / 7</div>
+        <div class="page-info-text">7 / 8</div>
     </div>
     
+      <a href="/page/8/"
+         class="page-nav-next">
+          <span class="mr-5">Next</span><i class="fas fa-angle-right"></i>
+      </a>
+      
   </div>
 
   </div>
@@ -1822,6 +1823,48 @@ t
             
 
             <div class="post-img-box">
+              <a href="/2024/11/26/%E6%99%BA%E9%93%A0echo%E6%A8%A1%E5%9D%97/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="/medias/15.jpg" class="lazyload placeholder" data-srcset="/medias/15.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">11-26</span>
+                
+              </div>
+              <a class="post-title" href="/2024/11/26/%E6%99%BA%E9%93%A0echo%E6%A8%A1%E5%9D%97/">智铠echo模块</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
+              <a href="/2024/11/25/2024-%E5%8F%B0%E4%B8%AD/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="/medias/9.jpg" class="lazyload placeholder" data-srcset="/medias/9.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                
+                  <span class="post-date">11-25</span>
+                
+              </div>
+              <a class="post-title" href="/2024/11/25/2024-%E5%8F%B0%E4%B8%AD/">2024 台中</a>
+            </div>
+          </div>
+        
+          <div class="aside-list-item">
+            
+            
+            
+
+            <div class="post-img-box">
               <a href="/2024/11/18/%E8%AE%B0%E5%BF%86%E2%80%941/" class="post-img " style="background-size: cover; 
                 background-position: center center;">
                 <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="/medias/5.jpg" class="lazyload placeholder" data-srcset="/medias/5.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
@@ -1879,48 +1922,6 @@ t
             </div>
           </div>
         
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/11/04/kafka-go/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="/medias/4.jpg" class="lazyload placeholder" data-srcset="/medias/4.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">11-04</span>
-                
-              </div>
-              <a class="post-title" href="/2024/11/04/kafka-go/">kafka-go</a>
-            </div>
-          </div>
-        
-          <div class="aside-list-item">
-            
-            
-            
-
-            <div class="post-img-box">
-              <a href="/2024/11/01/%E6%97%A5%E8%AE%B0-2024-11/" class="post-img " style="background-size: cover; 
-                background-position: center center;">
-                <img class="lazyload lazyload placeholder" style="width:100%;height:100%;object-fit:cover;" data-src="/medias/14.jpg" class="lazyload placeholder" data-srcset="/medias/14.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
-              </a>
-            </div>
-            <div class="post-date-title">
-              <div>
-                
-                  <span class="post-date">11-01</span>
-                
-              </div>
-              <a class="post-title" href="/2024/11/01/%E6%97%A5%E8%AE%B0-2024-11/">日记--2024-11</a>
-            </div>
-          </div>
-        
       </div>
     </div>
   </section>
@@ -1928,7 +1929,7 @@ t
     
   <section class="widget side_archives">
     
-    <header><a style="color: red" href='/archives/'><i class="fas fa-archive fa-fw" aria-hidden="true"></i><span class='name'>归档</span></a></header><div class="content"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">November 2024</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">October 2024</span><span class="card-archive-list-count">16</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">September 2024</span><span class="card-archive-list-count">33</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/08/"><span class="card-archive-list-date">August 2024</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">July 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/05/"><span class="card-archive-list-date">May 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">April 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div>
+    <header><a style="color: red" href='/archives/'><i class="fas fa-archive fa-fw" aria-hidden="true"></i><span class='name'>归档</span></a></header><div class="content"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">November 2024</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">October 2024</span><span class="card-archive-list-count">16</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">September 2024</span><span class="card-archive-list-count">33</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/08/"><span class="card-archive-list-date">August 2024</span><span class="card-archive-list-count">8</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">July 2024</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/05/"><span class="card-archive-list-date">May 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">April 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div>
   </section>
 
     <section class="widget side_webinfo">
@@ -1945,7 +1946,7 @@ t
       
         <div class="webinfo-item">
           <div>文章数目：</div>
-          <div>70 篇</div>
+          <div>72 篇</div>
         </div>
       
 
@@ -1988,8 +1989,8 @@ t
         <div class="webinfo-item">
           <div>最后活动时间：</div>
           
-            <div id="last-update" style="display: none;">Fri Nov 22 2024 18:34:15 GMT+0800 (中国标准时间)</div>
-            <div id="last-update-show">2024-11-22 日</div>
+            <div id="last-update" style="display: none;">Fri Dec 06 2024 18:24:03 GMT+0800 (中国标准时间)</div>
+            <div id="last-update-show">2024-12-06 日</div>
           
         </div>
         
@@ -2039,7 +2040,7 @@ t
           try {
             document.getElementById('last-update-show').innerHTML = timeago(new Date(lastUpDate));
           } catch (error) {
-            document.getElementById('last-update-show').innerHTML = '2024-11-22 日';
+            document.getElementById('last-update-show').innerHTML = '2024-12-06 日';
           }
         </script>
         
