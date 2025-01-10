@@ -22,7 +22,7 @@
 </script>
 
 
-  <title>API Server | Fastle的小屋</title>
+  <title>archives: 2025/1 | Fastle的小屋</title>
 
   <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://at.alicdn.com/t/font_1911880_c1nvbyezg17.css">
@@ -545,410 +545,140 @@
     
 </header>
         <!-- 内容区域 -->
-        
- <!-- prismjs 代码高亮 -->
- 
-
-
-<div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -1;"></div>
-
-
-  <!-- 文章详情页顶部图片和标题 -->
-
-
-
-
-<div class="post-detail-header" id="thumbnail_canvas" style="background-repeat: no-repeat; background-size: cover; 
-  background-position: center center;position: relative;background-image:url('/medias/4.jpg')">
-  <div class="post-detail-header-mask"></div>
-  <canvas id="header_canvas"style="position:absolute;bottom:0;pointer-events:none;"></canvas>
-  
-  <div class="post-detail-header_info-box">
-    <div class="title-box">
-      <span class="title">
-        API Server
-      </span>
-    </div>
-    
-    
-      
-        <span class="post-detail-header_date">
-          <i class="fas fa-calendar"></i> Published in：2024-11-14 |
-        </span>
-      
-
-      
-
-      
-    
+        <div class="bg-dark-floor" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"></div>
+<div class="bg-light-floor-archive" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -3;"></div>
+<div class="archive-header" style="background-image:url('https://pic1.zhimg.com/80/v2-1414b3a4b205e19060db18a20d08723a_1440w.jpg?source=1940ef5c')">
+  <div class="archive-header-title">
+    archive
   </div>
+  <div class="archive-header-desc">
   
-  
-    <script src="/js/bubble/bubble.js"></script>
-  
-</div>
-
-
-
-
-
-<div class="row justify-position" 
-  style="padding-top: 0px;">
-  <div class="main-content">
-    <article class="post post-detail">
-      <div class="post-content">
-        <p>注意：不要把apiserver当作controller与agent交互的中间对象来使用，保持单向性原则，一方修<br>改，另一方得到配置，避免同时修改一个字段。apiserver放的是配置，应当只有controller下发配<br>置，agent得到配置执行。agent通过status更新的最好是状态，对于agent需要上报的数据，应该<br>走数据通道。</p>
-<h1 id="etcd"><a href="#etcd" class="headerlink" title="etcd"></a>etcd</h1><p>etcd 是一个分布式、可靠的键值存储系统，主要用于共享配置和服务发现等场景，在分布式系统领域有着重要地位，以下是关于它的详细介绍：</p>
-<h2 id="基本特点"><a href="#基本特点" class="headerlink" title="基本特点"></a>基本特点</h2><h3 id="分布式架构"><a href="#分布式架构" class="headerlink" title="分布式架构"></a>分布式架构</h3><p>etcd 采用分布式的设计理念，数据会在多个节点之间进行复制和存储。这意味着即使部分节点出现故障，整个系统依然能够正常运行，提供数据的读取和写入服务，有效提高了系统的可用性和可靠性。</p>
-<p>例如，在一个由 5 个节点组成的 etcd 集群中，当其中 1 个节点发生故障时，其余 4 个节点仍可继续处理客户端的请求，保证业务不受太大影响。</p>
-<h3 id="一致性保证"><a href="#一致性保证" class="headerlink" title="一致性保证"></a>一致性保证</h3><p>它基于 Raft 算法来实现强一致性。Raft 算法确保在集群中的各个节点对于数据的状态能够达成一致的认识。</p>
-<p>也就是说，无论客户端从哪个节点进行数据的读写操作，都能得到相同且最新的结果，避免了数据不一致可能导致的各种问题，如业务逻辑混乱等。</p>
-<h3 id="键值存储模型"><a href="#键值存储模型" class="headerlink" title="键值存储模型"></a>键值存储模型</h3><p>etcd 以简单的键值对形式来存储数据。键（Key）是用于唯一标识数据的字符串，值（Value）则可以是任意类型的数据，比如字符串、数字、JSON 格式的数据等。<br>例如，可以将应用程序的配置参数以键值对的形式存储在 etcd 中，如 “app_config.port”: “8080” 就表示将应用程序的端口配置参数存储其中，方便进行统一管理和动态更新。</p>
-<h2 id="主要用途"><a href="#主要用途" class="headerlink" title="主要用途"></a>主要用途</h2><h3 id="配置管理"><a href="#配置管理" class="headerlink" title="配置管理"></a>配置管理</h3><p>在分布式系统中，往往有大量的应用程序和服务，每个都有各自的配置参数。etcd 可以作为一个集中的配置存储中心，将这些配置参数以键值对的形式存储起来。<br>当需要修改配置时，只需更新 etcd 中的相应键值对，各个应用程序和服务就可以实时获取到最新的配置，无需逐个去重启或重新配置每个应用，大大提高了配置管理的效率和灵活性。</p>
-<h3 id="服务发现"><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h3><p>对于由众多微服务组成的分布式系统，服务之间需要相互发现和通信。etcd 可以记录各个服务的实例信息，如服务的 IP 地址、端口号、服务状态等。<br>当一个服务需要调用另一个服务时，它可以通过查询 etcd 来获取目标服务的最新实例信息，从而实现准确的服务连接和调用，使得微服务架构下的服务间协作更加顺畅。</p>
-<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p>在一些需要对共享资源进行互斥访问的场景中，etcd 可以用来实现分布式锁。通过在 etcd 中创建特定的键值对来表示锁的状态，多个客户端可以竞争获取这个锁。<br>只有获取到锁的客户端才能对共享资源进行操作，操作完成后再释放锁，保证了在分布式环境下对共享资源的有序访问，避免了资源冲突等问题。</p>
-<h2 id="与其他类似系统的比较"><a href="#与其他类似系统的比较" class="headerlink" title="与其他类似系统的比较"></a>与其他类似系统的比较</h2><h3 id="与-Zookeeper-的比较"><a href="#与-Zookeeper-的比较" class="headerlink" title="与 Zookeeper 的比较"></a>与 Zookeeper 的比较</h3><p>一致性模型方面：etcd 基于 Raft 算法实现强一致性，而 Zookeeper 采用的是 ZAB 算法。虽然都能保证一致性，但实现方式有所不同。</p>
-<p>数据模型方面：etcd 采用简单的键值对模型，相对更加简洁直观；Zookeeper 的数据模型则相对复杂一些，它除了可以存储键值对外，还支持类似文件系统的层次结构存储。</p>
-<p>在应用场景上，两者都可用于配置管理、服务发现等，但由于 etcd 的键值对模型简洁以及 Raft 算法在一些情况下更易理解和维护，使得它在一些新兴的分布式系统项目中应用越来越广泛。</p>
-<h3 id="与-Consul-的比较"><a href="#与-Consul-的比较" class="headerlink" title="与 Consul 的比较"></a>与 Consul 的比较</h3><p>服务发现功能上：Consul 在服务发现方面有自己的特色，它除了可以像 etcd 那样记录服务的基本信息用于发现外，还提供了健康检查等更多功能来确保服务的可用性。</p>
-<p>数据存储方面：etcd 是单纯的键值存储系统，而 Consul 除了存储键值对外，还存储了大量与服务相关的信息，其数据存储结构相对复杂一些。</p>
-<p>两者在分布式系统中都有各自的优势，具体使用哪种更多取决于项目的具体需求和侧重点。</p>
-<p>总之，etcd 作为一种分布式键值存储系统，凭借其分布式架构、强一致性以及在配置管理、服务发现等方面的出色表现，在现代分布式系统的构建和运行中发挥着重要作用。</p>
-<h2 id="Raft-算法"><a href="#Raft-算法" class="headerlink" title="Raft 算法"></a>Raft 算法</h2><p>很简单。 分布式储存系统中存在 Leader 、 Follower 、 Candidate， 一个 Leader 负责整个系统， 然后 Leader 坏了就重选一个。使用心跳包来确认各个角色是正常的。 同步机制是<br>Leader 将请求转化为日志条目发送给 Follower 复制，多数节点成功复制某条日志条目后该条目对应的操作才被认为已提交。</p>
-<h2 id="ZAB-算法"><a href="#ZAB-算法" class="headerlink" title="ZAB 算法"></a>ZAB 算法</h2><p>增加了 Observer 角色， 同样要心跳包、 要选举。同步机制是 Leader 接收到事务请求后转化为事务并加入事务队列，通过广播形式发送给 Follower 和 Observer，Follower 和 Observer 需检查日志匹配情况后处理事务。</p>
-<h1 id="资源定义"><a href="#资源定义" class="headerlink" title="资源定义"></a>资源定义</h1><p>API-Server 作为 controller 和 Agent 之间配置交互的通道，负责配置资源的管理。Controller 上与 Agent 相关的配置抽象成资源，每种资源定义一个资源文件，基于资源文件生成客户端代码，使用客户端代码对资源进行增删改查监听等操作。</p>
-
-      </div>
-      <div class="post-tags-categories">
-        
-      </div>
-      
-        <div class="copyright">
-  <ul class="post-copyright">
-    <li class="post-copyright-author">
-    <strong>author:  </strong>bqZhang</a>
-    </li>
-    <li class="post-copyright-link">
-    <strong>link:  </strong>
-    <a href="/2024/11/14/API-Server/" target="_blank" title="API Server">http://example.com/2024/11/14/API-Server/</a>
-    </li>
-    <li class="post-copyright-license">
-      <strong>Copyright notice:   </strong>
-      All articles on this website, unless otherwise stated, adopt <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">CC BY-NC-ND 4.0</a>
-      reprint policy. If reproduced, please indicate source!
-    </li>
-  </ul>
-<div>
-      
-    </article>
-    <!-- 上一篇文章和下一篇文章 -->
-    
-      <!-- 文章详情页的上一页和下一页 -->
-<div class="post-nav">
-
-
-
-  
-  <div class="post-nav-prev post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="/medias/3.jpg" class="lazyload placeholder" data-srcset="/medias/3.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
-    </div>
-    <a href="/2024/11/14/grpc/" class="post-nav-link">
-      <div class="title">
-        <i class="fas fa-angle-left"></i> Prev:
-        <div class="title-text">gRPC</div>
-      </div>
-      
-      <!-- <div class="content">
-        gRPC 是一个高性能、开源的通用 RPC（Remote Procedure Call 远程过程调用）框架，由 Goog
-      </div> -->
-    </a>
-  </div>
-
-
-
-  
-  <div class="post-nav-next post-nav-item">
-    <div class="post-nav-img" style="background-size: cover; 
-      background-position: center center;">
-      <img class="lazyload lazyload placeholder" src="/medias/4.jpg" class="lazyload placeholder" data-srcset="/medias/4.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" src="" alt="">
-    </div>
-    <a href="/2024/11/04/kafka-go/" class="post-nav-link">
-      <div class="title">
-        Next: <i class="fas fa-angle-right"></i>
-        <div class="title-text">kafka-go</div>
-      </div>
-      <!-- <div class="content">
-        confluent-kafka-go LLM 建议使用这个 find kafka消息。 
-我们是另一个kafka-go 
-      </div> -->
-    </a>
-  </div>
-
-</div>
-
-    
-    
-
-    <!-- 打赏 -->
-    
-
-    <!-- 分享 -->
-    
-      <!-- https://github.com/overtrue/share.js -->
-<!-- 文章详情页的分享 -->
-<div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-
-<script src="/js/shareJs/social-share.min.js"></script>
-</script>
-
-<style>
-  .social-share {
-    margin: 20px 0;
-  }
-</style>
-
-
-    
-    
-    <!-- 评论 -->
-    <!-- 评论 -->
-
-  <div id="myComment">
-    
-      <div id="gitment-container"></div>
-
-    
-  </div>
-
-<!-- comment script in themes\hexo-theme-bamboo\layout\_partial\scripts\index.ejs -->
-
-
-  </div>
-
-  <!-- 目录 -->
-  <!-- 文章详情页右侧目录 -->
-
-  <div class="toc-aside">
-    <div class="toc-main">
-      <div class="toc-aside-title">
-        <i class="fas fa-list-ul" aria-hidden="true"></i><span>catalog</span>
-        
-          <div class="toc-open-close">catalog</div>
-        
-      </div>
-      <div class="toc-content">
-        <div class="toc"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 手机端目录按钮 -->
-  <div id="toc-mobile-btn">
-    <i class="fas fa-list-ul" aria-hidden="true"></i>
-  </div>
-
-
-<script>
-  function closeToc(init) {
-    $(".toc-aside").css({'width': 0, 'padding': 0, 'transition': init ?  'noe' : 'width 0.3s' });
-    $(".toc-content").css({'width': 0});
-    $(".toc-aside-title span, .toc-aside-title i").css({'display': 'none'});
-    $(".main-content").css({'width': '75%', 'margin': '10px auto'});
-  };
-  function openToc() {
-    $(".main-content").css({'width': '65%', 'margin-right': '10px', 'margin-left': 'calc(35% - 350px)'});
-    $(".toc-aside").css({'width': '300px', 'padding': '0 10px', 'transition': 'width 0.3s'});
-    $(".toc-content").css({'width': '300px'});
-    $(".toc-aside-title span, .toc-aside-title i").css({'display': 'inline-block'});
-  }
-  function openBtnClickFn () {
-    let openOrCloseBtn = $('.toc-aside .toc-aside-title .toc-open-close');
-    let open = eval('' || 'true');
-    openOrCloseBtn.click(function() {
-      if (open) {
-        closeToc();
-        open = false;
-      } else {
-        openToc();
-        open = true;
-      }
-    });
-  };
-  openBtnClickFn();
-  initCloseTocWidth(true);
-
-  function initCloseTocWidth(init) {
-    if (window.innerWidth >= 992) {
-      let isClose = false;
-      isClose && closeToc(init)
-    }
-  }
-
-  document.addEventListener('pjax:complete', function () {
-    $(".toc-aside").css({'transition': 'no'});
-  })
-  document.addEventListener('pjax:complete', function () {
-    openBtnClickFn();
-  })
-  
-</script>
-
-  <!-- 图片放大 Wrap images with fancybox support -->
-  <script src="/js/wrapImage.js"></script>
-</div>
-
-<!-- 文章详情页背景图 -->
-<div id="appBgSwiper" style="position: fixed;left: 0;top: 0;width: 100%;height: 100%;z-index: -2;"
-	:style="{'background-color': bgColor ? bgColor : 'transparent'}">
-	<transition-group tag="ul" :name="names">
-		<li v-for='(image,index) in img' :key='index' v-show="index === mark" class="bg-swiper-box">
-			<img :src="image" class="bg-swiper-img no-lazy">
-		</li>
-	</transition-group>
-</div>
-<script>
-	var vm = new Vue({
-		el: '#appBgSwiper',
-		data: {
-			names: '' || 'fade' || 'fade', // translate-fade fade
-			mark: 0,
-			img: [],
-			bgColor: '',
-			time: null
-		},
-		methods: {   //添加方法
-			change(i, m) {
-				if (i > m) {
-					// this.names = 'fade';
-				} else if (i < m) {
-					// this.names = 'fade';
-				} else {
-					return;
-				}
-				this.mark = i;
-			},
-			prev() {
-				// this.names = 'fade';
-				this.mark--;
-				if (this.mark === -1) {
-					this.mark = 3;
-					return
-				}
-			},
-			next() {
-				// this.names = 'fade';
-				this.mark++;
-				if (this.mark === this.img.length) {
-					this.mark = 0;
-					return
-				}
-			},
-			autoPlay() {
-				// this.names = 'fade';
-				this.mark++;
-				if (this.mark === this.img.length) {
-					this.mark = 0;
-					return
-				}
-			},
-			play() {
-				let bgImgDelay = '' || '180000'
-				let delay = parseInt(bgImgDelay) || 180000;
-				this.time = setInterval(this.autoPlay, delay);
-			},
-			enter() {
-				clearInterval(this.time);
-			},
-			leave() {
-				this.play();
-			}
-		},
-		created() {
-			this.play()
-		},
-		beforeDestroy() {
-			clearInterval(this.time);
-		},
-		mounted() {
-			let prop = '' || '';
-			let isImg = prop.includes('.bmp') || prop.includes('.jpg') || prop.includes('.png') || prop.includes('.tif') || prop.includes('.gif') || prop.includes('.pcx') || prop.includes('.tga') || prop.includes('.exif') || prop.includes('.fpx') || prop.includes('.psd') || prop.includes('.cdr') || prop.includes('.pcd') || prop.includes('.dxf') || prop.includes('.ufo') || prop.includes('.eps') || prop.includes('.ai') || prop.includes('.raw') || prop.includes('.WMF') || prop.includes('.webp') || prop.includes('.jpeg') || prop.includes('http://') || prop.includes('https://')
-			if (isImg) {
-				let img = prop.split(',');
-				let configRoot = '/'
-				let arrImg = [];
-				img.forEach(el => {
-					var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
-					var objExp = new RegExp(Expression);
-
-					if (objExp.test(el)) {
-						// http or https
-						arrImg.push(el);
-					} else {
-						// 非http or https开头
-						// 本地文件
-						let firstStr = el.charAt(0);
-						if (firstStr == '/') {
-							el = el.substr(1); // 删除第一个字符 '/',因为 configRoot最后一个字符为 /
-						}
-						el = configRoot + el;
-						arrImg.push(el);
-					}
-				})
-				this.img = arrImg;
-			} else {
-				this.bgColor = prop;
-			}
-		}
-	})
-</script>
-
-<style>
-	.bg-swiper-box {
-		position: absolute;
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-
-	.bg-swiper-img {
-		object-fit: cover;
-		width: 100%;
-		height: 100%;
-	}
-</style>
-
-
-
-
+  <span class="title" id="archive-header-desc"></span>
   <script>
-  function loadMermaid() {
-    if (document.getElementsByClassName('mermaid').length) {
-      if (window.mermaidJsLoad) mermaid.init()
-      else {
-        loadScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
-          window.mermaidJsLoad = true
-          mermaid.initialize({
-            theme: 'default',
-          })
-          if ('true') {
-            mermaid.init();
-          }
-        })
-      }
-    }
-  };
-  document.addEventListener("DOMContentLoaded", function () {
-    loadMermaid();
-  })
-
-  document.addEventListener('pjax:complete', function () {
-    loadMermaid();
-  })
-  
+  function typedFn() {
+    const el = '#archive-header-desc';
+    const type = 'archive';
+    let desc = '愿你如风，被人温柔以待'
+    var typed = new Typed(el, {
+      strings: [desc],
+      startDelay: 100,
+      typeSpeed: 100,
+      loop: true,
+      backSpeed: 50,
+      showCursor: true
+    });
+  }
+  typedFn();
 </script>
+  
+  </div>
+  <div class="mask-box"></div>
+</div>
 
+<div class="archive-video">
+  <video class="full-video" autoplay loop muted>
+      <source style="width: 100%;height: 100vh;" src="/">
+  </video>
+  <div class="video-header-title">
+    archive
+  </div>
+  <div class="video-header-desc">
+  
+      <span class="title" id="archive-video-header-desc"></span>
+      <script>
+  function typedFn() {
+    const el = '#archive-video-header-desc';
+    const type = 'archive';
+    let desc = '愿你如风，被人温柔以待'
+    var typed = new Typed(el, {
+      strings: [desc],
+      startDelay: 100,
+      typeSpeed: 100,
+      loop: true,
+      backSpeed: 50,
+      showCursor: true
+    });
+  }
+  typedFn();
+</script>
+      
+  </div>
+  <div class="mask-box"></div>
+</div>
+
+<!-- hash算法 -->
+
+
+<div class="archive-main">
+  <section class="archive">
+    <div class="archive-content">
+      <ul class="post-archive">
+        
+        
+          
+            
+            <div class="year" data-aos="zoom-in-up">
+                <div class="bullet"></div>
+                <a href="/archives/2025">2025</a>
+            </div>
+          
+          <li class="post-item" data-aos="fade-left">
+            
+            <div class="post-img-box">
+              <a href="/2025/01/08/%E6%95%B0%E5%AD%A61%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" src="/medias/3.jpg" class="lazyload placeholder" data-srcset="/medias/3.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                <span class="post-date">01-08</span>
+              </div>
+              <a class="post-title" href="/2025/01/08/%E6%95%B0%E5%AD%A61%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">数学1知识点总结</a>
+            </div>
+          </li>
+        
+          
+          <li class="post-item" data-aos="fade-left">
+            
+            <div class="post-img-box">
+              <a href="/2025/01/07/%E6%97%A5%E8%AE%B0%E2%80%942025-01/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" src="/medias/9.jpg" class="lazyload placeholder" data-srcset="/medias/9.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                <span class="post-date">01-07</span>
+              </div>
+              <a class="post-title" href="/2025/01/07/%E6%97%A5%E8%AE%B0%E2%80%942025-01/">日记—2025-01</a>
+            </div>
+          </li>
+        
+          
+          <li class="post-item" data-aos="fade-left">
+            
+            <div class="post-img-box">
+              <a href="/2025/01/03/%E5%BC%95%E6%93%8E%E4%BC%98%E5%8C%96%E9%A2%84%E7%A0%94/" class="post-img " style="background-size: cover; 
+                background-position: center center;">
+                <img class="lazyload lazyload placeholder" src="/medias/15.jpg" class="lazyload placeholder" data-srcset="/medias/15.jpg" srcset="https://img2.baidu.com/it/u=2037979560,2772131037&fm=26&fmt=auto&gp=0.jpg" alt="">
+              </a>
+            </div>
+            <div class="post-date-title">
+              <div>
+                <span class="post-date">01-03</span>
+              </div>
+              <a class="post-title" href="/2025/01/03/%E5%BC%95%E6%93%8E%E4%BC%98%E5%8C%96%E9%A2%84%E7%A0%94/">引擎优化预研</a>
+            </div>
+          </li>
+        
+      </ul>
+    </div>
+  </section>
+  <div class="w-70">
+    
+  </div>
+</div>
 
       </main>
     </div>
