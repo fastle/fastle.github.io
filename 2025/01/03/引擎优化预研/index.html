@@ -623,6 +623,49 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
 
+
+<h1 id="RETE"><a href="#RETE" class="headerlink" title="RETE"></a>RETE</h1><h2 id="background-1"><a href="#background-1" class="headerlink" title="background"></a>background</h2><ul>
+<li>构造+匹配而已， 不用考虑太多</li>
+<li>you shit , fuck you</li>
+<li>f</li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><ul>
+<li><p>对condition 的 parse 使用简单的解析方法， 解析成许多 and 的 or 。（这里还是走了 ParseCondition 函数解析成算符）</p>
+</li>
+<li><p>每个 and 是一个最小单元。 满足所有条件</p>
+</li>
+<li><p>一个token</p>
+</li>
+<li><p>一个production 包含一个LHS 和一个RHS， </p>
+</li>
+<li><p>LHS 包含一个 BaseBata 列表和一个正负号标志。</p>
+</li>
+<li><p>RHS 包含cep id</p>
+<p> 1)如果WME的类型和根节点的后继结点TypeNode(alpha结点的一种)所指定的类型相同，则会将该事实保存在该TypeNode结点对应的alpha存储区中，该WME被传到后继结点继续匹配，否则会放弃该WME的后续匹配；<br> 2)如果WME被传递到alpha结点，则会检测WME是否和该结点对应的模式相匹配，若匹配，则会将该事实保存在该alpha结点对应的存储区中，该WME被传递到后继结点继续匹配，否则会放弃该WME的后续匹配：<br> 3)如果WME被传递到beta结点的右端，则会加入到该beta结点的right存储区，并和left存储区中的Token进行匹配(匹配动作根据beta结点的类型进行，例如：join，projection，selection)，匹配成功，则会将该WME加入到Token中，然后将Token传递到下一个结点，否则会放弃该WME的后续匹配：<br> 4)如果Token被传递到beta结点的左端，则会加入到该beta结点的left存储区，并和right存储区中的WME进行匹配(匹配动作根据beta结点的类型进行，例如：join，projection，selection)，匹配成功，则该Token会封装匹配到的WME形成新的Token，传递到下一个结点，否则会放弃该Token的后续匹配；<br> 5)如果WME被传递到beta结点的左端，将WME封装成仅有一个WME元素的WME列表做为Token，然后按照 4) 所示的方法进行匹配：<br> 6)如果Token传递到终结点，则和该根结点对应的规则被激活，建立相应的Activation，并存储到Agenda当中，等待激发。</p>
+<p> 7)如果WME被传递到终结点，将WME封装成仅有一个WME元素的WME列表做为Token，然后按照 6) 所示的方法进行匹配；</p>
+<p> 功能实现限制</p>
+<ol>
+<li>relation 匹配法具有限定</li>
+<li>condition 无法增添新语法</li>
+</ol>
+</li>
+</ul>
+<p>功能实现方案</p>
+<p>方案一（对立事件）：<br>不改变网络结构， 通过解码 event_mapping 添加对应的对立事件， 当该事件发生时删除对立事件， 当该事件删除时添加对立事件。 规则写为检查是否存在对立事件。<br>优点：好写, 逻辑变动少。<br>缺点：增加大量无用事件占内存，增加网络复杂度， 语法扩展性不好。 </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">detection:</span></span><br><span class="line">    <span class="attr">timeframe:</span> <span class="string">10s</span></span><br><span class="line">    <span class="attr">event_mapping:</span></span><br><span class="line">      <span class="attr">event1:</span> <span class="number">104488</span></span><br><span class="line">      <span class="attr">event2:</span> <span class="number">104489</span></span><br><span class="line">      <span class="attr">event3:</span> <span class="number">-104490</span></span><br><span class="line">    <span class="attr">relation:</span></span><br><span class="line">      <span class="string">event1.Image</span> <span class="string">==</span> <span class="string">event2.CallingProcessPath</span></span><br><span class="line">    <span class="attr">condition:</span> <span class="string">event1</span> <span class="string">and</span> <span class="string">event2</span> <span class="string">and</span> <span class="string">event3</span>    </span><br></pre></td></tr></table></figure>
+
+<p>方案二：<br>增加 Not 节点。 激活逻辑为判断对应的 alpha 是否为空， 来对 Not 进行激活和删除。  </p>
+<p>表达方式可再定， 若能成功获取， 则以下写法可。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">detection:</span></span><br><span class="line">    <span class="attr">timeframe:</span> <span class="string">10s</span></span><br><span class="line">    <span class="attr">event_mapping:</span></span><br><span class="line">      <span class="attr">event1:</span> <span class="number">104488</span></span><br><span class="line">      <span class="attr">event2:</span> <span class="number">104489</span></span><br><span class="line">      <span class="attr">event3:</span> <span class="number">104490</span></span><br><span class="line">    <span class="attr">relation:</span></span><br><span class="line">      <span class="string">event1.Image</span> <span class="string">==</span> <span class="string">event2.CallingProcessPath</span></span><br><span class="line">      <span class="string">not(event3)</span></span><br><span class="line">    <span class="attr">condition:</span> <span class="literal">true</span>   </span><br></pre></td></tr></table></figure>
+
+<h1 id="negetiva-激活逻辑"><a href="#negetiva-激活逻辑" class="headerlink" title="negetiva 激活逻辑"></a>negetiva 激活逻辑</h1><ul>
+<li>只存在 alpha 的右激活 和 BETE 的左激活。</li>
+<li><ul>
+<li>星际殖民队的飞船掠过了大荒90871恒星系，</li>
+</ul>
+</li>
+</ul>
+
       </div>
       <div class="post-tags-categories">
         
