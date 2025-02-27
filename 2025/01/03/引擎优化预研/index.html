@@ -597,19 +597,24 @@
   <div class="main-content">
     <article class="post post-detail">
       <div class="post-content">
-        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ul>
-<li>据说现在有三个需求</li>
-</ul>
-<h2 id="sigma-事件聚合"><a href="#sigma-事件聚合" class="headerlink" title="sigma 事件聚合"></a>sigma 事件聚合</h2><ul>
+        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><h2 id="sigma-事件聚合"><a href="#sigma-事件聚合" class="headerlink" title="sigma 事件聚合"></a>sigma 事件聚合</h2><ul>
 <li>描述：我如果想要一个47668事件在60s内出现超过一百次，同时出现的特定字段去重后超过20次，该怎么写啊</li>
 <li>转换成了 and ， 可以写成 cep。</li>
 </ul>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><ul>
+<li>更改condition解码， 添加递归解码效果</li>
+<li>但是解码的时候， 是否需要新的解码方法，</li>
+</ul>
 <h2 id="sigma-算子split"><a href="#sigma-算子split" class="headerlink" title="sigma 算子split"></a>sigma 算子split</h2><ul>
 <li>这个简单可行</li>
-<li>当前定义为，只有存在this</li>
+<li>当前定义为，只有存在this。 </li>
+<li>之后定义为， 在 selection 的元素中添加 split()[] 语法， 并通过正则匹配来解析。</li>
 </ul>
-<h2 id="cep-进行不包含匹配"><a href="#cep-进行不包含匹配" class="headerlink" title="cep 进行不包含匹配"></a>cep 进行不包含匹配</h2><ul>
-<li>wodth</li>
+<h3 id="实现方法-1"><a href="#实现方法-1" class="headerlink" title="实现方法"></a>实现方法</h3><ul>
+<li>对于 this 的解析进行改进， 解码出split元素。</li>
+</ul>
+<h2 id="cep-进行不包含匹配"><a href="#cep-进行不包含匹配" class="headerlink" title="cep 进行不包含匹配"></a>cep 进行不包含匹配</h2><h3 id="实现方法-2"><a href="#实现方法-2" class="headerlink" title="实现方法"></a>实现方法</h3><ul>
+<li>添加了not感知节点， 并对 relation 解码进行了一些修改。<br>agg + AggrationNode condition, pipeNod + con</li>
 </ul>
 <h1 id="background"><a href="#background" class="headerlink" title="background"></a>background</h1><h2 id="词法解析"><a href="#词法解析" class="headerlink" title="词法解析"></a>词法解析</h2><p>alecthomas&#x2F;participle&#x2F;lexer 是 participle 库中用于词法分析的部分，participle 是一个功能强大的用于 Go 语言的解析库，旨在轻松创建递归下降解析器。以下是对 alecthomas&#x2F;participle&#x2F;lexer 库的详细解析：</p>
 <p>1. </p>
@@ -617,10 +622,12 @@
 <h4 id="sigma"><a href="#sigma" class="headerlink" title="sigma"></a>sigma</h4><ul>
 <li><Keyword></li>
 <li><SearchIdentifierPattern></li>
+<li><SearchIdentifier></li>
+<li>&lt;refu</li>
 </ul>
 <h1 id="匹配机制"><a href="#匹配机制" class="headerlink" title="匹配机制"></a>匹配机制</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aaazaaazaaaz</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
@@ -641,7 +648,8 @@
 <li><p>LHS 包含一个 BaseBata 列表和一个正负号标志。</p>
 </li>
 <li><p>RHS 包含cep id</p>
-<p> 1)如果WME的类型和根节点的后继结点TypeNode(alpha结点的一种)所指定的类型相同，则会将该事实保存在该TypeNode结点对应的alpha存储区中，该WME被传到后继结点继续匹配，否则会放弃该WME的后续匹配；<br> 2)如果WME被传递到alpha结点，则会检测WME是否和该结点对应的模式相匹配，若匹配，则会将该事实保存在该alpha结点对应的存储区中，该WME被传递到后继结点继续匹配，否则会放弃该WME的后续匹配：<br> 3)如果WME被传递到beta结点的右端，则会加入到该beta结点的right存储区，并和left存储区中的Token进行匹配(匹配动作根据beta结点的类型进行，例如：join，projection，selection)，匹配成功，则会将该WME加入到Token中，然后将Token传递到下一个结点，否则会放弃该WME的后续匹配：<br> 4)如果Token被传递到beta结点的左端，则会加入到该beta结点的left存储区，并和right存储区中的WME进行匹配(匹配动作根据beta结点的类型进行，例如：join，projection，selection)，匹配成功，则该Token会封装匹配到的WME形成新的Token，传递到下一个结点，否则会放弃该Token的后续匹配；<br> 5)如果WME被传递到beta结点的左端，将WME封装成仅有一个WME元素的WME列表做为Token，然后按照 4) 所示的方法进行匹配：<br> 6)如果Token传递到终结点，则和该根结点对应的规则被激活，建立相应的Activation，并存储到Agenda当中，等待激发。</p>
+</li>
+<li><p> 1)如果WME的类型和根节点的后继结点TypeNode(alpha结点的一种)所指定的类型相同，则会将该事实保存在该TypeNode结点对应的alpha存储区中，该WME被传到后继结点继续匹配，否则会放弃该WME的后续匹配；<br> 2)如果WME被传递到alpha结点，则会检测WME是否和该结点对应的模式相匹配，若匹配，则会将该事实保存在该alpha结点对应的存储区中，该WME被传递到后继结点继续匹配，否则会放弃该WME的后续匹配：<br> 3)如果WME被传递到beta结点的右端，则会加入到该beta结点的right存储区，并和left存储区中的Token进行匹配(匹配动作根据beta结点的类型进行，例如：join，projection，selection)，匹配成功，则会将该WME加入到Token中，然后将Token传递到下一个结点，否则会放弃该WME的后续匹配：<br> 4)如果Token被传递到beta结点的左端，则会加入到该beta结点的left存储区，并和right存储区中的WME进行匹配(匹配动作根据beta结点的类型进行，例如：join，projection，selection)，匹配成功，则该Token会封装匹配到的WME形成新的Token，传递到下一个结点，否则会放弃该Token的后续匹配；<br> 5)如果WME被传递到beta结点的左端，将WME封装成仅有一个WME元素的WME列表做为Token，然后按照 4) 所示的方法进行匹配：<br> 6)如果Token传递到终结点，则和该根结点对应的规则被激活，建立相应的Activation，并存储到Agenda当中，等待激发。</p>
 <p> 7)如果WME被传递到终结点，将WME封装成仅有一个WME元素的WME列表做为Token，然后按照 6) 所示的方法进行匹配；</p>
 <p> 功能实现限制</p>
 <ol>
@@ -650,19 +658,88 @@
 </ol>
 </li>
 </ul>
-<p>功能实现方案</p>
-<p>方案一（对立事件）：<br>不改变网络结构， 通过解码 event_mapping 添加对应的对立事件， 当该事件发生时删除对立事件， 当该事件删除时添加对立事件。 规则写为检查是否存在对立事件。<br>优点：好写, 逻辑变动少。<br>缺点：增加大量无用事件占内存，增加网络复杂度， 语法扩展性不好。 </p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">detection:</span></span><br><span class="line">    <span class="attr">timeframe:</span> <span class="string">10s</span></span><br><span class="line">    <span class="attr">event_mapping:</span></span><br><span class="line">      <span class="attr">event1:</span> <span class="number">104488</span></span><br><span class="line">      <span class="attr">event2:</span> <span class="number">104489</span></span><br><span class="line">      <span class="attr">event3:</span> <span class="number">-104490</span></span><br><span class="line">    <span class="attr">relation:</span></span><br><span class="line">      <span class="string">event1.Image</span> <span class="string">==</span> <span class="string">event2.CallingProcessPath</span></span><br><span class="line">    <span class="attr">condition:</span> <span class="string">event1</span> <span class="string">and</span> <span class="string">event2</span> <span class="string">and</span> <span class="string">event3</span>    </span><br></pre></td></tr></table></figure>
+<p>功能实现方案<br>方案一（对立事件）：<br>不改变网络结构， 通过解码 event_mapping 添加对应的对立事件， 当该事件发生时删除对立事件， 当该事件删除时添加对立事件。 规则写为检查是否存在对立事件。<br>优点：好写, 逻辑变动少。<br>缺点：增加大量无用事件占内存，增加网络复杂度， 语法扩展性不好。<br>z</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">detection:</span></span><br><span class="line">    <span class="attr">timeframe:</span> <span class="string">10s</span></span><br><span class="line">    <span class="attr">event_mapping:</span></span><br><span class="line">      <span class="attr">event1:</span> <span class="number">104488</span></span><br><span class="line">      <span class="attr">event2:</span> <span class="number">104489</span></span><br><span class="line">      <span class="attr">event3:</span> <span class="number">-104490</span> </span><br><span class="line">    <span class="attr">relation:</span></span><br><span class="line">      <span class="string">event1.Image</span> <span class="string">==</span> <span class="string">event2.CallingProcessPath</span></span><br><span class="line">    <span class="attr">condition:</span> <span class="string">event1</span> <span class="string">and</span> <span class="string">event2</span> <span class="string">and</span> <span class="string">event3</span>    </span><br></pre></td></tr></table></figure>
 
-<p>方案二：<br>增加 Not 节点。 激活逻辑为判断对应的 alpha 是否为空， 来对 Not 进行激活和删除。  </p>
+
+
+
+<h2 id="token-event1"><a href="#token-event1" class="headerlink" title="token:- event1"></a>token:<br>- event1</h2><p>方案二：<br>增加 Not 节点。 激活逻辑为判断对应的 alpha 是否为空， 来对 Not 进行激活和删除。  </p>
 <p>表达方式可再定， 若能成功获取， 则以下写法可。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">detection:</span></span><br><span class="line">    <span class="attr">timeframe:</span> <span class="string">10s</span></span><br><span class="line">    <span class="attr">event_mapping:</span></span><br><span class="line">      <span class="attr">event1:</span> <span class="number">104488</span></span><br><span class="line">      <span class="attr">event2:</span> <span class="number">104489</span></span><br><span class="line">      <span class="attr">event3:</span> <span class="number">104490</span></span><br><span class="line">    <span class="attr">relation:</span></span><br><span class="line">      <span class="string">event1.Image</span> <span class="string">==</span> <span class="string">event2.CallingProcessPath</span></span><br><span class="line">      <span class="string">not(event3)</span></span><br><span class="line">    <span class="attr">condition:</span> <span class="literal">true</span>   </span><br></pre></td></tr></table></figure>
 
-<h1 id="negetiva-激活逻辑"><a href="#negetiva-激活逻辑" class="headerlink" title="negetiva 激活逻辑"></a>negetiva 激活逻辑</h1><ul>
+<h1 id="节点关系"><a href="#节点关系" class="headerlink" title="节点关系"></a>节点关系</h1><p>上面的例子中， </p>
+<p>仍然是以beta_memory 为间隔, 进行token链的传递, 中间夹着join或者not.</p>
+<p>join的效果是通过test来进行过滤, 链接alpha是为了获取表达式中的值.</p>
+<p>not的效果是通过alpha来对token进行管控, </p>
+<p>not难以在不同链共用, 因为不同前缀要传给不同后缀.</p>
+<p>激活情况有两种, 一种是随链变化, 一种是被alpha激活, 激活时要删除掉后续所有token链.</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title=""></a></h1><h1 id="negetiva-激活逻辑"><a href="#negetiva-激活逻辑" class="headerlink" title="negetiva 激活逻辑"></a>negetiva 激活逻辑</h1><ul>
 <li>只存在 alpha 的右激活 和 BETE 的左激活。</li>
-<li><ul>
-<li>星际殖民队的飞船掠过了大荒90871恒星系，</li>
+<li></li>
 </ul>
+<h1 id="迁移笔记"><a href="#迁移笔记" class="headerlink" title="迁移笔记"></a>迁移笔记</h1><ul>
+<li>alpha.go 没动</li>
+<li>beta_memory.go 没动</li>
+<li>common, NewBeta </li>
+<li>condition_parser.go 没动</li>
+<li>engine.go 没动  </li>
+<li>join_node.go  没动</li>
+<li></li>
+</ul>
+<h1 id="counter-更改"><a href="#counter-更改" class="headerlink" title="counter 更改"></a>counter 更改</h1><p>counter:ius is  </p>
+<ol>
+<li>增加与或非模型</li>
+<li>增加管道模型 |</li>
+</ol>
+<p>两个都要， 因为统计模型的前提条件并不同。 </p>
+<h1 id="jia-hu-zhen-hu"><a href="#jia-hu-zhen-hu" class="headerlink" title="jia hu, zhen hu"></a>jia hu, zhen hu</h1><p>控制流图：</p>
+<p>初始</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">flowchart TD</span><br><span class="line">    A[开始] --&gt; B&#123;解析 Condition&#125;</span><br><span class="line">    B --&gt;|Search| C[解析 Disjunction]</span><br><span class="line">    C --&gt; D[解析 Conjunction]</span><br><span class="line">    D --&gt; E[解析 Term]</span><br><span class="line">    E --&gt;|Negated| F[解析 Term]</span><br><span class="line">    E --&gt;|Identifer| G[解析标识符]</span><br><span class="line">    E --&gt;|Subexpression| H[解析 Disjunction]</span><br><span class="line">    E --&gt;|OneAllOf| I[解析 OneAllOf]</span><br><span class="line">    I --&gt; J[解析 OneOfIdentifier]</span><br><span class="line">    I --&gt; K[解析 AllOfIdentifier]</span><br><span class="line">    I --&gt; L[解析 OneOfPattern]</span><br><span class="line">    I --&gt; M[解析 AllOfPattern]</span><br><span class="line">    I --&gt; N[解析 OneOfThem]</span><br><span class="line">    I --&gt; O[解析 AllOfThem]</span><br><span class="line">    B --&gt;|Aggregation| P[解析 Aggregation]</span><br><span class="line">    P --&gt; Q[解析 AggregationFunction]</span><br><span class="line">    P --&gt; R[解析 AggregationField]</span><br><span class="line">    P --&gt; S[解析 GroupField]</span><br><span class="line">    P --&gt; T[解析 Comparison]</span><br><span class="line">    T --&gt; U[解析 ComparisonOp]</span><br><span class="line">    U --&gt; V[解析 Threshold]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">flowchart TD</span><br><span class="line">    A[开始] --&gt; B&#123;解析 Condition&#125;</span><br><span class="line">    B --&gt;|Search| C[解析 Disjunction]</span><br><span class="line">    C --&gt; D[解析 Conjunction]</span><br><span class="line">    D --&gt; E[解析 Term]</span><br><span class="line">    E --&gt;|Negated| F[解析 Term]</span><br><span class="line">    E --&gt;|Identifer| G[解析标识符]</span><br><span class="line">    E --&gt;|Subexpression| H[解析 Disjunction]</span><br><span class="line">    E --&gt;|OneAllOf| I[解析 OneAllOf]</span><br><span class="line">    I --&gt; J[解析 OneOfIdentifier]</span><br><span class="line">    I --&gt; K[解析 AllOfIdentifier]</span><br><span class="line">    I --&gt; L[解析 OneOfPattern]</span><br><span class="line">    I --&gt; M[解析 AllOfPattern]</span><br><span class="line">    I --&gt; N[解析 OneOfThem]</span><br><span class="line">    I --&gt; O[解析 AllOfThem]</span><br><span class="line">    B --&gt;|Aggregations| P[解析 AggregationClause]</span><br><span class="line">    P --&gt; Q[解析 AggregationNode]</span><br><span class="line">    Q --&gt; R[解析 Aggregation]</span><br><span class="line">    R --&gt; S[解析 AggregationFunction]</span><br><span class="line">    R --&gt; T[解析 AggregationField]</span><br><span class="line">    R --&gt; U[解析 GroupField]</span><br><span class="line">    R --&gt; V[解析 Comparison]</span><br><span class="line">    V --&gt; W[解析 ComparisonOp] </span><br><span class="line">    V --&gt; X[解析 Threshold]</span><br></pre></td></tr></table></figure>
+
+
+<p>kangsh</p>
+<p>text  -&gt; grammer -&gt; ast -&gt; match </p>
+<p>-&gt; action -&gt; token -&gt; beta_memory -&gt; alpha_memory -&gt; engine -&gt; action -&gt; engine -&gt; action -&gt; engine -&gt; action</p>
+<ul>
+<li><p>原来支持多个condition 的， 此时应会产生bug吧</p>
+</li>
+<li><p>原来是支持多个condition 的， 此时应会产生bug吧</p>
+</li>
+</ul>
+<h3 id="go-participle-指南"><a href="#go-participle-指南" class="headerlink" title="go participle 指南"></a>go participle 指南</h3><ul>
+<li>habixia shi xiao gou de yi si </li>
+<li><ol>
+<li>词法分析：将输入的源代码按照一定的规则进行拆分，得到一系列的记号（token）。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>语法分析：对记号进行解析，根据语法规则进行匹配，得到一个抽象语法树（AST）。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>语义分析：对AST进行遍历，对每个节点进行语义检查，确保代码逻辑正确。</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>代码生成：根据AST生成目标代码，例如C++代码、Java代码等。</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>链接：将生成的目标代码链接到一起，生成可执行文件。</li>
+</ol>
+</li>
+</ul>
+<h3 id="抽象语法树优化"><a href="#抽象语法树优化" class="headerlink" title="抽象语法树优化"></a>抽象语法树优化</h3><ul>
+<li><p>统一 sons </p>
+</li>
+<li><p>遍历子节点， 删除muti and 和 muti search 。</p>
+</li>
+<li><p>癌症晚期， 有没有含金量</p>
+</li>
+<li><p>不好的点， 这边是方法， 然后把主体传过去了。</p>
 </li>
 </ul>
 

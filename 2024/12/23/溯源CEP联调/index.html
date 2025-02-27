@@ -648,11 +648,11 @@
 <li>若部署脚本执行失败，重新执行一次试试。 若部署完无法查看资源，执行。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f /data/deployment/uhs-packages/nodeport.yaml</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="调用-1"><a href="#调用-1" class="headerlink" title="调用"></a>调用</h2><h3 id="agent-1"><a href="#agent-1" class="headerlink" title="agent"></a>agent</h3><p>目录在 <code>/agent/beats3/libbeat/processors/edr_trace/trace_task.go</code></p>
-<p>实现其中的 <code>dealTraceTask(guid string, taskID string)</code> 函数，该函数会在每次资源 Create 或 Update 的时候执行一次。 期望行为是根据 <code>guid</code> 进行溯源， 在上传的事件中添加字段保存 <code>taskID</code> 信息。</p>
+<p>实现其中的 <code>dealTraceTask(guid string,  taskID string)</code> 函数，该函数会在每次资源 Create 或 Update 的时候执行一次。 期望行为是根据 <code>guid</code> 进行溯源， 在上传的事件中添加字段保存 <code>taskID</code> 信息。</p>
 <h2 id="controller-1"><a href="#controller-1" class="headerlink" title="controller"></a>controller</h2><p>目录在 <code>/controller/controller-go/pkg/tracetask/deal_cep_trace.go</code></p>
 <p>调用其中的 <code>SendTraceTasks(infos []TraceInfo) (err error)</code> 函数, 其中 TraceInfo 字段如下， 代表一个溯源需求。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> TraceInfo <span class="keyword">struct</span> &#123;</span><br><span class="line">	AgentID  <span class="type">string</span></span><br><span class="line">    Guid <span class="type">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<p>我是一个一个一个一个一个一个一个一个一个一个一个一个一个一个     爱问放假啊我放假啊我   发i哦飞机娃儿佛i静安王佛i   阿文i附件为偶发我今儿  发觉为覅覅我发我i发安抚误解了史蒂夫贾文娟佛我i附件为覅哦iiii为发我发我阿飞</p>
 
       </div>
       <div class="post-tags-categories">
